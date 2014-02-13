@@ -27,6 +27,11 @@ include 'header.php';
         </li>
         <li>
             <a href="/shop/dashboard/mentor/new" class="dashboard-mentor-new dashboard-icon">
+                <span>New mentor</span>
+            </a>
+        </li>
+        <li>
+            <a href="/shop/dashboard/mentor_session/new" class="dashboard-mentor-session-new dashboard-icon">
                 <span>New mentor Session</span>
             </a>
         </li>

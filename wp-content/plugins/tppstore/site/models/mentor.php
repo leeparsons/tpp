@@ -132,6 +132,30 @@ class TppStoreModelMentor extends TppStoreAbstractModelResource {
         return $this;
     }
 
+    public function getMentorById()
+    {
+        if (intval($this->mentor_id) > 0) {
+            global $wpdb;
+
+            $wpdb->get_row(
+
+                $wpdb->prepare(
+                    "SELECT * FROM " . $this->getTable() . " WHERE mentor_id = %d",
+                    $this->mentor_id
+                ),
+
+                OBJECT_K
+            );
+
+            if ($wpdb->num_rows > 0) {
+                $this->setData($wpdb->last_result[0]);
+            }
+
+        }
+
+        return $this;
+    }
+
     public function save()
     {
         if (!$this->validate()) {

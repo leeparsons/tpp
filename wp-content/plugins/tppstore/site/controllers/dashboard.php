@@ -23,8 +23,12 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
 
         add_rewrite_rule('shop/dashboard/product/upload/?', 'index.php?tpp_pagename=tpp_product_upload&path=product', 'top');
 
-        add_rewrite_rule('shop/dashboard/mentor/new/?', 'index.php?tpp_pagename=tpp_dashboard&path=new_mentor_session', 'top');
-        add_rewrite_rule('shop/dashboard/mentor/edit/([^/]+)/?', 'index.php?tpp_pagename=tpp_dashboard&path=edit_mentor_session&product_id=$matches[1]', 'top');
+        add_rewrite_rule('shop/dashboard/mentor_session/new/?', 'index.php?tpp_pagename=tpp_dashboard&path=new_mentor_session', 'top');
+        add_rewrite_rule('shop/dashboard/mentor_session/edit/([^/]+)/?', 'index.php?tpp_pagename=tpp_dashboard&path=edit_mentor_session&product_id=$matches[1]', 'top');
+
+        add_rewrite_rule('shop/dashboard/mentor/new/?', 'index.php?tpp_pagename=tpp_dashboard&path=new_mentor', 'top');
+        add_rewrite_rule('shop/dashboard/mentor/edit/([^/]+)/?', 'index.php?tpp_pagename=tpp_dashboard&path=mentor&mentor_id=$matches[1]', 'top');
+
 
         add_rewrite_rule('shop/dashboard/order/([^/]+)?', 'index.php?tpp_pagename=tpp_dashboard&path=order&args=$matches[1]', 'top');
 
@@ -210,7 +214,7 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
                     ))->save(false, true);
                     TppStoreControllerStore::getInstance()->saveStoreToSession($store);
                     TppStoreMessages::getInstance()->addMessage('message', 'To complete your seller registration please complete the following: <br><br>Paypal Email address for receiving payments <a href="/shop/dashboard/store#ecommerce" class="btn btn-primary">Complete this step</a>');
-                } elseif (strpos($part, 'product') === false && strpos($part, 'mentor') === false && $product_count == 0 && $mentor_sessions_count == 0) {
+                } elseif (strpos($part, 'product') === false && strpos($part, 'mentor_session') === false && $product_count == 0 && $mentor_sessions_count == 0) {
                     TppStoreMessages::getInstance()->addMessage('message', 'Ready to start listing products? <a href="/shop/dashboard/product_add" class="btn btn-primary">click here</a>.');
                 }
             }
@@ -438,6 +442,14 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
                 }
 
 
+
+                break;
+
+            case 'mentor':
+            case 'new_mentor':
+
+                TppStoreControllerMentors::getInstance()->renderMentorForm();
+            exit('Sorry, we are currently working on updating this section');
 
                 break;
 

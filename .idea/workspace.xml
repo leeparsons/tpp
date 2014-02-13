@@ -23,86 +23,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="about.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/mentor/about.php">
+      <file leaf-file-name="mentors.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/mentors.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="113" selection-start="2883" selection-end="2883" vertical-scroll-proportion="0.0" vertical-offset="735" max-vertical-offset="840">
+            <state line="123" column="61" selection-start="3056" selection-end="3056" vertical-scroll-proportion="-6.0416665" vertical-offset="1640" max-vertical-offset="1950">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="default.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/default.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="63" selection-start="1073" selection-end="1073" vertical-scroll-proportion="0.0" vertical-offset="645" max-vertical-offset="1440">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="product_edit.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/product_edit.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="33" selection-start="515" selection-end="515" vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="435">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="product_images.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/product_images.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="222" column="20" selection-start="6266" selection-end="6274" vertical-scroll-proportion="0.0" vertical-offset="4315" max-vertical-offset="16005">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="product_form.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/product_form.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="128" selection-start="375" selection-end="375" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="2505">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="form.php" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="form.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/mentor/form.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="128" selection-start="477" selection-end="477" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="2535">
+            <state line="15" column="101" selection-start="731" selection-end="731" vertical-scroll-proportion="0.3962264" vertical-offset="120" max-vertical-offset="405">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_wp-config.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/_wp-config.php">
+      <file leaf-file-name="mentor.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/mentor.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1440">
+            <state line="136" column="0" selection-start="3826" selection-end="3826" vertical-scroll-proportion="-72.583336" vertical-offset="238" max-vertical-offset="3960">
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="product.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/assets/js/dashboard/product.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="251" column="253" selection-start="8059" selection-end="8059" vertical-scroll-proportion="0.0" vertical-offset="3437" max-vertical-offset="11220">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="file_upload.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/js/file_upload.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="602" column="33" selection-start="20260" selection-end="20271" vertical-scroll-proportion="0.38624337" vertical-offset="8738" max-vertical-offset="9555">
-              <folding>
-                <marker date="1392216894000" expanded="false" signature="13703:13715" placeholder="..." />
-                <marker date="1392216894000" expanded="false" signature="13766:13778" placeholder="..." />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -117,22 +60,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/assets/less/dashboard.less" />
-        <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/classes/geoip/geo.php" />
-        <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/classes/ip2location/record.php" />
-        <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/classes/ip2location/base.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/site_hooks.php" />
         <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/classes/ip2location/locator.php" />
         <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/product_edit.php" />
         <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/product.php" />
         <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/product/about.php" />
         <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/mentor/about.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/default.php" />
         <option value="$PROJECT_DIR$/.htaccess" />
         <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/assets/js/dashboard/product.js" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/mentor/form.php" />
         <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/product_form.php" />
         <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/js/file_upload.js" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/default.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/site_hooks.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/dashboard.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/factory/abstracts/base.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/mentor.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/mentors.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/mentor/form.php" />
       </list>
     </option>
   </component>
@@ -143,9 +86,10 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="y" value="22" />
-    <option name="width" value="1680" />
-    <option name="height" value="940" />
+    <option name="x" value="310" />
+    <option name="y" value="322" />
+    <option name="width" value="1440" />
+    <option name="height" value="790" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -201,7 +145,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -494,7 +437,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="product" />
+              <option name="myItemId" value="mentor_session" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -592,7 +535,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
+              <option name="myItemId" value="controllers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -606,27 +549,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="wp-content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="plugins" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tppstore" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="site" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
+              <option name="myItemId" value="wp-admin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -640,36 +563,39 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="wp-content" />
+              <option name="myItemId" value="wp-admin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="plugins" />
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="tppstore" />
+              <option name="myItemId" value="wp-admin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="site" />
+              <option name="myItemId" value="css" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dashboard" />
+              <option name="myItemId" value="colors" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -678,8 +604,8 @@
     <property name="options.lastSelected" value="preferences.sourceCode.PHP" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../ecommerce" />
     <property name="FullScreen" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -760,7 +686,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1680" height="940" extended-state="6" />
+    <frame x="310" y="322" width="1440" height="790" extended-state="1" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -768,8 +694,8 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985073" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.6686567" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24541004" sideWeight="0.67164177" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.52686566" sideWeight="0.49928263" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24892396" sideWeight="0.47313434" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.52686566" sideWeight="0.49928263" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.52686566" sideWeight="0.50071734" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -799,9 +725,9 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.6686567" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24246772" sideWeight="0.67164177" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3283582" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -858,7 +784,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/dashboard.php</url>
-          <line>403</line>
+          <line>407</line>
           <option name="timeStamp" value="1929" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
@@ -902,108 +828,124 @@
           <option name="timeStamp" value="2013" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="2037" />
+      <option name="time" value="2040" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/footer.php">
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/js/file_upload.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="642" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/footer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="642" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/product/about.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="113" selection-start="4566" selection-end="4566" vertical-scroll-proportion="0.72727275" vertical-offset="695" max-vertical-offset="1080" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/assets/js/dashboard/product-ck.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="1041" selection-start="1041" selection-end="1041" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="90" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/product.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="599" column="56" selection-start="21381" selection-end="21381" vertical-scroll-proportion="0.37662336" vertical-offset="8780" max-vertical-offset="9165" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/mentor/about.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="113" selection-start="2883" selection-end="2883" vertical-scroll-proportion="0.0" vertical-offset="735" max-vertical-offset="840">
-          <folding />
+        <state line="602" column="33" selection-start="20260" selection-end="20271" vertical-scroll-proportion="2.0165017" vertical-offset="7808" max-vertical-offset="9555">
+          <folding>
+            <marker date="1392216894000" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392216894000" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/default.php">
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/assets/js/dashboard/product.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="63" selection-start="1073" selection-end="1073" vertical-scroll-proportion="0.0" vertical-offset="645" max-vertical-offset="1440">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.htaccess">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="0" selection-start="286" selection-end="1129" vertical-scroll-proportion="0.817757" vertical-offset="0" max-vertical-offset="642" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_wp-config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1245">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/mentor/form.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="128" selection-start="477" selection-end="477" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="2535">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/product_form.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="128" selection-start="375" selection-end="375" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="2505">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/product_edit.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="33" selection-start="515" selection-end="515" vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="435">
+        <state line="251" column="253" selection-start="8059" selection-end="8059" vertical-scroll-proportion="0.5214626" vertical-offset="3437" max-vertical-offset="11220">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/product_images.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="222" column="20" selection-start="6266" selection-end="6274" vertical-scroll-proportion="0.0" vertical-offset="4315" max-vertical-offset="16005">
+        <state line="222" column="20" selection-start="6266" selection-end="6274" vertical-scroll-proportion="-1.6280992" vertical-offset="4315" max-vertical-offset="16005">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/assets/js/dashboard/product.js">
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/mentor_session/about.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="251" column="253" selection-start="8059" selection-end="8059" vertical-scroll-proportion="0.0" vertical-offset="3437" max-vertical-offset="11220">
+        <state line="49" column="113" selection-start="2883" selection-end="2883" vertical-scroll-proportion="0.8264463" vertical-offset="235" max-vertical-offset="840">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wp-includes/js/swfupload/swfupload.js">
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/products_list.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="481" column="20" selection-start="19773" selection-end="19773" vertical-scroll-proportion="0.33333334" vertical-offset="6848" max-vertical-offset="14625" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/js/file_upload.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="602" column="33" selection-start="20260" selection-end="20271" vertical-scroll-proportion="0.38624337" vertical-offset="8738" max-vertical-offset="9555">
+        <state line="19" column="26" selection-start="293" selection-end="293" vertical-scroll-proportion="11.22" vertical-offset="846" max-vertical-offset="1425">
           <folding>
-            <marker date="1392216894000" expanded="false" signature="13703:13715" placeholder="..." />
-            <marker date="1392216894000" expanded="false" signature="13766:13778" placeholder="..." />
+            <element signature="e#6#68#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/default.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="22" selection-start="596" selection-end="596" vertical-scroll-proportion="0.5533981" vertical-offset="33" max-vertical-offset="1230">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/checkout.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6540">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/site_hooks.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="32" selection-start="487" selection-end="487" vertical-scroll-proportion="-10.625" vertical-offset="30" max-vertical-offset="2535">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/dashboard.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="62" selection-start="1319" selection-end="1319" vertical-scroll-proportion="-10.0" vertical-offset="135" max-vertical-offset="10020">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/factory/abstracts/base.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="101" column="33" selection-start="2338" selection-end="2338" vertical-scroll-proportion="0.394822" vertical-offset="1211" max-vertical-offset="4365">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/mentors.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="123" column="61" selection-start="3056" selection-end="3056" vertical-scroll-proportion="-6.0416665" vertical-offset="1640" max-vertical-offset="1950">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/product_edit.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="13" selection-start="82" selection-end="83" vertical-scroll-proportion="0.17857143" vertical-offset="0" max-vertical-offset="375">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/product_form.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="128" selection-start="375" selection-end="375" vertical-scroll-proportion="0.17857143" vertical-offset="0" max-vertical-offset="2505">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/mentor_session/form.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="0" selection-start="569" selection-end="855" vertical-scroll-proportion="0.77380955" vertical-offset="0" max-vertical-offset="2535">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/mentor.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="136" column="0" selection-start="3826" selection-end="3826" vertical-scroll-proportion="-72.583336" vertical-offset="238" max-vertical-offset="3960">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/mentor/form.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="101" selection-start="731" selection-end="731" vertical-scroll-proportion="0.3962264" vertical-offset="120" max-vertical-offset="405">
+          <folding />
         </state>
       </provider>
     </entry>

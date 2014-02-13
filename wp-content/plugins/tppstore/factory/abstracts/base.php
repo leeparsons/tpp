@@ -99,7 +99,12 @@ Abstract class TppStoreAbstractBase extends TppStoreAbstractInstantiable {
 
     public function getMentorsModel()
     {
-        return new TppStoreModelmentors();
+        return new TppStoreModelMentors();
+    }
+
+    public function getMentorModel()
+    {
+        return new TppStoreModelMentor();
     }
 
     public function getUserDiscountModel()

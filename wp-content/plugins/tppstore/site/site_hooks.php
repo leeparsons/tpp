@@ -17,6 +17,7 @@ add_action('init', function() {
             $vars[] = 'store_slug';
             $vars[] = 'shop_args';
             $vars[] = 'tpp_checkout_method';
+            $vars[] = 'mentor_id';
 
             return $vars;
         } );

@@ -104,4 +104,26 @@ class TppStoreControllerMentors extends TppStoreAbstractBase {
         exit;
     }
 
+    public function renderMentorForm()
+    {
+
+        //get the mentor id?
+
+        $mentor_id = get_query_var('mentor_id');
+
+        $mentor = $this->getMentorModel();
+
+        if (intval($mentor_id) > 0) {
+            $mentor->setData(array(
+                'mentor_id' =>  $mentor_id
+            ))->getMentorById();
+        }
+
+
+
+        include TPP_STORE_PLUGIN_DIR . 'site/views/dashboard/mentor/form.php';
+
+
+    }
+
 }
