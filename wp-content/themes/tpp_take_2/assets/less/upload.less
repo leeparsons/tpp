@@ -1,0 +1,170 @@
+/*-------------------------
+	Dropbox Element
+--------------------------*/
+@import '_variables';
+@import '_mixins.less';
+
+#dropbox {
+    height:auto;
+    width:100%;
+    float:left;
+}
+
+.drop-wrap {
+    float:left;
+    height:auto;
+    width:18%;
+    margin:0 1%;
+//    width:100px;
+//    margin:0 20px;
+}
+
+.photo-box{
+    cursor:pointer;
+    border:3px dashed @mainColour;
+	.borderRadius(5px, 5px, 5px, 5px);
+	position: relative;
+	margin:0;
+	min-height: 100px;
+    text-align:center;
+	overflow: hidden;
+    float:left;
+    width:100%;
+}
+
+.ui-sortable-helper {
+    .opacity();
+}
+
+
+.upload-icon {
+    height:100px;
+    width:100px;
+    margin:auto;
+    background:url(../images/upload-icon.png) no-repeat center center;
+}
+
+.ui-state-highlight {
+    height:100%;
+    width:18%;
+    background:@tertiaryColour;
+    .opacity(25);
+    float:left;
+    border:3px dashed @mainColour;
+    .borderRadius(5px, 5px, 5px, 5px);
+    margin:0 1%;
+    min-height:100px;
+}
+
+#dropbox .message{
+	font-size: 11px;
+    text-align: center;
+    padding:8px;
+    display: block;
+}
+
+#dropbox .message i {
+	color:#ccc;
+	font-size:10px;
+}
+
+
+/*-------------------------
+	Image Previews
+--------------------------*/
+
+#dropbox .preview {
+	width:100%;
+	height: auto;
+	float:left;
+	margin:10px 0;
+	position: relative;
+	text-align: center;
+}
+
+#dropbox {
+
+    .delete-icon {
+        position:absolute;
+        right:0;
+        top:0;
+        height:20px;
+        width:20px;
+        background:#FFFFFF url(../images/delete-icon.png) no-repeat center center;
+        cursor:pointer;
+        border:1px solid #b7b7b6;
+        &:hover {
+            .opacity(75);
+        }
+    }
+
+    .handle {
+        cursor: move;
+        height:20px;
+        width:100%;
+        background:#E5E5E5 url(../images/mover-handle.png) no-repeat 10px center;
+        .borderRadius(3px, 3px, 0, 0);
+    }
+}
+#dropbox .preview img {
+    margin:auto;
+	max-width: 90%;
+	max-height:150px;
+	border:3px solid #fff;
+	display: block;
+	box-shadow:0 0 2px #000;
+}
+
+
+
+#dropbox .imageHolder{
+	display: inline-block;
+	position:relative;
+}
+
+#dropbox .uploaded{
+	position: absolute;
+	top:0;
+	left:0;
+    bottom:0;
+    right:0;
+	background: url('../images/done.png') no-repeat center center rgba(255,255,255,0.5);
+	display: none;
+}
+
+#dropbox .preview.done .uploaded{
+	display: block;
+}
+
+
+
+/*-------------------------
+	Progress Bars
+--------------------------*/
+
+#dropbox .progressHolder{
+	position: absolute;
+	background-color:#252f38;
+	height:12px;
+    right:0;
+	left:0;
+	bottom: 0;
+	box-shadow:0 0 2px #000;
+}
+
+#dropbox .progress{
+	background-color:#2586d0;
+	position: absolute;
+	height:100%;
+	left:0;
+	width:0;
+	box-shadow: 0 0 1px rgba(255, 255, 255, 0.4) inset;
+	-moz-transition:0.25s;
+	-webkit-transition:0.25s;
+	-o-transition:0.25s;
+	transition:0.25s;
+}
+
+#dropbox .preview.done .progress{
+	width:100% !important;
+}
