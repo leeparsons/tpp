@@ -1,0 +1,88 @@
+@import '_variables.less';
+@import '_mixins.less';
+
+.store {
+
+    margin-top:30px;
+
+    .aside-75 {
+
+        float:right;
+
+        .wrap {
+            padding:10px;
+            border:5px solid @secondaryColourDarker;
+            background:@secondaryColour;
+            margin:auto;
+            display:block;
+            float:none;
+            width:80%;
+            min-width:400px;
+        }
+
+        h1 {
+            line-height:32px;
+            margin-top:0;
+        }
+
+    }
+    .aside-25 {
+
+        img {
+            width:100%;
+            height:auto;
+            margin-bottom:20px;
+        }
+    }
+
+
+
+}
+
+.btn {
+    white-space:normal;
+    height:auto;
+}
+
+.store-product-list {
+    padding-top:10px;
+}
+
+h2 {
+    width:100%;
+    //color:#FFFFFF;
+    padding-top:20px;
+
+}
+
+@media (max-width:600px) {
+
+    .store {
+        .btn {
+            width:100%;
+        }
+    }
+    .aside-25 {
+        width:100%;
+    }
+
+    h1 {
+        font-size:14px;
+    }
+    h1.mob {
+        font-size:20px;
+    }
+    .store {
+        .aside-75 {
+            margin-bottom:20px;
+            width:100%;
+            min-width:100%;
+            .wrap {
+                width:100%;
+                min-width:100%;
+                clear:both;
+            }
+        }
+    }
+
+}

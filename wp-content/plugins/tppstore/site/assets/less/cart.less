@@ -1,0 +1,175 @@
+@import '../../../../../../assets/less/_variables';
+@import '../../../../../../assets/less/_mixins.less';
+
+
+article {
+    hr {
+        border:1px solid @mainColourDarker;
+        float:left;
+        width:100%;
+    }
+}
+
+header {
+
+    h3 {
+        margin-top:0;
+        border-bottom:1px solid;
+    }
+
+
+}
+
+
+
+aside {
+
+    img {
+        margin:0 15px 15px 0;
+    }
+
+    .price {
+        padding:0 0 20px;
+        display:block;
+        font-size:20px;
+    }
+
+    span, label {
+        color:@linkColour;
+    }
+
+    form {
+        margin-bottom:20px;
+        input[type="text"] {
+            padding:4px;
+            text-align: center;
+        }
+    }
+
+    .title {
+        line-height:25px;
+        font-size:24px;
+    }
+}
+
+.cart-page {
+    .store-tag {
+        padding-left:10px;
+    }
+    .store-card {
+        border:1px solid @secondaryColourDarker;
+        padding:0;
+
+        img {
+            width:100%;
+            margin:0;
+        }
+
+        p {
+            margin:0;
+        }
+
+    }
+
+    .delete {
+        padding-bottom:20px;
+    }
+
+
+}
+
+.cart-product {
+
+    margin-bottom:20px;
+    padding-bottom:20px;
+    border-bottom:1px dashed @secondaryColourDarker;
+
+
+    strong {
+        font-size:16px;
+    }
+
+//    &:nth-child(odd) {
+//        background:#f7f7f7;
+//    }
+}
+
+table {
+
+    th, td {
+        padding:10px;
+        border-left:1px solid @mainColour;
+        border-top:1px solid @mainColour;
+        border-bottom:1px solid @mainColour;
+        &.last {
+            border-right:1px solid @mainColour;
+        }
+    }
+
+    td {
+        &.value {
+            text-align: right;
+        }
+        color:@mainColourDarker;
+        input {
+            text-align: center;
+        }
+    }
+    strong {
+        font-weight:600;
+        font-size:18px;
+        color:@mainColourDarker;
+    }
+}
+
+.checkout {
+    border-top:1px solid @mainColourDarker;
+    padding:10px 0 0;
+    margin:20px 0;
+
+    label {
+        display:block;
+    }
+
+    input {
+        float:right;
+    }
+}
+
+.cart-table {
+    width:100%;
+    margin:auto;
+
+
+
+
+    tbody {
+        tr {
+            &:nth-child(odd) {
+                background: #fAfAfA;
+            }
+        }
+    }
+
+    form.update {
+        input[type="text"] {
+            margin-right:10px;
+        }
+    }
+
+
+}
+
+.totals {
+
+
+    th {
+        background:#f7f7f7;
+    }
+
+    td {
+        width:125px;
+    }
+
+
+}

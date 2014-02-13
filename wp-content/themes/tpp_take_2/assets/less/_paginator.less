@@ -1,0 +1,27 @@
+@import '_variables';
+@import '_mixins';
+.pagination {
+    float:left;
+    height:40px;
+    margin:0 0 20px;
+    strong {
+        float:left;
+    }
+
+    a {
+        background:@mainColour;
+        color:#FFFFFF;
+
+
+    }
+
+    a, span{
+        padding:4px 10px;
+        .borderRadius(20px, 20px, 20px, 20px);
+    }
+
+    span {
+        background:@secondaryColour;
+        color:@secondaryColourDarker;
+    }
+}

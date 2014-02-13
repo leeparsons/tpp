@@ -1,0 +1,20 @@
+/* CSS Document */
+
+
+#header {height:166px;}
+#cat-nav {margin-top:5px;}
+.post-title-big {text-indent:0;padding-left:5px;}
+.go {width:60px;}
+
+#header {z-index:5;}
+
+.nav2 li ul, #nav2 li ul {visibility:hidden;left:5px;z-index:1000;}
+.nav2 lu.sfhover ul,#nav2 li.sfhover ul  {visibility:visible;z-index:1000;}
+
+
+.nav2 li:hover ul, .nav2 li.sfhover ul,#nav2 li:hover ul, #nav2 li.sfhover ul {left:5px; z-index:1000;visibility:visible;}
+
+.nav2 li:hover ul ul, .nav2 li.sfhover ul ul,#nav2 li:hover ul ul, #nav2 li.sfhover ul ul {z-index:1000;left: 5px;visibility:hidden}
+.nav2 li:hover ul, .nav2 li li:hover ul, #nav2 li.sfhover ul, #nav2 li li.sfhover ul {left:5px; z-index:1000;visibility:visible;}
+.nav2 li:hover ul ul, .nav2 li:hover ul ul ul, .nav2 li.sfhover ul ul, .nav2 li.sfhover ul ul ul, #nav2 li:hover ul ul, #nav2 li:hover ul ul ul, #nav2 li.sfhover ul ul, #nav2 li.sfhover ul ul ul {left: 5px;visibility:hidden;z-index:1000;}
+.nav2 li:hover ul, .nav2 li li:hover ul, .nav2 li li li:hover ul, .nav2 li.sfhover ul, .nav2 li li.sfhover ul, .nav2 li li li.sfhover u, #nav2 li:hover ul, #nav2 li li:hover ul, #nav2 li li li:hover ul, #nav2 li.sfhover ul, #nav2 li li.sfhover ul, #nav2 li li li.sfhover ul {left:5px; z-index:1000;visibility:visible;}

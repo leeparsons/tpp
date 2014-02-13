@@ -1,0 +1,44 @@
+@import '../../../../../themes/tpp_take_2/assets/less/_variables';
+@import '../../../../../themes/tpp_take_2/assets/less/_mixins';
+
+#application_form {
+
+    input[type="checkbox"] {
+
+        width:18px;
+        height:18px;
+        margin:0 10px 10px 0;
+
+    }
+
+    select {
+        width:auto;
+        display: block;
+    }
+
+
+    legend {
+        cursor:pointer;
+        border-top:1px solid @mainColour;
+        border-bottom:1px solid @mainColour;
+        border-left:1px solid @mainColour;
+        border-right:1px solid @mainColour;
+        .borderRadius(8px, 8px, 8px, 8px);
+        padding:10px;
+        background:@secondaryColour;
+        &.active {
+            background:@mainColour;
+            color:#ffffff;
+            border-color: @mainColourDarker;
+        }
+    }
+}
+
+.social-buttons {
+    margin-top: 0;
+    border-top: 0;
+    padding-top: 0;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid @secondaryColourDarker;
+}

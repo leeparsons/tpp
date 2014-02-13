@@ -1,0 +1,53 @@
+#register_form, #facebook_register_form {
+    //border:1px solid @mainColour;
+    height:100%;
+    width:100%;
+    //padding:5%;
+    float:left;
+}
+
+#product_options {
+    margin:20px 0;
+    padding:0;
+    list-style-type:none;
+    li {
+        width:100%;
+        padding:10px;
+        border:1px solid @mainColour;
+        .borderRadius(5px, 5px, 5px, 5px);
+        background:@secondaryColour;
+        color:#000000;
+        float:left;
+        position:relative;
+        margin-bottom:10px;
+        .option-name {
+            width:60%;
+            margin-right:10%;
+            float:left;
+        }
+        .option-price {
+            width:30%;
+            float:right;
+        }
+        .option-availability {
+            width:30%;
+            float:right;
+        }
+        span.close {
+            width:20px;
+            position:absolute;
+            top:10px;
+            right:10px;
+            color:#FFFFFF;
+            .borderRadius(10px, 10px, 10px, 10px);
+            background:#A7301F;
+            text-align: center;
+            border:1px solid #000000;
+            font-size:16px;
+            height:20px;
+            opacity:1;
+            text-shadow:0 0;
+            font-weight:400;
+        }
+    }
+}

@@ -1,0 +1,39 @@
+@media(max-width:850px) {
+    #header_search_form {
+        width:250px;
+        input[type="text"] {
+            width:217px;
+        }
+        button {
+            position: absolute;
+        }
+    }
+
+    article.product {
+        .half-left {
+            width:100%;
+        }
+        .half-right {
+            width:100%;
+        }
+
+        .store-product {
+            width:100%;
+            &:nth-child(odd) {
+                border-right:0;
+
+            }
+            &:nth-child(even) {
+                padding-left:0;
+            }
+
+            form {
+                left:110px;
+            }
+        }
+
+    }
+
+
+
+}

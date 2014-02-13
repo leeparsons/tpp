@@ -1,0 +1,164 @@
+@media(max-width:700px) {
+
+    .head {
+        height:430px;
+        padding:20px 0 0 0;
+        .head-title {
+            height:175px;
+        }
+    }
+
+
+    .menu-btns {
+        height:40px;
+        font-size:12px;
+        margin-top:210px;
+        bottom:20px;
+        left:0;
+        position:relative;
+        width:auto;
+        text-align: center;
+
+        .basket-btn {
+            clear:left;
+            display: block;
+        }
+
+
+    }
+
+    #header_newsletter {
+        height:155px;
+        input[type="text"], input[type="email"] {
+            width:250px;
+        }
+        p {
+            width:100%;
+            line-height:16px;
+            text-align: center;
+        }
+    }
+
+    #search_filters {
+        width:217px;
+    }
+
+    #featured_blog_posts {
+        min-width:100%;
+        max-width:100%;
+        .excerpt, .title {
+            max-width:100%;
+        }
+    }
+
+    .head, .head .head-title {
+        width:100%;
+        position:relative;
+        float:left;
+
+    }
+    #header_search_form {
+        top:180px;
+        left:0;
+        position:relative;
+        margin:auto;
+        text-align: center;
+        height:40px;
+        input[type="text"] {
+            position:absolute;
+            left:0;
+            top:0;
+            float:none;
+        }
+        li {
+            text-align: left;
+        }
+        button {
+            color: rgb(190, 186, 177) !important;
+            right:-30px;
+        }
+    }
+
+    .innerwrap, header, .item-list {
+        min-width:100%;
+        max-width:100%;
+    }
+
+    #header_slideshow {
+        .img {
+            width:100%;
+        }
+        a {
+            background-size: contain;
+        }
+    }
+
+
+
+//    .main-menu-toggle {
+//        background:@mainColour;
+//        height:55px;
+//        float:left;
+//        width:100%;
+//
+//    }
+//
+//    .main-menu {
+//        height:0;
+//    }
+
+
+    .half-left {
+        width:100%;
+        margin-right:0;
+    }
+
+    .half-right {
+        width:100%;
+        .abs-or {
+            display:none;
+        }
+
+        .slider {
+            .abs-or {
+                margin:20px 0;
+                float:left;
+                position:relative;
+                top:0;
+                left:0;
+                border-top:1px dashed @secondaryColourDarker;
+                text-align: center;
+                width:100%;
+                display: block;
+                span {
+                    top:-30px;
+                    left:45%;
+                    height:10px;
+                }
+            }
+        }
+
+    }
+
+
+
+
+    .main-menu {
+        background:@mainColour;
+        height:auto;
+        width:100%;
+        float:left;
+        transition:height 0.25s swing 0.25s;
+        ul {
+            height:auto;
+            width:100%;
+            float:left;
+            li {
+                width:100%;
+                float:left;
+            }
+        }
+    }
+
+
+}

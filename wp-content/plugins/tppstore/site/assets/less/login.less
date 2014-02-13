@@ -1,0 +1,47 @@
+@import '../../../../../../assets/less/_variables';
+@import '../../../../../../assets/less/_mixins.less';
+
+
+.half-right {
+    position:relative;
+}
+
+.abs-or {
+    position:absolute;
+    left: -45px;
+    top: 0;
+    bottom: 0;
+    border-left: 1px dashed @secondaryColourDarker;
+
+    span {
+        top: 40%;
+        position: absolute;
+        padding: 20px 0;
+        background: white;
+        display: block;
+        width: 50px;
+        height: inherit;
+        left: -10px;
+    }
+}
+
+
+#facebook_register_form {
+    span {
+        visibility:hidden;
+    }
+    #fb_login_button {
+        min-height:27px !important;
+    }
+}
+
+.fb-login-button-a {
+    height:27px;
+    width:175px;
+    cursor:pointer;
+    background:url(/assets/images/fb-login.png) no-repeat 0 0;
+    margin:10px 0;
+    float:left;
+}
+
+

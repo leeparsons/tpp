@@ -1,0 +1,70 @@
+
+#overlay {
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index:5001;
+    background:#000000;
+    .opacity(55);
+}
+
+.overlay-wrap {
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    top:0;
+    z-index:5002;
+}
+.overlay-inner {
+    h3 {
+        margin-top:0;
+    }
+    left:25%;
+    width:30%;
+    position:absolute;
+    top:15%;
+    min-width:500px;
+    height:auto;
+    background:#FFFFFF;
+    z-index:5003;
+    .borderRadius(8px,8px,8px,8px);
+    box-shadow:0 0 10px #000000;
+}
+
+.overlay-inner .close, .popup .close {
+    display:block;
+    position:absolute;
+    top:2%;
+    right:2%;
+    background:url(/assets/images/delete-icon.png) no-repeat center center @mainColour;
+    height:20px;
+    width:20px;
+    .borderRadius(8px, 8px, 8px, 8px);
+
+}
+
+.popup {
+    p {
+        padding:20px;
+        margin:0;
+    }
+
+
+    .close {
+        top:2px;
+        right:2px;
+    }
+
+    background:#FFFFFF;
+    position:fixed;
+    top:100px;
+    right:100px;
+    display:block;
+    box-shadow:2px 2px 2px #000000;
+    border:1px solid @secondaryColour;
+    .borderRadius(8px, 8px, 8px, 8px);
+    z-index:5000;
+}
