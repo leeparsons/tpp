@@ -156,8 +156,18 @@ class TppStoreControllerRegister extends TppStoreAbstractBase {
                 TPPStoreControllerUser::getInstance()->saveUserToSession($user_model);
                 $_SESSION['shop_captcha_answer'] = null;
                 unset($_SESSION['shop_captcha_answer']);
+
+                if (filter_input(INPUT_POST, 'newsletter_agree', FILTER_SANITIZE_NUMBER_INT) == 1) {
+                    $body = $user_model->first_name . ' ' . $user_model->last_name . ' has signed up for your newsletter at registration. Their email address is: ' . $user_model->email;
+
+                    $this->sendMail('rosie@thephotographyparlour.com', 'newsletter signup: ' . $user_model->first_name . ' ' . $user_model->last_name, $body);
+
+                }
+
+
+
                 if ($user_model->user_type == 'store_owner') {
-                    TppStoreMessages::getInstance()->addMessage('message', 'To get started with selling your products, <a href="/shop/dashboard/store">create your store</a>.');
+                    TppStoreMessages::getInstance()->addMessage('message', 'To get started with selling your products, <a href="/shop/dashboard/store/">create your store</a>.');
                     $this->redirectToDashboard();
                 } else {
                     $this->redirectToAccount();
@@ -467,9 +477,15 @@ class TppStoreControllerRegister extends TppStoreAbstractBase {
                     //user has been found and it's the facebook user!
                     if (intval($discover) === 0 && $on_application_form !== 'true') {
                         if ($user->user_type == 'store_owner') {
-                            $json = array('redirect'    =>  '/shop/dashboard');
+                            $json = array(
+                                'redirect'      =>  '/shop/dashboard',
+                                'link_text'     =>  'My Dashboard'
+                            );
                         } else {
-                            $json = array('redirect'    =>  '/shop/myaccount');
+                            $json = array(
+                                'redirect'    =>  '/shop/myaccount',
+                                'link_text'     =>  'My Account'
+                            );
                         }
                     } else {
                         $json = array(

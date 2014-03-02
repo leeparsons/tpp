@@ -1,7 +1,55 @@
+function pricePreview()
+{
+    var p = document.getElementById('product_price').value;
+    var t = document.getElementById('tax_rate').value;
+
+    t = t.replace('%', '');
+
+    if
+        (!isFinite(t) || isNaN(parseFloat(t)) || parseFloat(t) < 0)
+
+    {
+        t = 0;
+    }
+
+    if (
+            (isFinite(p) && !isNaN(parseFloat(p)) && parseFloat(p) >= 0)
+        )
+    {
+
+        var calculated = p * (1 +  t/ 100);
+
+
+        var cstr = calculated.toString();
+
+        var precision = cstr.indexOf('.');
+
+
+        if (calculated < 1) {
+            if (precision == -1) {
+                document.getElementById('preview_price').innerHTML = calculated + '.00';
+            } else {
+                document.getElementById('preview_price').innerHTML = calculated.toPrecision(2);
+            }
+        } else if ( precision > 0 ) {
+            document.getElementById('preview_price').innerHTML = calculated.toPrecision(precision + 2);
+        } else if (precision == -1) {
+            document.getElementById('preview_price').innerHTML = calculated + '.00';
+        } else {
+            document.getElementById('preview_price').innerHTML = calculated.toPrecision(p.length + 2);
+        }
+
+
+    }
+
+}
+
+if (document.getElementById('preview_price')) {
+    document.getElementById('product_price').onkeyup = pricePreview;
+    document.getElementById('tax_rate').onkeyup = pricePreview;
+}
+
 jQuery(function($) {
-
-
-
 
 
     $('fieldset').each(function(k) {
@@ -23,7 +71,7 @@ jQuery(function($) {
     });
 
     $('.aside-25').on('click', 'li', function() {
-        generateShortDescription();
+        //generateShortDescription();
         //fulfill the seo meta box
         var self = $(this);
         $('fieldset.open').removeClass('open').slideUp('normal', function() {
@@ -35,22 +83,38 @@ jQuery(function($) {
                 }, 100);
             });
         });
-
-
-
-
-
     });
 
-    $('[name="price_includes_tax"]').on('change', function() {
+    if (document.getElementById('product_title').length > 0) {
+        var l = 140 - mb_strlen(document.getElementById('product_title').val.length);
 
-        if (document.getElementById('include_tax_na').checked === true) {
-            document.getElementById('tax_rate').value = '';
-            document.getElementById('tax_group').style.display = 'none';
-        } else {
-            document.getElementById('tax_group').style.display = 'block';
+        var cls = 'text-right wrap';
+        if (l < 0) {
+            cls += ' error';
         }
-    });
+        $('#product_title')
+            .after('<span class="' + cls + '">' + l + ' characters remaining</span>')
+            .keyup(function() {
+                var l = 140 - mb_strlen(this.val.length);
+                if (l < 0) {
+                    $(this).next('span').addClass('error');
+                } else {
+                    $(this).next('span').removeClass('error');
+                }
+                $(this).next('span').text( l + ' characters remaining');
+            });
+
+    }
+
+//    $('[name="price_includes_tax"]').on('change', function() {
+//
+//        if (document.getElementById('include_tax_na').checked === true) {
+//            document.getElementById('tax_rate').value = '';
+//            document.getElementById('tax_group').style.display = 'none';
+//        } else {
+//            document.getElementById('tax_group').style.display = 'block';
+//        }
+//    });
 
 
     var preview_ajax = false;
@@ -62,7 +126,6 @@ jQuery(function($) {
     });
 
     $('#product_form').on('submit', function(e) {
-
 
         if (preview_ajax !== false) {
             preview_ajax.abort();
@@ -107,46 +170,70 @@ jQuery(function($) {
 
         var errors = [];
 
-        var include_tax_yes = document.getElementById('include_tax_yes').checked;
-        var include_tax_no = document.getElementById('include_tax_no').checked;
+        if ($('.cats').length > 0) {
+            $('.cats').each(function() {
+                if ($(this).is(':checked')) {
+                    prnt = $(this).data('parent');
+                    var cycle = true;
+                    while (cycle === true) {
+                        $('#cat_' + prnt).prop('checked', true);
+                        prnt = $('#cat_' + prnt).data('parent');
 
-        if (include_tax_yes === true || include_tax_no === true) {
+                        if (prnt == undefined) {
+                            cycle = false;
+                        }
+                    }
+                }
+            });
+        }
+
+
+        if ($('.cats').length > 0 && $('.cats:checked').length == 0) {
+            errors.push('Please select a category');
+        }
+
+//        var include_tax_yes = document.getElementById('include_tax_yes').checked;
+//        var include_tax_no = document.getElementById('include_tax_no').checked;
+//
+//        if (include_tax_yes === true || include_tax_no === true) {
             var tax_rate = document.getElementById('tax_rate').value;
-            if (tax_rate == '' || (
-                (!isFinite(tax_rate) || isNaN(parseFloat(tax_rate)) || parseFloat(tax_rate) < 0)
-                ))
+        if (tax_rate != '' && tax_rate != undefined) {
+            tax_rate = tax_rate.replace('%', '');
+
+            tax_rate = tax_rate.replace(/\s+/g, '');
+
+            if (
+
+                    (!isFinite(tax_rate) || isNaN(parseFloat(tax_rate)) || parseFloat(tax_rate) < 0)
+                    )
             {
+
                 errors.push('Please enter a tax rate so we can determine the tax to display on invoices');
             }
+
         }
+//        }
 
 
-        if (document.getElementById('product_type').value == 4) {
-            if (document.getElementById('mentor_name').value.replace(/\s+/g, '') == '') {
-                errors.push('Please enter the mentor\'s name');
-            }
-
-            if (document.getElementById('mentor_company').value.replace(/\s+/g, '') == '') {
-                errors.push('Please enter the mentor\'s company/ business name');
-            }
-
-//            var s1, s2, s3;
-//
-//            s1 = document.getElementById('specialism_one').value.replace(/\s+/g, '');
-//            s2 = document.getElementById('specialism_two').value.replace(/\s+/g, '');
-//            s3 = document.getElementById('specialism_three').value.replace(/\s+/g, '');
-//
-//            if (s1 == '' && s2 == '' && s3 == '') {
-//                errors.push('Please enter a specialism');
+//        if (document.getElementById('product_type').value == 4) {
+//            if (document.getElementById('mentor_name').value.replace(/\s+/g, '') == '') {
+//                errors.push('Please enter the mentor\'s name');
 //            }
-        }
+//
+//            if (document.getElementById('mentor_company').value.replace(/\s+/g, '') == '') {
+//                errors.push('Please enter the mentor\'s company/ business name');
+//            }
+
+
+
+//        }
 
 
         if ($('#product_title').val().replace(/\s+/g, '') == '') {
             errors.push('Please enter a title');
         }
 
-        if (false === $('#unlimited').is(':checked')) {
+        if (false === document.getElementById('unlimited').checked) {
             var quantity = $('#product_quantity').val();
 
             if (quantity.replace(/\s+/g, '') == '' || !isFinite(quantity) || isNaN(parseInt(quantity)) || quantity.indexOf('.') > -1 || quantity.indexOf(',') > -1) {
@@ -157,12 +244,12 @@ jQuery(function($) {
         var price = $('#product_price').val();
 
         if (!isFinite(price) || isNaN(parseFloat(price))) {
-            errors.push('Please enter a price (no ",")');
+            errors.push('Please enter a price, make sure you only use numbers and full stops');
         }
 
-        if ($('.preview').find('img').length === 0) {
-            errors.push('Please upload at least one image.');
-        }
+        //if ($('.preview').find('img').length === 0) {
+        //    errors.push('Please upload at least one image.');
+       // }
 
 
 
@@ -192,9 +279,9 @@ jQuery(function($) {
                 message.append('<p class="wp-error">' + errors[x] + '</p>');
             }
 
-            $('html, body').animate({
-                scrollTop: message.offset().top
-            }, 750);
+//            $('html, body').animate({
+//                scrollTop: message.offset().top
+//            }, 750);
 
 
             overlay.setHeader('Oops, sorry there were errors');
@@ -211,8 +298,6 @@ jQuery(function($) {
 
             return false;
         }
-
-
 
         if ($(this).data('e').hasClass('preview')) {
 
@@ -247,13 +332,18 @@ jQuery(function($) {
                     type:   'post',
                     data:   data,
                     success: function(response) {
-                        console.log(response);
-                        overlay.setHeader('Saved!');
-                        overlay.setBody('Sending you to the preview... (please note if you do not see the preview open then you may have popups blocked (this is default in most browsers)<br><br>Please enable popups for this website to view your preview.');
-                        overlay.populateInner();
 
-                        console.log(response);
+
+
                         if (response.error === false && response.data && response.data.location) {
+
+
+                            overlay.setHeader('Saved!');
+                            overlay.setBody('Preview should open in a new window. If your preview does not open <a href="' + response.data.location + '" target="_blank" class="btn btn-primary">Click here to manually open it.</a>');
+                            overlay.populateInner();
+
+
+
                             preview_w = window.open(response.data.location, '_blank');
                             setTimeout(function() {
                                 preview_interval = setInterval(function() {
@@ -263,8 +353,16 @@ jQuery(function($) {
                                         $.ajax('/shop/dashboard/preview_close/');
                                     }
                                 }, 100);
-                            }, 15000);
+                            }, 10000);
 
+                        } else {
+                            overlay.setHeader('Oops!');
+                            var str = '';
+                            for (var x in response.data.errors) {
+                                str += response.data.errors[x] + '<br>';
+                            }
+                            overlay.setBody('There was an error making the preview... Please contact us: Error information: '. str);
+                            overlay.populateInner();
                         }
 return;
                         if (response.error === false && response.data.product) {
@@ -319,7 +417,7 @@ return;
 
                         } else {
                             overlay.setHeader('Oops!');
-                            overlay.setBody('there was a problem saving your product. Please make sure you have filled out all the required fields');
+                            overlay.setBody('there was a problem making your preview. Please make sure you have filled out all the required fields');
                             overlay.populateInner();
 
                         }
@@ -331,7 +429,7 @@ return;
 
                         if (response.status > 0) {
                             overlay.setHeader('Oops!');
-                            overlay.setBody('there was a problem saving your product. Please make sure you have filled out all the required fields');
+                            overlay.setBody('there was a problem making your preview. Please make sure you have filled out all the required fields');
                             overlay.populateInner();
                         } else {
                             overlay.close();
@@ -501,35 +599,44 @@ if (document.getElementsByClassName('close').length > 0) {
     }
 }
 
-document.getElementById('product_type').onchange = function() {
+if (document.getElementById('product_type')) {
+    document.getElementById('product_type').onchange = function() {
 
-    var ems = document.getElementsByClassName('product-type-group');
+        var ems = document.getElementsByClassName('product-type-group');
 
-    if (this.value == 2) {
-        document.getElementById('product_type_label').style.display = 'block';
-    } else {
-        document.getElementById('product_type_label').style.display = 'none';
-    }
-
-    for (var x = 0; x < ems.length; x++) {
-        if (x+1 != this.value) {
-            ems[x].setAttribute('class', 'product-type-group form-group hidden');
+        if (this.value == 2) {
+            document.getElementById('product_type_label').style.display = 'block';
         } else {
-            ems[x].setAttribute('class', 'product-type-group form-group');
+            document.getElementById('product_type_label').style.display = 'none';
         }
-    }
 
+        if (this.value == 1) {
+//            document.getElementById('download_override').style.display = 'block';
+        } else {
+  //          document.getElementById('download_override').style.display = 'none';
+            document.getElementById('download_elsewhere').value = '';
+        }
+
+        for (var x = 0; x < ems.length; x++) {
+            if (x+1 != this.value) {
+                ems[x].setAttribute('class', 'product-type-group form-group hidden');
+            } else {
+                ems[x].setAttribute('class', 'product-type-group form-group');
+            }
+        }
+
+    }
 }
+
 
 function generateShortDescription() {
     var txt = '';
-
     //var editor = tinyMCE.get('full_description');
     //var content = editor.getContent();
 
     var content = document.getElementById('full_description').value;
 
-    if (this == document.getElementById('full_description')) {
+    if (document.getElementById('full_description')) {
         var l = mb_strlen(content);
         document.getElementById('description_count').innerHTML = (21000 - l) + ' characters remaining';
         if (l > 21000) {
@@ -541,19 +648,19 @@ function generateShortDescription() {
     }
 
     var tmp = document.createElement("DIV");
-
     tmp.innerHTML = content;
+
     if (tmp.textContent) {
         content = tmp.textContent;
     } else if (tmp.innerText) {
         content = tmp.innerText;
     }
 
-    if (content && document.getElementById('short_description').value == '') {
-        txt = content.replace(/(\r\n|\n|\r)/gm, ' ').replace(/\s+/g, ' ').substr(0, 150);
-        //determine if this.value contains line breaks?
-        document.getElementById('short_description').value = txt;
-    }
+    txt = content.replace(/(\r\n|\n|\r)/gm, ' ').replace(/\s+/g, ' ').substr(0, 150);
+
+
+    //determine if this.value contains line breaks?
+    document.getElementById('short_description').value = txt;
 
     var v = 150 - document.getElementById('short_description').value.length;
     document.getElementById('short_character_count').innerHTML = v;
@@ -576,132 +683,122 @@ function mb_strlen(str) {
 
 
 //document.getElementById('wp-full_description-editor-container').onkeyup = generateShortDescription;
-document.getElementById('full_description').onkeyup = generateShortDescription;
-document.getElementById('short_description').onkeyup = generateShortDescription;
+//document.getElementById('full_description').onkeyup = generateShortDescription;
+//document.getElementById('short_description').onkeyup = generateShortDescription;
+document.getElementById('populate_seo').onclick = generateShortDescription;
 
 
-
-
-
-function catSwitcher(em, id, levels)
-{
-    var optn = '';
-    var obj = category_options;
-
-
-    var s = new sizer();
-    var children_size = 0;
-
-    for (var x = 1; x <= id; x++) {
-        if (x > 1) {
-
-
-//                if (obj != undefined && obj.children[document.getElementById('category_' + x).value] != undefined && obj.children[document.getElementById('category_' + x).value].children != undefined) {
-//                    obj = obj.children[document.getElementById('category_' + x).value];
-//                } else {
-//                    obj = undefined;
-//                }
-
-
-            if (obj != undefined && obj.children[document.getElementById('category_' + x).value] != undefined && obj.children[document.getElementById('category_' + x).value].children != undefined) {
-                obj = obj.children[document.getElementById('category_' + x).value];
-                s.setObj(obj.children);
-            } else {
-                //obj = undefined;
-                s.setObj([]);
-            }
-
-
-        } else {
-
-
-            if (obj != undefined && obj[document.getElementById('category_' + x).value] != undefined && obj[document.getElementById('category_' + x).value].children != undefined ) {
-                s.setObj(obj[document.getElementById('category_' + x).value].children);
-            } else {
-                s.setObj([]);
-            }
-
-            children_size = s.getSize();
-
-            if (children_size > 0) {
-                obj = obj[document.getElementById('category_' + x).value];
-            } else {
-                obj = undefined;
-            }
-        }
-    }
-
-    children_size = s.getSize();
-
-
-    if (children_size > 0) {
-
-        var em;
-
-        document.getElementById('category_' + (id+1)).innerHTML = '';
-
-        optn = document.createElement('option');
-        optn.setAttribute('value', '');
-        optn.innerHTML = '-- select --';
-
-        document.getElementById('category_' + (id+1)).appendChild(optn);
-
-        for (var x = 0; x < children_size; x++) {
-            em = s.getElementAt(x);
-
-            optn = document.createElement('option');
-            optn.setAttribute('value', em.category_id);
-            //optn.setAttribute('value', obj.children[x].category_id);
-
-            //optn.innerHTML = obj.children[x].category_name;
-
-            optn.innerHTML = em.category_name;
-
-
-            document.getElementById('category_' + (id+1)).appendChild(optn);
-        }
-        document.getElementById('category_' + (id+1)).parentNode.setAttribute('class', 'control-group');
-
-    } else {
-
-        var ems = document.getElementsByClassName('category-list');
-
-        for (var x = id; x < ems.length; x++) {
-
-            ems[x].innerHTML = '<option value="">-- Select category -- </option>';
-
-            ems[x].parentNode.setAttribute('class', 'control-group hidden');
-        }
-
-    }
-}
-
-if (document.getElementById('category_1')) {
-    document.getElementById('category_1').onchange = function() {
-        if (this.value == 3) {
-            //hide the product type selection
-            document.getElementById('product_type').value = 2;
-            document.getElementById('product_type').style.display = 'none';
-            document.getElementById('product_type_label').style.display = 'none';
-            document.getElementById('download_group').setAttribute('class', 'product-type-group form-group hidden');
-
-        } else {
-            //show the product type selection
-            document.getElementById('product_type').style.display = 'block';
-            document.getElementById('product_type_label').style.display = 'block';
-            document.getElementById('product_type').value = 2;
-            document.getElementById('download_group').setAttribute('class', 'product-type-group form-group hidden');
-        }
-        catSwitcher(this, 1);
-    }
-
-
-
-    document.getElementById('category_2').onchange = function() {
-        catSwitcher(this, 2, [document.getElementById('category_1').value]);
-    }
-}
-
+//
+//
+//function catSwitcher(em, id, levels)
+//{
+//    var optn = '';
+//    var obj = category_options;
+//
+//
+//    var s = new sizer();
+//    var children_size = 0;
+//
+//    for (var x = 1; x <= id; x++) {
+//        if (x > 1) {
+//
+//            if (obj != undefined && obj.children[document.getElementById('category_' + x).value] != undefined && obj.children[document.getElementById('category_' + x).value].children != undefined) {
+//                obj = obj.children[document.getElementById('category_' + x).value];
+//                s.setObj(obj.children);
+//            } else {
+//                //obj = undefined;
+//                s.setObj([]);
+//            }
+//
+//
+//        } else {
+//
+//
+//            if (obj != undefined && obj[document.getElementById('category_' + x).value] != undefined && obj[document.getElementById('category_' + x).value].children != undefined ) {
+//                s.setObj(obj[document.getElementById('category_' + x).value].children);
+//            } else {
+//                s.setObj([]);
+//            }
+//
+//            children_size = s.getSize();
+//
+//            if (children_size > 0) {
+//                obj = obj[document.getElementById('category_' + x).value];
+//            } else {
+//                obj = undefined;
+//            }
+//        }
+//    }
+//
+//    children_size = s.getSize();
+//
+//
+//    if (children_size > 0) {
+//
+//        var em;
+//
+//        document.getElementById('category_' + (id+1)).innerHTML = '';
+//
+//        optn = document.createElement('option');
+//        optn.setAttribute('value', '');
+//        optn.innerHTML = '-- select --';
+//
+//        document.getElementById('category_' + (id+1)).appendChild(optn);
+//
+//        for (var x = 0; x < children_size; x++) {
+//            em = s.getElementAt(x);
+//
+//            optn = document.createElement('option');
+//            optn.setAttribute('value', em.category_id);
+//
+//
+//            optn.innerHTML = em.category_name;
+//
+//
+//            document.getElementById('category_' + (id+1)).appendChild(optn);
+//        }
+//        document.getElementById('category_' + (id+1)).parentNode.setAttribute('class', 'control-group');
+//
+//    } else {
+//
+//        var ems = document.getElementsByClassName('category-list');
+//
+//        for (var x = id; x < ems.length; x++) {
+//
+//            ems[x].innerHTML = '<option value="">-- Select category -- </option>';
+//
+//            ems[x].parentNode.setAttribute('class', 'control-group hidden');
+//        }
+//
+//    }
+//}
+//
+//if (document.getElementById('category_1')) {
+//    document.getElementById('category_1').onchange = function() {
+//        if (this.value == 3) {
+//            //hide the product type selection
+//            document.getElementById('product_type').value = 2;
+//            document.getElementById('product_type').style.display = 'none';
+//            document.getElementById('product_type_label').style.display = 'none';
+//            document.getElementById('download_group').setAttribute('class', 'product-type-group form-group hidden');
+//
+//        } else {
+//            //show the product type selection
+//            document.getElementById('product_type').style.display = 'block';
+//            document.getElementById('product_type_label').style.display = 'block';
+//            document.getElementById('product_type').value = 2;
+//            document.getElementById('download_group').setAttribute('class', 'product-type-group form-group hidden');
+//        }
+//        catSwitcher(this, 1);
+//    }
+//
+//
+//
+//    document.getElementById('category_2').onchange = function() {
+//        catSwitcher(this, 2, [document.getElementById('category_1').value]);
+//    }
+//}
+//
 //
 //function makeShortDescription(e) {
 //
@@ -741,3 +838,59 @@ document.getElementById('discount_value').onkeyup = function() {
     this.value = this.value.replace(/[^0-9.]/g, '');
 
 }
+
+jQuery(function($) {
+    function catChanger(em) {
+
+
+        var self = $(this);
+        var prnt = 0;
+
+        if (this.checked === true) {
+
+//                if ($('input[data-level="' + self.data('level') + '"]:checked').length > 2) {
+//                    this.checked = false;
+//                    overlay.setBody('you can only select a multiple of two categories at this level');
+//                    overlay.setHeader('Oops!');
+//                    overlay.populateInner();
+//                    return;
+//                }
+
+            prnt = $(this).data('parent');
+            var cycle = true;
+            while (cycle === true) {
+                $('#cat_' + prnt).prop('checked', true);
+                prnt = $('#cat_' + prnt).data('parent');
+
+                if (prnt == undefined) {
+                    cycle = false;
+                }
+            }
+        } else {
+            if ($(this).parent().parent().find('ul').length > 0) {
+                $(this).parent().parent().find('ul').find('input').prop('checked', false);
+            }
+        }
+
+
+
+    }
+
+    if ($('.cats').length > 0) {
+        $('.cats').on('change', catChanger);
+    }
+
+    if (document.getElementById('product_type').value == 5) {
+
+        //var dtest = document.createElement('input');
+        //dtest.setAttribute('type', 'date');
+
+        //if (dtest.type == 'text') {
+            jQuery('.date').datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+        //}
+    }
+
+
+    });

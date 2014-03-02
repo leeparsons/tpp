@@ -16,12 +16,12 @@ class TppStoreModelProductDiscount extends TppStoreAbstractModelBase {
 
     protected $_table = 'shop_product_discounts';
 
-    public function getTitle()
+    public function getSeoTitle()
     {
         return '';
     }
 
-    public function getDescription()
+    public function getSeoDescription()
     {
         return '';
     }
@@ -64,8 +64,8 @@ class TppStoreModelProductDiscount extends TppStoreAbstractModelBase {
             global $wpdb;
 
             $wpdb->get_row(
-                "SELECT * FROM " . $this->getTable() . " WHERE product_id = " . intval($this->product_id),
-                OBJECT_K
+                "SELECT * FROM " . $this->getTable() . " WHERE product_id = " . intval($this->product_id)
+
             );
 
             if ($wpdb->num_rows > 0) {

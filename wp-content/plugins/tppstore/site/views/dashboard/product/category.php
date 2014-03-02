@@ -7,7 +7,7 @@
 
     $product_categories = $product->getCategories();
 
-
+/*
     $product_category_1 = $product_category_index_2 = 0;
 
     ?>
@@ -69,4 +69,32 @@
         <?php endif; ?>
     </select>
 </div>
+*/ ?>
+<div class="form-group">
+    <?php renderCatList($categories, $product_categories); ?>
+</div>
+<?php
 
+function renderCatList($categories = array(), $product_categories, $level = 1, $parent = 0) { ?>
+    <?php if (count($categories) > 0): ?>
+        <ul class="cat-list">
+<?php foreach ($categories as $category): ?>
+    <li>
+        <label class="wrap" for="cat_<?php echo $category['category_id']; ?>">
+
+            <input data-level="<?php echo (string)$level; ?>" <?php echo is_array($product_categories) && isset($product_categories[$category['category_id']])?'checked="checked"':'' ?> type="checkbox" class="cats" data-parent="<?php echo $parent ?>" name="category[<?php echo $category['category_id'] ?>]" id="cat_<?php echo $category['category_id']; ?>" value="<?php echo $category['category_id'] ?>">
+            <?php echo $category['category_name'] ?>
+        </label>
+
+        <?php if (!empty($category['children'])): ?>
+            <?php renderCatList($category['children'], $product_categories, $level + 1, $category['category_id']); ?>
+        <?php endif; ?>
+    </li>
+<?php endforeach; ?>
+    </ul>
+        <?php endif; ?>
+
+<?php } ?>
+<script>
+//    var category_options = <?php echo json_encode($categories); ?>;
+</script>

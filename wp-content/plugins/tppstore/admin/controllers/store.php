@@ -110,7 +110,8 @@ class TppStoreAdminControllerStore extends TppStoreAbstractBase {
                 'store_id'  =>  $sid,
             ))->getStoreById();
             $store->setData(array(
-                    'approved'  =>  1
+                    'approved'  =>  1,
+                    'enabled'   =>  1
                 ))->save(true, true);
 
             $user = TppStoreAdminControllerStore::getInstance()->getUserModel()->setData(array(

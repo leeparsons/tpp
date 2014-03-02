@@ -14,7 +14,7 @@ Abstract class TppStoreAbstractModelBase extends TppStoreAbstractModelResource {
 
     Abstract public function save();
     Abstract public function validate();
-    Abstract public function getTitle();
-    Abstract public function getDescription();
+    Abstract public function getSeoTitle();
+    Abstract public function getSeoDescription();
 
 }

@@ -89,7 +89,7 @@ class TppStoreModelP2c extends TppStoreAbstractModelResource {
                  " FROM shop_products AS p
                  INNER JOIN shop_product_stores AS s ON s.store_id = p.store_id AND s.enabled = 1
 
-                    LEFT JOIN (SELECT src, extension, image_id, filename, path, alt, product_id FROM shop_product_images GROUP BY product_id, ordering )
+                    LEFT JOIN (SELECT src, extension, image_id, filename, path, alt, product_id FROM shop_product_images WHERE parent_id = 0 GROUP BY product_id, ordering )
                      AS i ON i.product_id = p.product_id
                     INNER JOIN " . $this->getTable() . " AS p2c ON p2c.product_id = p.product_id AND p2c.category_id = %d
                      LEFT JOIN " . TppStoreModelCategory::getInstance()->getTable() . " AS c ON c.category_id = p2c.category_id AND c.enabled = 1 " .
@@ -206,6 +206,7 @@ class TppStoreModelP2c extends TppStoreAbstractModelResource {
         global $wpdb;
 
 
+
         $rows = $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT c.* FROM " . TppStoreModelCategories::getInstance()->getTable() . " AS c "  .
@@ -267,7 +268,7 @@ class TppStoreModelP2c extends TppStoreAbstractModelResource {
 
 
             if ($wpdb->rows_affected == 0) {
-                TppStoreMessages::getInstance()->addMessage('error', array('product_category'   =>  'Unabel to allocate your selected categories'));
+                TppStoreMessages::getInstance()->addMessage('error', array('product_category'   =>  'Unable to allocate your selected categories' . $wpdb->last_error));
                 $error = true;
             }
 
@@ -322,14 +323,20 @@ class TppStoreModelP2c extends TppStoreAbstractModelResource {
         $error = false;
 
         if (!is_array($this->categories)) {
-            //assume hack!
-            TppStoreMessages::getInstance()->addMessage('error',    array('product_categories'  =>  'Unable to allocate your product to the selected categories'));
+            if (count($this->categories) == 0) {
+                //assume hack!
+                TppStoreMessages::getInstance()->addMessage('error',    array('product_categories'  =>  'Please select a category'));
+
+            } else {
+                //assume hack!
+                TppStoreMessages::getInstance()->addMessage('error',    array('product_categories'  =>  'Unable to allocate your product to the selected categories: ' . $wpdb->last_error));
+            }
             $error = true;
         }
 
         //determine if  product id is set
         if (is_null($this->product_id) || intval($this->product_id) <= 0) {
-            TppStoreMessages::getInstance()->addMessage('error',    array('product_categories'  =>  'Unable to allocate your product to the selected categories'));
+            TppStoreMessages::getInstance()->addMessage('error',    array('product_categories'  =>  'Unable to allocate your product to the selected categories: ' . $wpdb->last_error));
             $error = true;
         }
 

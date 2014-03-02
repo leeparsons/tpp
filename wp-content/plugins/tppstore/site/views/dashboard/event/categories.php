@@ -1,0 +1,1 @@
+<input type="hidden" name="category" id="categories" value="3">

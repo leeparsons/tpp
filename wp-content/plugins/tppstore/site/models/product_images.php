@@ -24,8 +24,8 @@ class TppStoreModelProductImages extends TppStoreAbstractModelResource {
         'full'  =>  array(
 //            'width'     =>  550,
 //            'height'    =>  410,
-            'width'     =>  640,
-            'height'    =>  500,
+            'width'     =>  660,
+            'height'    =>  400,
             'crop'      =>  true
         ),
         'thumb' =>  array(
@@ -155,7 +155,7 @@ class TppStoreModelProductImages extends TppStoreAbstractModelResource {
 
     }
 
-    public function getImages($parent_id = 0, $heriarchical = false)
+    public function getImages($parent_id = 0, $heriarchical = false, $count = false)
     {
 
 
@@ -163,9 +163,21 @@ class TppStoreModelProductImages extends TppStoreAbstractModelResource {
 
             global $wpdb;
 
+            if ($count === true) {
+                $c = $wpdb->get_var(
+                    $wpdb->prepare(
+                        "SELECT COUNT(product_id) AS c FROM " . $this->getTable() . " WHERE product_id = %d AND parent_id = 0",
+                        $this->product_id
+                    )
+                );
+
+                return $c;
+            }
+
+
             if ($parent_id == -1) {
                 $sql = $wpdb->prepare(
-                    "SELECT * FROM " . $this->getTable() . " WHERE product_id = %d ORDER BY ordering, filename ASC",
+                    "SELECT * FROM " . $this->getTable() . " WHERE product_id = %d AND parent_id = 0 ORDER BY ordering, filename ASC",
                     array(
                         $this->product_id
                     )
@@ -201,9 +213,9 @@ class TppStoreModelProductImages extends TppStoreAbstractModelResource {
                             $this->images[$row->image_id] = new TppStoreModelProductImage();
                             $this->images[$row->image_id]->setData($row);
                         } else {
-                            if (isset($this->images[$row->parent_id])) {
-                                $this->images[$row->parent_id]->addChild($row);
-                            }
+//                            if (isset($this->images[$row->parent_id])) {
+//                                $this->images[$row->parent_id]->addChild($row);
+//                            }
                         }
 
                     }
@@ -249,6 +261,8 @@ class TppStoreModelProductImages extends TppStoreAbstractModelResource {
         $original_images = filter_input(INPUT_POST, 'original_pic', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY);
 
         $image_ordering = filter_input(INPUT_POST, 'image_ordering', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY);
+        //image ordering foes not workl
+        //$image_ordering = array();
         $child_image_ordering = filter_input(INPUT_POST, 'child_image_ordering', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY);
 
         if (is_null($new_images)) {
@@ -302,7 +316,7 @@ class TppStoreModelProductImages extends TppStoreAbstractModelResource {
 
 
         //an array containing images to force delete from the database in case we don't hit the delete method
-        $force_delete = $this->filterImages($new_images, $existing_images, $original_images_to_keep, $save_directory, $tmp_product_id, $store_path, $original_images_to_keep_multiplex, $image_ordering, $preview);
+        $force_delete = $this->filterImages($new_images, $existing_images, $original_images_to_keep, $save_directory, $tmp_product_id, $store_path, $original_images_to_keep_multiplex, $image_ordering, $child_image_ordering, $preview);
 
         $tmp = substr($save_directory, strrpos($save_directory, '/') + 1);
 
@@ -391,7 +405,7 @@ class TppStoreModelProductImages extends TppStoreAbstractModelResource {
     }
 
 
-    private function filterImages($new_images = array(), $existing_images = array(), $original_images_to_keep = array(), $save_directory = '', $tmp_product_id = -1, $store_path = '', $original_images_to_keep_multiplex = array(), $image_ordering = array(), $preview = false)
+    private function filterImages($new_images = array(), $existing_images = array(), $original_images_to_keep = array(), $save_directory = '', $tmp_product_id = -1, $store_path = '', $original_images_to_keep_multiplex = array(), $image_ordering = array(), $child_image_ordering = array(), $preview = false)
     {
 
         /*
@@ -480,12 +494,21 @@ class TppStoreModelProductImages extends TppStoreAbstractModelResource {
                 } else {
                     //add it as a non new image!
 
-                    if (isset($image_ordering[$original_images_to_keep_multiplex[$image]->image_id])) {
-                        $ordering = $image_ordering[$original_images_to_keep_multiplex[$image]->image_id];
-                    } elseif (isset($child_image_ordering[$original_images_to_keep_multiplex[$image]->image_id])) {
+                    if (isset($original_images_to_keep_multiplex[$image->image_id])) {
+                        //determine the image_ordering by the parent...
+
+                    }
+
+                    if (isset($child_image_ordering[$original_images_to_keep_multiplex[$image]->image_id])) {
                         $ordering = $child_image_ordering[$original_images_to_keep_multiplex[$image]->image_id];
+                    } elseif (isset($image_ordering[$original_images_to_keep_multiplex[$image]->image_id])) {
+                        $ordering = $image_ordering[$original_images_to_keep_multiplex[$image]->image_id];
                     } else {
+
                         $ordering = $image_ordering[$index];
+
+                        $ordering = isset($image_ordering[$image])?$image_ordering[$image]:$image_ordering[$index];
+
                     }
 
 
@@ -812,6 +835,8 @@ class TppStoreModelProductImages extends TppStoreAbstractModelResource {
         global $wpdb;
 
 
+
+
         foreach ($this->images as $image) {
             $tmp_image = new TppStoreLibraryFileImage();
 
@@ -836,6 +861,7 @@ class TppStoreModelProductImages extends TppStoreAbstractModelResource {
 
 
             if (true === $image->new) {
+
                 //now determine the extension!
                 if (is_null($image->extension)) {
 
@@ -889,84 +915,97 @@ class TppStoreModelProductImages extends TppStoreAbstractModelResource {
                 );
 
 
+                /*
+                 *
+                 * Commenting out saving children in database as not needed
+                 *
+                 */
+//
+//                if ($wpdb->row_affected == 1) {
+//                    $parent_id = $wpdb->insert_id;
+//                } else {
+//                    //this product image already exists in the database, so get its id!
+//                    $parent_id = $wpdb->get_var(
+//                        $wpdb->prepare(
+//                            "SELECT image_id AS parent_id FROM " . $this->getTable() . " WHERE
+//                          product_id = %d AND filename = %s",
+//                            array(
+//                                $this->product_id,
+//                                $image->filename
+//                            )
+//                        )
+//                    );
+//
+//
+//                }
+//
+//                if (isset($image->new) && true === $image->new) {
+//                    //determine if the image is a new image, if so then manipulate it to create the cache versions
+//
+//                    $tmp_image->setFile($image->path . $image->src);
+//
+//
+//
+//                    //a list of sizes, save each database entry for these are children of the main image
+//                    $sizes = self::$_sizes;
+//
+//                    $tmp_image->resize($sizes);
+//                    $sql_array = array();
+//                    $sql_str = '';
+//
+//
+//
+//                    foreach ($sizes as $size_key => $size) {
+//
+//                        $sql_str .= $sql_str == ''?"(%s, %s, %s,%s, %s, %d, %s, %d, %d, %s, %s)":",(%s, %s, %s, %s, %s, %d, %s, %d, %d, %s, %s)";
+//                        $sql_array[] = $image->filename . '_' . $size['width'] . '_' . $size['height'] . '.' . $image->extension;
+//                        $sql_array[] = $image->path;
+//                        $sql_array[] = $image->alt;
+//                        //extension
+//                        $sql_array[] = $image->extension;
+//                        //base name
+//                        $sql_array[] = $image->filename . '_' . $size['width'] . '_' . $size['height'];
+//
+//                        //parent_id
+//                        $sql_array[] = $parent_id;
+//                        //image_size_alias
+//                        $sql_array[] = $size_key;
+//
+//                        $sql_array[] = $this->product_id;
+//                        $sql_array[] = $image->ordering;
+//
+//                        //get the real dimensions and save them:
+//                        $tmp_image->setFile($image->path . $image->filename . '_' . $size['width'] . '_' . $size['height'] . '.' . $image->extension);
+//
+//                        if (false !== ($dimensions = $tmp_image->getDimensions($size))) {
+//                            $sql_array[] = $dimensions['width'];
+//                            $sql_array[] = $dimensions['height'];
+//                        } else {
+//                            $sql_array[] = null;
+//                            $sql_array[] = null;
+//                        }
+//
+//
+//                    }
+//
+//
+//
+//                    $wpdb->query(
+//                        $wpdb->prepare(
+//                            "REPlACE INTO " . $this->getTable() . " (src, path, alt, extension, filename, parent_id, size_alias, product_id, ordering, actual_width, actual_height) VALUES " . $sql_str,
+//                            $sql_array
+//                        )
+//                    );
+//
+//                }
 
-                if ($wpdb->row_affected == 1) {
-                    $parent_id = $wpdb->insert_id;
-                } else {
-                    //this product image already exists in the database, so get its id!
-                    $parent_id = $wpdb->get_var(
-                        $wpdb->prepare(
-                            "SELECT image_id AS parent_id FROM " . $this->getTable() . " WHERE
-                          product_id = %d AND filename = %s",
-                            array(
-                                $this->product_id,
-                                $image->filename
-                            )
-                        )
-                    );
-
-
-                }
-
-                if (isset($image->new) && true === $image->new) {
-                    //determine if the image is a new image, if so then manipulate it to create the cache versions
-
-                    $tmp_image->setFile($image->path . $image->src);
-
-
-
-                    //a list of sizes, save each database entry for these are children of the main image
-                    $sizes = self::$_sizes;
-
-                    $tmp_image->resize($sizes);
-                    $sql_array = array();
-                    $sql_str = '';
-
-
-
-                    foreach ($sizes as $size_key => $size) {
-
-                        $sql_str .= $sql_str == ''?"(%s, %s, %s,%s, %s, %d, %s, %d, %d, %s, %s)":",(%s, %s, %s, %s, %s, %d, %s, %d, %d, %s, %s)";
-                        $sql_array[] = $image->filename . '_' . $size['width'] . '_' . $size['height'] . '.' . $image->extension;
-                        $sql_array[] = $image->path;
-                        $sql_array[] = $image->alt;
-                        //extension
-                        $sql_array[] = $image->extension;
-                        //base name
-                        $sql_array[] = $image->filename . '_' . $size['width'] . '_' . $size['height'];
-
-                        //parent_id
-                        $sql_array[] = $parent_id;
-                        //image_size_alias
-                        $sql_array[] = $size_key;
-
-                        $sql_array[] = $this->product_id;
-                        $sql_array[] = $image->ordering;
-
-                        //get the real dimensions and save them:
-                        $tmp_image->setFile($image->path . $image->filename . '_' . $size['width'] . '_' . $size['height'] . '.' . $image->extension);
-
-                        if (false !== ($dimensions = $tmp_image->getDimensions($size))) {
-                            $sql_array[] = $dimensions['width'];
-                            $sql_array[] = $dimensions['height'];
-                        } else {
-                            $sql_array[] = null;
-                            $sql_array[] = null;
-                        }
-
-
-                    }
-
-
-
-                    $wpdb->query(
-                        $wpdb->prepare(
-                            "REPlACE INTO " . $this->getTable() . " (src, path, alt, extension, filename, parent_id, size_alias, product_id, ordering, actual_width, actual_height) VALUES " . $sql_str,
-                            $sql_array
-                        )
-                    );
-
-                }
+                /*
+                 *
+                 *
+                 * end commenting out children in database
+                 *
+                 *
+                 */
             } else {
                 //just update this image with the new ordering and alt!
                 $wpdb->update(
@@ -988,23 +1027,23 @@ class TppStoreModelProductImages extends TppStoreAbstractModelResource {
                 );
 
                 //just update this image with the new ordering and alt!
-                $wpdb->update(
-                    $this->getTable(),
-                    array(
-                        'alt'       =>  $image->alt,
-                        'ordering'  =>  $image->ordering
-                    ),
-                    array(
-                        'parent_id'  =>  $image->image_id
-                    ),
-                    array(
-                        '%s',
-                        '%d'
-                    ),
-                    array(
-                        '%d'
-                    )
-                );
+//                $wpdb->update(
+//                    $this->getTable(),
+//                    array(
+//                        'alt'       =>  $image->alt,
+//                        'ordering'  =>  $image->ordering
+//                    ),
+//                    array(
+//                        'parent_id'  =>  $image->image_id
+//                    ),
+//                    array(
+//                        '%s',
+//                        '%d'
+//                    ),
+//                    array(
+//                        '%d'
+//                    )
+//                );
             }
             $previous_ordering = $image->ordering;
 

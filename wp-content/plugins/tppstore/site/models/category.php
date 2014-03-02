@@ -33,13 +33,16 @@ class TppStoreModelCategory extends TppStoreAbstractModelBase {
         $this->_p2c_model = new TppStoreModelP2c();
     }
 
-    public function getTitle()
+    public function getSeoTitle()
     {
         return $this->category_name;
     }
 
-    public function getDescription()
+    public function getSeoDescription()
     {
+        if (trim($this->description) == '') {
+            return $this->getSeoTitle();
+        }
         return esc_attr($this->description);
     }
 
@@ -110,7 +113,7 @@ class TppStoreModelCategory extends TppStoreAbstractModelBase {
 
     }
 
-    public function getCategoryBySlug($slug = '')
+    public function getCategoryBySlug($slug = '', $level = 1)
     {
         $slug = trim($slug);
 
@@ -122,8 +125,14 @@ class TppStoreModelCategory extends TppStoreAbstractModelBase {
 
         $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT * FROM " . $this->getTable() . " WHERE category_slug = %s",
-                $slug
+                "SELECT c.* FROM " . $this->getTable() . " AS c
+                LEFT JOIN " . $this->getClosureTable() . " AS p2c ON p2c.child_id = c.category_id
+                WHERE category_slug = %s AND level = %d
+                ",
+                array(
+                    $slug,
+                    $level
+                )
             ),
             OBJECT_K
         );
@@ -174,7 +183,7 @@ LEFT JOIN shop_product_category_closures AS cc2 ON cc2.child_id = c2.category_id
 
 LEFT JOIN shop_product_categories AS c3 ON c3.category_id = cc2.parent_id
 
-LEFT JOIN " . TppStoreModelStore::getInstance()->getTable() . " AS s ON s.store_id = p.store_id AND s.enabled = 1
+/*LEFT JOIN " . TppStoreModelStore::getInstance()->getTable() . " AS s ON s.store_id = p.store_id AND s.enabled = 1*/
 
 WHERE c.category_id = $category_id
 

@@ -2,7 +2,7 @@
 
 <div class="form-group">
     <label for="product_title">Session Title</label>
-    <pre>You can create many different mentor sessions on a range of topics, eg "Business Blitz", "Wedding Portfolio Review" or "Help with Your Online Marketing Plan". Each one will need a separate listing. Here choose the title for this session - it should explain the key area you will cover.</pre>
+    <pre>You can create many different mentor sessions on a range of topics, eg "Business Blitz", "Wedding Portfolio Review" or "Help with Your Online Marketing Plan". Each one will need a separate listing. Here choose the title for this session - it should explain the key area you will cover. The maximum number of letters and spaces allowed is 140.</pre>
     <input type="text" class="form-control" placeholder="session title" id="product_title" name="product_title" value="<?php echo $product->product_title ?>">
 </div>
 
@@ -17,11 +17,11 @@
 
 <input type="hidden" name="product_type" id="product_type" value="4">
 
-<div class="form-group product-type-group <?php if (intval($product->product_type) > 1) {echo 'hidden';} ?>" id="download_group">
+<div class="form-group product-type-group" id="download_group">
     <label>Upload file for download</label>
     <pre>This is optional, and could be information about your session or otherwise. This will be sent out to people who purchase a session with you.</pre>
     <input name="download" type="file" class="form-control">
-    <?php if (intval($product->product_type) == 1 ) { ?>
+
         <input type="hidden" name="original_download" value="<?php echo $product->product_type_text; ?>">
         <?php if($product->product_type_text != ''): ?>
             <p><br>
@@ -31,7 +31,7 @@
             </p>
 
         <?php endif; ?>
-    <?php } ?>
+
 </div>
 
 

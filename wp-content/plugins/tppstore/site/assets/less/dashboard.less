@@ -171,10 +171,30 @@ fieldset.notoggle {
         float:left;
         margin:15px 0 15px 25px;
     }
-    .btn-go {
-        background: #59b746;
-        border-color: #318744;
-        color:#FFFFFF;
+
+}
+
+.btn-go, .item-box .dropdown .btn-go {
+    background: #59b746;
+    border-color: #318744;
+    color:#FFFFFF;
+}
+
+.item-box {
+    .dropdown {
+        .btn-danger {
+            width:100%;
+            border-bottom:1px solid #FFFFFF;
+            border:1px solid #318744;
+            box-shadow: 0 0 4px #A7A7A7;
+            padding:10px;
+            height:35px;
+            line-height:15px;
+            border-left:0;
+            border-right:0;
+            .opacity(90);
+            text-align: left;
+        }
     }
 }
 
@@ -256,6 +276,10 @@ fieldset.notoggle {
     background:url(/assets/images/dashboard-new-mentor-icon.png) no-repeat center center;
 }
 
+.dashboard-event-new {
+    background:url(/assets/images/dashboard/new-event.png) no-repeat center center;
+}
+
 .dashboard-mentors {
     background:url(/assets/images/dashboard-mentors-icon.png) no-repeat center center;
 }
@@ -297,31 +321,80 @@ table.dashboard-list {
         &:first-child {
             padding-left:10px;
         }
-        a {
+        a, span {
             color:@mainColourDarker;
             display: inline-block;
             height: 100%;
             min-height: 50px;
             padding: 5px 0;
             width: 100%;
+            &.btn {
+                color:#FFFFFF;
+                width:90%;
+                margin:auto;
+                height:30px;
+                min-height:30px;
+                padding:5px 20px 5px 10px;
+            }
+            &.btn-primary {
+                background:@mainColourDarker;
+            }
         }
     }
     tbody {
         tr {
             cursor: pointer;
             &:hover {
-                background:@mainColour;
-                a {
-                    color:#FFFFFF;
+                background:@secondaryColourLighter;
+
+                //background:@secondaryColourDarker;
+                a, span {
+                    color:@mainColour;
+                    &.btn {
+                        color:#FFFFFF;
+                    }
                 }
+
+
+
 
             }
 
             &:nth-child(odd) {
                 background:@secondaryColour;
-                &:hover {
-                    background:@mainColour;
+            }
+
+            &.message {
+                td {
+                    padding:5px;
+//                    a.btn-default {
+//                        color:@mainColourDarker;
+//                    }
+
                 }
+            }
+
+
+            &.unread {
+                background:@mainColour;
+
+
+                .btn {
+                    min-height:30px;
+                    height:30px;
+                }
+
+
+                a {
+                    color:#FFFFFF;
+                }
+                &:nth-child(odd) {
+                    background:@mainColour;
+                    a {
+                        color:#FFFFFF;
+                    }
+                }
+
             }
 
 
@@ -329,7 +402,11 @@ table.dashboard-list {
     }
 }
 
-
+.page-article, .page-article-part {
+    header, .entry-content {
+        padding:0 10px;
+    }
+}
 
 .page-article-part {
     header {
@@ -344,6 +421,10 @@ table.dashboard-list {
     width:140px;
 }
 
+.wp-message {
+    float:left;
+    width:100%;
+}
 
 .wp-editor-container {
     border:1px solid @secondaryColourDarker;
@@ -387,4 +468,147 @@ table.dashboard-list {
 
 #description_count {
     display: block;
+}
+
+.item-box {
+    .dropdown {
+        background:@mainColour;
+        position:relative;
+        span {
+            background:url(../../images/dashboard/chevron-down.png);
+            position:absolute;
+            top:0;
+            height:39px;
+            right:0;
+            width:40px;
+            z-index:200;
+            cursor:pointer;
+            border-left:1px solid #FFFFFF;
+        }
+        a {
+            background:transparent;
+            color:#FFFFFF;
+            padding:10px;
+            border-bottom:1px solid #FFFFFF;
+        }
+    }
+}
+
+.cat-list {
+    list-style-type:none;
+    margin:0;
+    padding:0;
+    width:100%;
+    li {
+
+        border-bottom:5px solid #FFFFFF;
+        padding:0;
+        float:left;
+        width:340px;
+        background:@secondaryColour;
+
+        clear:both;
+
+        label {
+            cursor:pointer;
+            padding:5px 10px;
+            width:100%;
+            height:100%;
+            float:left;
+        }
+    }
+    ul {
+
+        padding:0 30px;
+
+        float:left;
+
+
+        li {
+
+            border-bottom:0;
+            width:250px;
+        }
+    }
+}
+.ui-datepicker-calendar {
+
+    .ui-state-highlight {
+        min-height: 20px;
+    }
+}
+
+.ui-helper-clearfix:after {
+    float:left;
+    overflow:hidden;
+}
+
+fieldset {
+    label, pre {
+        float:left;
+    }
+    pre {
+        clear:both;
+    }
+    label {
+        margin-right:10px;
+    }
+    .form-control {
+        float:left;
+        margin-bottom:20px;
+    }
+    input[type="file"] {
+        margin-bottom:10px;
+    }
+}
+
+.message-table {
+    border:2px solid @mainColour;
+    margin-bottom:20px;
+
+    tr.first {
+        td {
+            background:@mainColour;
+            color:#ffffff;
+        }
+    }
+
+    tr.second {
+        td {
+            border-bottom:1px solid @mainColour;
+        }
+    }
+
+    td {
+
+        padding:5px;
+
+        &.lft {
+            width:100px;
+            border-right:1px solid @mainColour;
+        }
+    }
+}
+
+table.deleted {
+    border-color: #750000;
+    color:#750000;
+    tr.first {
+        td {
+            background:#750000;
+            color:#ffffff;
+        }
+    }
+
+    tr.second {
+        td {
+            border-bottom:1px solid #750000;
+        }
+    }
+
+    td {
+        &.lft {
+            border-right:1px solid #750000;
+        }
+    }
 }

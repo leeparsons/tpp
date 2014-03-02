@@ -27,7 +27,7 @@
 
 <table>
     <tr>
-    <tr style="color:#78A5D4;font-size:12px;font-weight:600">Rosie Parsons</td>
+    <td style="color:#78A5D4;font-size:12px;font-weight:600">Rosie Parsons</td>
     </tr>
     <tr>
         <td style="color:#78A5D4;font-size:12px;">The Photography Parlour</td>

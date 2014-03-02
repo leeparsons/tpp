@@ -11,12 +11,12 @@ class TppStoreModelCart extends TppStoreAbstractModelBase {
 
     private $exchange_rates = array();
 
-    public function getTitle()
+    public function getSeoTitle()
     {
         return 'Cart';
     }
 
-    public function getDescription()
+    public function getSeoDescription()
     {
         return 'Your Cart';
     }
@@ -265,7 +265,7 @@ class TppStoreModelCart extends TppStoreAbstractModelBase {
 
 
                     //discount should be on the discounted total
-                    //$this->_cart['stores'][$store_id]['products'][$product->product_id]->discount = TppStoreAdapterDiscount::getInstance()->getUserDiscountByProduct($product) * (1 + ($product->tax_rate/100));
+                    $this->_cart['stores'][$store_id]['products'][$product->product_id]->discount = TppStoreAdapterDiscount::getInstance()->getUserDiscountByProduct($product) * (1 + ($product->tax_rate/100));
 
 //                    if ($product->price_includes_tax == 1) {
 //                        $this->_cart['stores'][$store_id]['sub_total'] += $product->order_quantity * $product->price * (1-($product->tax_rate/100));
@@ -555,6 +555,21 @@ class TppStoreModelCart extends TppStoreAbstractModelBase {
 
     public function validate()
     {
+
+    }
+
+    public function getSToreTotal($store_id = 0)
+    {
+        if (intval($store_id) < 1 || !isset($this->_cart['stores'][$store_id])) {
+            return 0;
+        }
+
+
+
+
+
+        return TppStoreModelCurrency::getInstance()->formatAmount($this->_cart['stores'][$store_id]['total'], false, false);
+
 
     }
 

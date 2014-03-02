@@ -1,7 +1,7 @@
 <?php wp_enqueue_script('jquery-ui-sortable'); ?>
-<?php wp_enqueue_script('file_uploads', '/assets/js/file_upload.js', 'jquery', '1', true) ?>
-<?php wp_enqueue_script('file_uploads_engine', '/assets/js/jquery.filedrop.js', 'jquery', '1', true) ?>
-<?php wp_enqueue_script('tpp_product_dashboard', TPP_STORE_PLUGIN_URL . '/site/assets/js/dashboard/product-ck.js', 'jquery', 2.3, true); ?>
+<?php wp_enqueue_script('file_uploads', '/assets/js/file_upload-ck.js', array('jquery'), '1', true) ?>
+<?php wp_enqueue_script('file_uploads_engine', '/assets/js/jquery.filedrop.js', array('jquery'), '1', true) ?>
+<?php wp_enqueue_script('tpp_product_dashboard', TPP_STORE_PLUGIN_URL . '/site/assets/js/dashboard/product-ck.js', array('jquery'), 3.5, true); ?>
 <?php wp_enqueue_style('uploads', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/upload.css'); ?>
 <script>var currency = '<?php echo $store->getFormattedCurrency() ?>';</script>
 <form method="post" enctype="multipart/form-data" id="product_form">
@@ -128,14 +128,14 @@
 
                 <?php if (intval($product->enabled) == 1): ?>
                     <input type="submit" class="btn-primary btn" value="Save">
-                    <input type="submit" class="btn-primary btn unpublish" value="Save &amp; Go offline">
+                    <input type="submit" class="btn-danger btn unpublish" value="Save &amp; Go offline">
                 <?php else: ?>
                     <input type="submit" class="btn-primary btn unpublish<?php
 
                     //if the product has never been created, then it's published by default. If they only want to save then force it unpublished
 
                     ?>" value="Save">
-                    <input type="submit" class="btn-primary btn publish" value="Save &amp; Go live">
+                    <input type="submit" class="btn-go btn publish" value="Save &amp; Go live">
                 <?php endif; ?>
 
 
@@ -157,6 +157,3 @@
     <input type="hidden" name="sid" value="<?php echo $store_id ?>">
     <input type="hidden" id="senabled" value="<?php echo intval($store->enabled) ?>">
 </form>
-<script>
-    var category_options = <?php echo json_encode($categories); ?>;
-</script>

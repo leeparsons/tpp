@@ -32,6 +32,17 @@ class TppStoreModelWishlist extends TppStoreAbstractModelBase {
         return 'Wish List';
     }
 
+    public function getSeoTitle()
+    {
+        return 'Wish list';
+    }
+
+    public function getSeoDescription()
+    {
+        return 'Wish List';
+    }
+
+
     public function readFromPost()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -101,8 +112,7 @@ class TppStoreModelWishlist extends TppStoreAbstractModelBase {
                 $wpdb->prepare(
                     "SELECT * FROM " . $this->getTable() . " WHERE user_id = %d",
                     intval($this->user_id)
-                ),
-                OBJECT_K
+                )
             );
 
             if ($wpdb->num_rows == 1) {

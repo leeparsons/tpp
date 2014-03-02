@@ -5,7 +5,7 @@ class TppStoreControllerCart extends TppStoreAbstractBase {
 
     public static function getCartTotalsFormatted()
     {
-        return '&pound;' . self::getCartModel()->getTotalsFormatted();
+        return geo::getInstance()->getCurrencyHtml() . self::getCartModel()->getTotalsFormatted();
     }
 
     public function applyRewriteRules()
@@ -69,8 +69,9 @@ class TppStoreControllerCart extends TppStoreAbstractBase {
 
                     $cart->load(true);
 
-                    add_filter( 'wp_title', (function() use($cart) {TppStoreAbstractBase::pageTitle(array($cart));}), 10, 2);
-                    $this::$_meta_description = $cart->getDescription();
+                    //add_filter( 'wp_title', (function() use($cart) {TppStoreAbstractBase::pageTitle(array($cart));}), 10, 2);
+                    $this->pageTitle($cart);
+                    $this::$_meta_description = $cart->getSeoDescription();
 
                     wp_enqueue_style('cart', TPP_STORE_PLUGIN_URL . '/site/assets/css/cart.css');
 

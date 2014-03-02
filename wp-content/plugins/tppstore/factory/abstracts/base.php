@@ -12,9 +12,16 @@ if (!class_exists('TppStoreAbstractInstantiable')) {
 
 Abstract class TppStoreAbstractBase extends TppStoreAbstractInstantiable {
 
-    public static $_meta_description= null;
+    public static $_meta_description= '';
 
-    public static $_meta_title = null;
+    public static $_meta_title = '';
+
+    protected $_is_dashboard = false;
+
+    public function isDashboard()
+    {
+        return $this->_is_dashboard;
+    }
 
     public static function checkRobot()
     {
@@ -34,16 +41,34 @@ Abstract class TppStoreAbstractBase extends TppStoreAbstractInstantiable {
         $title = array();
         if (is_array($entity)) {
             foreach ($entity as $en) {
-                $title[] = esc_attr($en->getTitle());
+                if (is_string($en)) {
+                    $title[] = esc_attr($en);
+                } else {
+                    $title[] = esc_attr($en->getSeoTitle());
+                }
             }
         } elseif (is_object($entity)) {
-            $title[] = esc_attr($entity->getTitle());
+            $title[] = esc_attr($entity->getSeoTitle());
         } elseif (is_string($entity)) {
             $title[] = $entity;
         }
 
 
-        TppStoreAbstractBase::$_meta_title = implode(' - ', $title);
+        TppStoreAbstractBase::$_meta_title .= implode(' - ', $title);
+    }
+
+    public function setPageDescription($entity = false)
+    {
+
+        if (is_array($entity)) {
+            foreach ($entity as $en) {
+                TppStoreAbstractBase::$_meta_description .= $en->getSeoDescription();
+            }
+        } elseif (is_string($entity)) {
+            TppStoreAbstractBase::$_meta_description = $entity;
+        } elseif (is_object($entity)) {
+            TppStoreAbstractBase::$_meta_description = $entity->getSeoDescription();
+        }
     }
 
     public static function pageDescription($entity = false)
@@ -52,10 +77,10 @@ Abstract class TppStoreAbstractBase extends TppStoreAbstractInstantiable {
         $description = array();
         if (is_array($entity)) {
             foreach ($entity as $en) {
-                $description[] = $en->getDescription();
+                $description[] = $en->getSeoDescription();
             }
         } else {
-            $description[] = $entity->getDescription();
+            $description[] = $entity->getSeoDescription();
         }
 
 
@@ -97,6 +122,11 @@ Abstract class TppStoreAbstractBase extends TppStoreAbstractInstantiable {
         return new TppStoreModelProducts();
     }
 
+    public function getEventsModel()
+    {
+        return new TppStoreModelModelEvents();
+    }
+
     public function getMentorsModel()
     {
         return new TppStoreModelMentors();
@@ -127,6 +157,11 @@ Abstract class TppStoreAbstractBase extends TppStoreAbstractInstantiable {
         return new TppStoreModelStorePages();
     }
 
+    public function getEventModel()
+    {
+        return new TppStoreModelEvent();
+    }
+
     public function getOrderModel()
     {
         return new TppStoreModelOrder();
@@ -135,6 +170,11 @@ Abstract class TppStoreAbstractBase extends TppStoreAbstractInstantiable {
     public function getOrderItemsModel()
     {
         return new TppStoreModelOrderItems();
+    }
+
+    public function getMessagesModel()
+    {
+        return new TppStoreModelMessages();
     }
 
     public function getMessageModel()
@@ -165,24 +205,49 @@ Abstract class TppStoreAbstractBase extends TppStoreAbstractInstantiable {
 
     public function redirectToDashboard($path = '')
     {
+        if ($path !== '') {
+            if (substr($path, -1) !== '/') {
+                $path .= '/';
+            }
+        }
         header('Location: /shop/dashboard/' . $path);
         exit;
     }
 
     public function redirectToAccount($path = '')
     {
+
+
         if ($path !== '') {
             $path = '/' . $path;
         }
 
-        header('Location: /shop/myaccount' . $path);
+        if ($path !== '') {
+            if (substr($path, -1) !== '/') {
+                $path .= '/';
+            }
+        }
+
+        if (substr($path, 0, 1) == '') {
+            $path = substr($path, 1);
+        }
+
+        header('Location: /shop/myaccount/' . $path);
         exit;
     }
 
-    public function redirect($path = '/')
+    public function redirect($path = '/', $add_trailing_slash = true)
     {
+
+
+
+        if ($add_trailing_slash === true && $path !== '' && strpos($path, '?') !== false) {
+            if (substr($path, -1) !== '/') {
+                $path .= '/';
+            }
+        }
         header('Location: ' . $path);
-        exit;
+        die;
     }
 
     public function redirectToLogin($args = '')
@@ -217,6 +282,16 @@ Abstract class TppStoreAbstractBase extends TppStoreAbstractInstantiable {
     protected function redirectToStage($stage = 1)
     {
         header('Location: /shop/store_register/' . $stage);
+        exit;
+    }
+
+    protected function redirectToReferer()
+    {
+        if (!empty($_SERVER['HTTP_REFERER'])) {
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        } else {
+            header('Location: ' . '/');
+        }
         exit;
     }
 
@@ -262,6 +337,15 @@ Abstract class TppStoreAbstractBase extends TppStoreAbstractInstantiable {
 
     }
 
+    private function _setUncachedHeader()
+    {
+
+        header('Cache-Control:public, max-age=0');
+        header('Expires: Mon, 25 Jun 2012 21:31:12 GMT');
+
+    }
+
+
     /*
      * @param status = status string
      */
@@ -274,6 +358,11 @@ Abstract class TppStoreAbstractBase extends TppStoreAbstractInstantiable {
 
     protected function sendMail($to, $subject, $message)
     {
+        if (getenv('ENVIRONMENT') == 'local') {
+            $to = 'parsolee@gmail.com';
+
+        }
+
         $headers = "From: Rosie Parsons <rosie@thephotographyparlour.com>" . "\r\n";
         $headers .= "Reply-to: rosie@thephotographyparlour.com" . "\r\n";
         $headers .= "Return-Path: rosie@thephotographyparlour.com" . "\r\n";
@@ -282,7 +371,7 @@ Abstract class TppStoreAbstractBase extends TppStoreAbstractInstantiable {
         $headers .= "Content-type: text/html; charset=iso-8859-1" . "\r\n";
         $headers .= "X-Priority: 3" . "\r\n";
         $headers .= "X-Mailer: PHP". phpversion() . "\r\n";
-        mail($to, $subject, $message, $headers, "-frosie@thephotographyparlour.com");
+        mail($to, $subject, $message, $headers, "-f rosie@thephotographyparlour.com");
     }
 
 

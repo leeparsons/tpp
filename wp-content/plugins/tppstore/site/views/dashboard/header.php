@@ -1,7 +1,3 @@
 <?php get_header(); ?>
-<?php if ($user->isLoggedIn()): ?>
-    <div class="aside-25 dashboard">
-    <?php include 'sidebar_dashboard.php'; ?>
-</div>
-<?php endif; ?>
+    <?php TppStoreControllerDashboard::getInstance()->renderSidebar(); ?>
 <div class="aside-75 dashboard">

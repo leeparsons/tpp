@@ -128,10 +128,20 @@ class TppStoreModelCategories extends TppStoreAbstractModelResource {
             $group = "GROUP BY c.category_id";
         }
 
+        if (isset($args['exclude'])) {
+            $where .= " AND c.category_id NOT IN (" . implode(',', $args['exclude']) . ") ";
+        }
+
+        if (isset($args['category_id'])) {
+            $where .= " AND category_id IN (" . implode(',', $args['category_id']) . ") ";
+        }
+
 
         if (stripos($where, 'WHERE') === false) {
             $where = " WHERE " . $where;
         }
+
+
 
 
         $rows = $wpdb->get_results(

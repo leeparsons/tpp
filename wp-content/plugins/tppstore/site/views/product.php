@@ -7,7 +7,7 @@
 
 
 
-$images = $product->getImagesBySize('full');
+$images = $product->getImagesBySize('main');
 
 if (count($images) > 0):
 
@@ -25,8 +25,10 @@ if (count($images) > 0):
         if ($i == 0) {
             $main_image = $og_images[$i];
         }
-
-        $slide_images[] = '<img ' . $image->getWidth(true) . ' ' . $image->getHeight(true) . ' ' .  ($i>0?'class="vhidden"':'class="active"') . ' src="' . $og_images[$i] . '" alt="' . $image->alt . '">';
+        if (wp_is_mobile() && $i > 0) {
+            continue;
+        }
+        $slide_images[] = '<img ' .  ($i>0?'class="vhidden"':'class="active"') . ' src="' . $og_images[$i] . '" alt="' . $image->alt . '">';
         $thumb_images[] = '<img ' . ($i>0?'':'class="active"') . ' src="' . $image->getSrc('slideshow_thumb') . '" alt="slide thumbnail ' . $image->alt . '">';
         $i++;
     endforeach;
@@ -96,189 +98,112 @@ if (count($images) > 0): ?>
     </div>
     </div>
 <?php endif; ?>
+    <div class="half-right">
 
-<div class="half-right">
+        <?php
 
-    <form class="cart-group" id="cart_form" method="post" action="/shop/cart/add">
+        switch ($product->product_type) {
+            case '4':
+                include TPP_STORE_PLUGIN_DIR . 'site/views/product/mentor/cart.php';
+                break;
 
-        <div class="product-particulars">
-            <header>
-                <h1><?php echo $product->product_title; ?></h1>
-            </header>
+            case '5':
+                include TPP_STORE_PLUGIN_DIR . 'site/views/product/event/cart.php';
+                break;
+            default:
+                include TPP_STORE_PLUGIN_DIR . 'site/views/product/default/cart.php';
+                break;
+        }
+        ?>
 
-            <div class="form-group">
-                <a href="<?php echo $store->getPermalink() ?>"><span>by: <span class="author"><?php echo $store->store_name ?></span></span></a>
-            </div>
 
-            <?php $product_options = $product->getOptions(); ?>
-            <!--        <fieldset>-->
-            <!--            <legend>Add to cart</legend>-->
-            <!--        </fieldset>-->
-            <?php if (intval($product->unlimited) == 1 || $product->quantity_available > 0): ?>
-                <div class="form-group">
-                    <?php if (false !== $product_options): ?>
-                        <select name="product_option">
-                            <option value="-1"><?php echo $product->getFormattedPrice(true) ?></option>
-                            <?php foreach ($product_options as $option): ?>
-                                <option value="<?php echo $option->option_id ?>"><?php echo $option->option_name . ' ' . $product->getFormattedCurrency() . $option->option_price ?></option>
-                            <?php endforeach ?>
-                        </select>
-                    <?php else: ?>
-                        <p><strong><?php echo $product->getFormattedPrice(true) ?></strong></p>
-                    <?php endif; ?>
-                </div>
-                <?php $sold_out = false; ?>
-                <div class="form-group">
-                    <?php if (intval($product->unlimited) == 0): ?>
-                        <?php if ($product->quantity_available > 0): ?>
-                            <p><strong><?php echo $product->quantity_available ?> Available</strong></p>
-                        <?php else: ?>
-                            <?php $sold_out = true; ?>
-                            <p><strong class="red">Sorry, sold out!</strong></p>
-                        <?php endif; ?>
-                    <?php endif; ?>
-                </div>
+        <div class="product-aside align-left white-bg" id="wish_list">
 
-                <div class="form-group hidden">
-                    <label for="quantity">Quantity:</label>
-                    <input type="text" class="form-control" value="1" name="quantity" id="quantity">
-                    <input type="hidden" id="product" name="product" value="<?php echo $product->product_id ?>">
-                </div>
-
+            <?php if (false === $user): ?>
+                <a class="btn btn-primary" href="/shop/store_login/?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']) ?>">Login to add to your wish list</a>
             <?php else: ?>
-                <?php $sold_out = true; ?>
-                <div class="form-group">
-                    <p><strong>Sorry, sold out!</strong></p>
-                </div>
+                <form method="post" action="/shop/wishlist/add/">
+                    <input type="hidden" name="product" value="<?php echo $product->product_id ?>">
+                    <input type="submit" value="Add to wishlist" class="btn btn-primary form-control">
+                </form>
+                <a href="/shop/myaccount/wishlist" class="btn btn-primary"><?php
+
+                    $total = TppStoreModelWishlist::getInstance()->setData(array(
+                        'user_id'   =>  $user->user_id
+                    ))->getTotalItems();
+
+                    echo $total;
+
+                    ?> item<?php echo $total == 1?'':'s' ?> in your wish list</a>
             <?php endif; ?>
-        <?php if (false === $sold_out): ?>
-            <div class="form-group cart-buttons">
-                <?php if($product->getDiscount()->isSocialDiscount()): ?>
-                    <?php if (false !== $user):  ?>
-                        <a href="#" id="fb_share" class="btn btn-primary align-left wrap">Share on Facebook to get a 5% discount!</a>
-                        <a class="hidden" id="f_click" href="#"></a>
-                    <?php else: ?>
-                        <a class="btn btn-primary align-left wrap" href="/shop/store_login/?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']) ?>">Login to get a discount</a>
-                    <?php endif; ?>
-                    <input type="submit" value="add to cart" class="align-right btn-primary btn-cart btn form-control">
-                <?php else: ?>
-                    <input type="submit" value="add to cart" class="btn-primary btn-cart btn form-control">
-                <?php endif; ?>
-            </div>
         </div>
-        <?php endif; ?>
-    </form>
-
-    <div class="product-aside align-left white-bg" id="wish_list">
-
-        <?php if (false === $user): ?>
-            <a class="btn btn-primary" href="/shop/store_login/?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']) ?>">Login to add to your wish list</a>
-        <?php else: ?>
-            <form method="post" action="/shop/wishlist/add/">
-                <input type="hidden" name="product" value="<?php echo $product->product_id ?>">
-                <input type="submit" value="Add to wishlist" class="btn btn-primary form-control">
-            </form>
-            <a href="/shop/myaccount/wishlist" class="btn btn-primary"><?php
-
-                $total = TppStoreModelWishlist::getInstance()->setData(array(
-                    'user_id'   =>  $user->user_id
-                ))->getTotalItems();
-
-                echo $total;
-
-                ?> item<?php echo $total == 1?'':'s' ?> in your wish list</a>
-        <?php endif; ?>
     </div>
-</div>
 
 
 
+    <div class="half-left">
+    <?php
 
-<div class="half-left">
+    include TPP_STORE_PLUGIN_DIR . 'site/views/product/default/share.php';
+
+    ?>
+
     <div class="description">
         <h2>Details</h2>
         <div class="wrap"><pre><?php echo $product->product_description ?></pre></div>
     </div>
+    <?php
+
+    include TPP_STORE_PLUGIN_DIR . 'site/views/product/default/share.php';
+
+    ?>
 </div>
+
 <div class="half-right" id="store_profile">
+
+    <?php
+
+    switch ($product->product_type) {
+        case '4':
+            include TPP_STORE_PLUGIN_DIR . 'site/views/product/mentor/mentor_card.php';
+            break;
+
+        case '5':
+            include TPP_STORE_PLUGIN_DIR . 'site/views/product/event/event_card.php';
+            break;
+
+        default:
+            include TPP_STORE_PLUGIN_DIR . 'site/views/product/default/store_card.php';
+            break;
+    }
+
+
+
+
+    ?>
+
+
+
     <div class="product-aside align-left">
-        <a class="store-tag" href="<?php echo $store->getPermalink() ?>"><strong>About this store</strong></a>
-
-        <?php echo $store->getSrc(true, 'store_thumb'); ?>
-        <a class="indent" href="/shop/profile/<?php echo $store->user_id ?>"><?php echo $store->getStoreByUserID()->getOwner() ?></a>
-
-
-
-        <span class="indent"><?php echo $store->getLocation() ?></span>
-
-        <a class="indent" href="<?php echo $store->getPermalink() ?>">Read more about the seller</a>
-
-
-
-        <div id="facebook_friends" class="align-left wrap"></div>
-
+        <a href="/shop/ask/<?php echo $store->store_slug ?>/" class="btn btn-primary form-control">Ask store owner a question</a>
     </div>
 
-<?php /*
- TODO: add for launch
-    <div class="product-aside align-left">
-        <form method="post" action="/shop/store/ask">
-            <div class="form-group">
-            <input type="hidden" name="store" value="<?php echo $store->store_id ?>">
-            <input type="submit" value="Ask Store Owner a Question" class="btn btn-primary form-control">
-            </div>
-        </form>
-    </div>
-*/ ?>
-    <?php $store_products = $store->getProducts(1, 1, false, 3, $product->product_id);
+    <?php
+
+    switch ($product->product_type) {
+        case '4':
+            include TPP_STORE_PLUGIN_DIR . 'site/views/product/mentor/mentor_sessions.php';
+            break;
+
+        default:
+            include TPP_STORE_PLUGIN_DIR . 'site/views/product/default/store_products.php';
+            break;
+    }
 
 
-    if (!empty($store_products)): ?>
-        <div class="align-left store-products product-aside">
 
-            <h3 class="indent">Some of my products</h3>
 
-            <div class="white-bg">
-
-            <?php $store_product_count = count($store_products); ?>
-
-            <?php $iterator = 1; foreach($store_products as $store_product): ?>
-                <?php
-
-                $store_main_image = $store_product->getMainImage('main');
-
-                $permalink = $store_product->getPermalink()
-
-                ?>
-                <div class="store-product wrap <?php echo $iterator == $store_product_count?'last':'' ?>">
-                    <?php if (!empty($store_main_image)): ?>
-                    <a class="align-left" href="<?php echo $permalink; ?>"><?php echo $store_main_image['main']->getSrc('store_related', true); ?></a>
-                    <?php endif; ?>
-                    <div class="align-left store-product-meta">
-                        <a class="wrap" href="<?php echo $permalink; ?>"><strong><?php echo $store_product->getShortTitle(); ?></strong></a>
-                    </div>
-
-                        <form method="post" action="/shop/cart/add">
-                            <?php
-
-                                //echo $store_product->getDisplayAvailability();
-
-                                ?>
-                            <a class="price" href="<?php echo $permalink; ?>"><?php echo $store_product->getFormattedPrice(true); ?></a>
-                            <input type="hidden" name="product"  value="<?php echo $store_product->product_id; ?>">
-                            <input type="hidden" name="quantity" value="1">
-                            <input type="submit" class="align-right btn btn-primary" value="Add to Cart">
-                        </form>
-                </div>
-
-            <?php $iterator++; endforeach;
-
-            unset($store_main_image);
-            ?>
-            </div>
-        </div>
-
-    <?php endif; ?>
+   ?>
 
     <?php /* categories
 
@@ -421,5 +346,5 @@ if (count($images) > 0): ?>
     var title = "<?php echo esc_attr($product->product_title) ?>";
     var shop_fb_id = "<?php echo $store->getFacebookId() ?>";
     var description = "<?php echo esc_attr(str_replace('<br>', ' ', nl2br($product->excerpt, false))) ?>";
-    <?php wp_enqueue_script('product', TPP_STORE_PLUGIN_URL . '/site/assets/js/product-ck.js', 'jquery', 1.1, true) ?></script>
+    <?php wp_enqueue_script('product', TPP_STORE_PLUGIN_URL . '/site/assets/js/product-ck.js', array('jquery'), 2.5, true) ?></script>
 <?php get_footer();

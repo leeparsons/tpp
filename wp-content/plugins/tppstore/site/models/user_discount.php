@@ -14,8 +14,29 @@ class TppStoreModelUserDiscount extends TppStoreAbstractModelResource {
     public $user_id = null;
     public $max_uses = 0;
     public $uses = 0;
+    public $used = 0;
+
+    public $product_ids = array();
 
     protected $_table = 'shop_user_discounts';
+
+
+    //increment the number of social share discount uses per product/user
+    public function incrementUses()
+    {
+
+        if (intval($this->user_id) < 1 || empty($this->product_ids)) {
+            return false;
+        }
+
+        global $wpdb;
+
+        $sql = "UPDATE " . $this->getTable() . " set uses = uses + 1, used = 1 WHERE user_id = " . intval($this->user_id) . " AND product_id IN (" . implode(',', $this->product_ids) . ") AND used = 0";
+
+        $wpdb->query($sql);
+
+    }
+
 
     public function readFromPost()
     {
@@ -50,7 +71,7 @@ class TppStoreModelUserDiscount extends TppStoreAbstractModelResource {
                 INNER JOIN " . TppStoreModelProductDiscount::getInstance()->getTable() . " AS pd ON pd.product_id = d.product_id
 
                 WHERE user_id = " . $this->user_id . "
-                AND max_uses > uses
+                AND (max_uses > uses OR max_uses = 0) AND used = 0
                 ",
                 OBJECT_K
             );
@@ -80,13 +101,12 @@ class TppStoreModelUserDiscount extends TppStoreAbstractModelResource {
 
         $wpdb->get_row(
             $wpdb->prepare(
-                "SELECT * FROM " . $this->getTable() . " WHERE product_id = %d AND user_id = %d",
+                "SELECT * FROM " . $this->getTable() . " WHERE product_id = %d AND user_id = %d AND used = 0",
                 array(
                     $this->product_id,
                     $this->user_id
                 )
-            ),
-            OBJECT_K
+            )
         );
 
         if ($wpdb->num_rows == 1) {
@@ -110,11 +130,12 @@ class TppStoreModelUserDiscount extends TppStoreAbstractModelResource {
         //determine if a discount has already been applied for this product?
         if (true === $this->getDiscountUseByUserAndProduct()) {
 
-            if ($this->max_uses > $this->uses) {
+            if ($this->max_uses == 0 || $this->max_uses > $this->uses) {
                 $wpdb->update(
                     $this->getTable(),
                     array(
-                        'uses'          =>  $this->uses
+                        'uses'          =>  $this->uses,
+                        'used'          =>  $this->used
                     ),
                     array(
                         'product_id'    =>  $this->product_id,

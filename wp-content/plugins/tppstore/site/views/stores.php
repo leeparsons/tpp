@@ -9,21 +9,24 @@ get_header(); ?>
 
 <header>
     <h1>Shop</h1>
-    <p>All our vendors have their own stores, you can either shop by store or shop by category.</p>
-    <a href="" class="btn btn-primary">Shop by Store</a><a href="" class="btn btn-primary">Shop by category</a>
+
+<!--    <p>All our vendors have their own stores, you can either shop by store or shop by category.</p>-->
+<!--    <a href="" class="btn btn-primary">Shop by Store</a><a href="" class="btn btn-primary">Shop by category</a>-->
 </header>
 
 <div class="wrap" id="stores">
     <?php if (count($stores) > 0): ?>
+        <?php $i = 1; ?>
         <ul class="item-list">
         <?php foreach($stores as $store): ?>
-            <li class="item-box">
+            <li class="item-box <?php echo $i%4?'':'last' ?>">
                 <a href="<?php echo $store->getPermalink() ?>">
                 <img src="<?php echo $store->getSrc(false, 'thumb') ?>" alt="<?php echo $store->store_name ?>">
                 <span><?php echo $store->store_name ?></span>
-                <strong>Vendor: <?php echo $store->getOwner() ?></strong>
+                <strong class="store-tag">Vendor: <?php echo $store->getOwner() ?></strong>
                 </a>
             </li>
+            <?php $i++ ?>
         <?php endforeach; ?>
         </ul>
     <?php else: ?>

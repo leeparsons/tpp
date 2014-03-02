@@ -16,12 +16,15 @@ class TppStoreModelOrder extends TppStoreModelCurrency {
     public $gateway = null;
     public $store_id = null;
     public $total = 0;
-    public $tax_rate = 0;
+    public $tax = 0;
     public $discount = 0;
     public $commission = 0;
     public $user_id = 0;
-
+    public $exchange_rates = null;
     public $ref = '';
+    public $message = null;
+
+    public $currency = 'GBP';
 
     protected $_payment_model = null;
 
@@ -43,12 +46,26 @@ class TppStoreModelOrder extends TppStoreModelCurrency {
 //        }
 //    }
 
-    public function getTitle()
+    public function serializeExchangeRates()
+    {
+        if (!is_serialized($this->exchange_rates)) {
+            $this->exchange_rates = serialize($this->exchange_rates);
+        }
+    }
+
+    public function unserializeExchangeRates()
+    {
+        if (is_serialized($this->exchange_rates)) {
+            $this->exchange_rates = unserialize($this->exchange_rates);
+        }
+    }
+
+    public function getSeoTitle()
     {
         return 'Order';
     }
 
-    public function getDescription()
+    public function getSeoDescription()
     {
         return 'Order';
     }
@@ -59,13 +76,13 @@ class TppStoreModelOrder extends TppStoreModelCurrency {
     }
 
 
-    public function getFormattedTotal($total = false)
+    public function getFormattedTotal($total = false, $override_currency = false)
     {
 
         if (false === $total) {
             $total = $this->total;
         }
-        return $this->getFormattedCurrency() . number_format($total, 2);
+        return $this->getFormattedCurrency(true, $override_currency) . number_format($total, 2);
 
 
     }
@@ -86,7 +103,71 @@ class TppStoreModelOrder extends TppStoreModelCurrency {
         }
     }
 
-    public function getOrdersByUser($page = 1, $count = false)
+    public function getOrdersReceivedByStore($page = 1, $count = false, $status = 'complete')
+    {
+
+        $return = array();
+
+        if (intval($this->store_id) > 0) {
+
+
+            global $wpdb;
+
+
+            if (true === $count) {
+                $c = $wpdb->get_var(
+                    $wpdb->prepare(
+                        "SELECT COUNT(order_id) AS c FROM " . $this->getTable() . " WHERE store_id = %d AND status = %s",
+                        array(
+                            $this->store_id,
+                            $status
+                        )
+                    )
+                );
+
+                return $c;
+            }
+
+            if ($page == 0) {
+                $page = 1;
+            }
+
+            $start = (($page-1) * 20);
+
+            $wpdb->query(
+                $wpdb->prepare(
+                    "SELECT o.*, COUNT(h.order_id) AS count_items FROM " . $this->getTable() . " AS o
+                LEFT JOIN " . TppStoreModelOrderItems::getInstance()->getTable() . " AS h ON h.order_id = o.order_id
+                WHERE o.store_id = %d
+                AND o.status = %s
+                GROUP BY o.order_id
+                ORDER BY o.order_date DESC
+                LIMIT $start, 20
+                ",
+                    $this->store_id,
+                    $status
+                ),
+                OBJECT_K
+            );
+
+
+
+            if ($wpdb->num_rows > 0) {
+
+
+                foreach ($wpdb->last_result as $row) {
+                    $return[$row->order_id] = new TppStoreModelOrder();
+                    $return[$row->order_id]->setData($row);
+                }
+            }
+
+        }
+
+
+        return $return;
+    }
+
+    public function getOrdersByUser($page = 1, $count = false, $status = 'complete')
     {
 
         if (intval($this->user_id) == 0) {
@@ -99,28 +180,40 @@ class TppStoreModelOrder extends TppStoreModelCurrency {
         if (true === $count) {
             $c = $wpdb->get_var(
                 $wpdb->prepare(
-                    "SELECT COUNT(order_id) AS c FROM " . $this->getTable() . " WHERE user_id = %d",
-                    $this->user_id
+                    "SELECT COUNT(order_id) AS c FROM " . $this->getTable() . " WHERE user_id = %d AND status = %s",
+                    array(
+                        $this->user_id,
+                        $status
+                    )
                 )
             );
 
             return $c;
         }
 
-        $start = (($page-1) * 20) - $page + 1;
+        if ($page == 0) {
+            $page = 1;
+        }
+
+        $start = (($page-1) * 20);
 
         $wpdb->query(
             $wpdb->prepare(
-                "SELECT o.*, s.store_name, COUNT(h.order_id) AS count_items FROM " . $this->getTable() . " AS o
+                "SELECT o.*, s.store_name, SUM(h.quantity) AS count_items FROM " . $this->getTable() . " AS o
 
                 LEFT JOIN " . TppStoreModelStore::getInstance()->getTable() . " AS s ON s.store_id = o.store_id
                 LEFT JOIN " . TppStoreModelOrderItems::getInstance()->getTable() . " AS h ON h.order_id = o.order_id
                 WHERE o.user_id = %d
+                AND o.status = %s
                 GROUP BY o.order_id
                 ORDER BY o.order_date DESC
                 LIMIT $start, 20
                 ",
-                $this->user_id
+                array(
+                    $this->user_id,
+                    $status
+                )
+
             ),
             OBJECT_K
         );
@@ -169,6 +262,33 @@ class TppStoreModelOrder extends TppStoreModelCurrency {
         return $this;
     }
 
+
+    public function getOrderByRef()
+    {
+
+        if (is_null($this->ref)) {
+            $this->reset();
+            return false;
+        }
+
+        global $wpdb;
+
+        $wpdb->query(
+            $wpdb->prepare(
+                "SELECT * FROM " . $this->getTable() . " WHERE ref = %s",
+                $this->ref
+            ),
+            OBJECT_K
+        );
+
+        if ($wpdb->num_rows == 1) {
+            $this->setData($wpdb->last_result[0]);
+        } else {
+            $this->reset();
+        }
+        return $this;
+    }
+
     public function save()
     {
 
@@ -185,13 +305,16 @@ class TppStoreModelOrder extends TppStoreModelCurrency {
                     'total'         =>  $this->total,
                     'commission'    =>  $this->commission,
                     'discount'      =>  $this->discount,
-                    'tax_rate'      =>  $this->tax_rate,
+                    'tax'           =>  $this->tax,
                     'status'        =>  $this->status,
                     'store_id'      =>  $this->store_id,
                     'order_date'    =>  $this->order_date,
                     //'data'          =>  is_serialized($this->data)?$this->data:serialize($this->data),
                     'user_id'       =>  $this->user_id,
-                    'ref'           =>  trim($this->ref) == ''?$this->generateRef():$this->ref
+                    'ref'           =>  trim($this->ref) == ''?$this->generateRef():$this->ref,
+                    'currency'      =>  $this->currency,
+                    'exchange_rates'=>  $this->exchange_rates,
+                    'message'       =>  $this->message
                 ),
                 array(
                     'order_id'  =>  $this->order_id
@@ -206,6 +329,9 @@ class TppStoreModelOrder extends TppStoreModelCurrency {
                     "%d",
                     //"%s",
                     "%d",
+                    "%s",
+                    "%s",
+                    "%s",
                     "%s"
                 ),
                 array(
@@ -220,13 +346,16 @@ class TppStoreModelOrder extends TppStoreModelCurrency {
                     'total'         =>  $this->total,
                     'commission'    =>  $this->commission,
                     'discount'      =>  $this->discount,
-                    'tax_rate'      =>  $this->tax_rate,
+                    'tax'           =>  $this->tax,
                     'status'        =>  $this->status,
                     'store_id'      =>  $this->store_id,
                     'order_date'    =>  $this->order_date,
                     //'data'          =>  is_serialized($this->data)?$this->data:serialize($this->data),
                     'user_id'       =>  $this->user_id,
-                    'ref'           =>  trim($this->ref) == ''?$this->generateRef():$this->ref
+                    'ref'           =>  trim($this->ref) == ''?$this->generateRef():$this->ref,
+                    'currency'      =>  $this->currency,
+                    'exchange_rates'=>  $this->exchange_rates,
+                    'message'       =>  $this->message
                 ),
                 array(
                     "%f",
@@ -238,6 +367,9 @@ class TppStoreModelOrder extends TppStoreModelCurrency {
                     "%d",
                     //"%s",
                     "%d",
+                    "%s",
+                    "%s",
+                    "%s",
                     "%s"
                 )
             );
@@ -310,9 +442,16 @@ class TppStoreModelOrder extends TppStoreModelCurrency {
             }
         }
 
+        if (is_null($this->status) || $this->status == '') {
+            $this->status = 'pending';
+        }
 
         if (trim($this->ref) == '') {
             $this->ref = $this->generateRef();
+        }
+
+        if (!is_null($this->exchange_rates)) {
+            $this->serializeExchangeRates();
         }
 
         return !$error;

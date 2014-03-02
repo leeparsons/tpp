@@ -56,7 +56,47 @@ class TppStoreDirectoryLibrary {
 
     public function deleteDirectory()
     {
+
+        $this->deleteFiles($this->directory);
         @rmdir($this->directory);
+
+        //determine if there are any files in this directory
+
+
+    }
+
+    private function deleteFiles($path = '')
+    {
+        if ($path == '') {
+            return false;
+        }
+
+        if (substr($path, -1) != '/') {
+            $path .= '/';
+        }
+
+        if (is_dir($path)) {
+
+            //get the files in this path and cycle through them to delete them!
+            $files = scandir($path);
+
+            foreach ($files as $file) {
+                if ($file == '.' || $file == '..') {
+                    continue;
+                }
+                if (is_file($path . $file)) {
+                    @unlink($path . $file);
+                } else {
+                    $this->deleteFiles($path . $file);
+                }
+            }
+
+
+        }
+
+        @rmdir($path);
+
+
     }
 
     public function createDirectory($dir = '')

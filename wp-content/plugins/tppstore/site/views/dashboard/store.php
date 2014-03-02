@@ -5,7 +5,7 @@
  * Time: 09:31
  */
 
-wp_enqueue_script('store-menu', TPP_STORE_PLUGIN_URL . '/site/assets/js/dashboard/store-menu-ck.js', 'jquery', 1, true);
+wp_enqueue_script('store-menu', TPP_STORE_PLUGIN_URL . '/site/assets/js/dashboard/store-menu-ck.js', array('jquery'), 1, true);
 
 get_header();
 
@@ -44,7 +44,9 @@ if (!isset($myaccount_page) || intval($store->approved) == 1) {
                 <?php if (intval($store->enabled) == 0): ?>
                     <p class="inactive wp-error">Your store is not yet live!</p>
                 <?php else: ?>
-                    <p class="active pull-left wp-message">Your store is live!</p>
+                    <p class="active pull-left wp-message">
+                        View your store: <a target="_blank" class="btn btn-primary" href="<?php echo $store->getPermalink(false, true) ?>">open store page</a>
+                    </p>
                 <?php endif; ?>
             <?php endif; ?>
         <?php else: ?>
@@ -108,33 +110,18 @@ if (!isset($myaccount_page) || intval($store->approved) == 1) {
                         <input type="hidden" name="store_slug" value="<?php echo $store->store_slug ?>">
                     <?php else: ?>
                         <label for="store_slug">Your store URL:</label>
-                    <input type="text" class="form-control" name="store_slug" id="store_slug" value="<?php echo $store->store_slug?:sanitize_title_with_dashes($store->store_name) ?>">
-                        <script>
-                            document.getElementById('store_name').onkeyup = function() {
-                                document.getElementById('store_slug').value = this.value.replace(/[^a-zA-Z0-9\s]/g, '') // Remove non alphanum except whitespace
-                                    .replace(/^\s+|\s+$/, '')
-                                    .replace(/\s+/g, '-')
-                                    .toLowerCase();
-                            }
-                        </script>
+
+                    <input type="text" class="form-control" readonly value="<?php echo $store->getPermalink(false, true); ?>">
+                    <input type="hidden" name="store_slug" value="<?php echo $store->store_slug ?>">
+                        
                     <?php endif; ?>
                 </div>
                 <?php endif; ?>
 
                 <div class="form-group">
                     <label for="store_description">Description</label>
-                    <?php
 
-                    wp_editor(
-                        $store->description,
-                        'store_description',
-                        array(
-                            'media_buttons' =>  false,
-                            'teeny'         =>  true
-                        )
-                    );
-                    ?>
-                    <!--textarea name="store_description" class="form-control" rows="5" id="store_description"><?php echo $store->description ?></textarea-->
+                    <textarea name="store_description" class="form-control" rows="5" id="store_description"><?php echo $store->description ?></textarea>
                 </div>
 
             </fieldset>
@@ -166,22 +153,20 @@ if (!isset($myaccount_page) || intval($store->approved) == 1) {
                     unset($select_name);
 
                     ?>
-
-
-
                 </div>
 
             </fieldset>
-
-
-
 
             <?php if ($myaccount_page === false): ?>
 
 
             <fieldset>
                 <legend>Store Image</legend>
-                <p class="wp-message">Upload an image for your store. The ideal image size is 250 pixels by 250 pixels but we will resize your image if it's larger.</p>
+                <pre>Upload an image for your store.
+
+This would usually be your logo.
+
+The ideal image size is below 500KB.</pre>
                 <div class="form-group">
                     <div id="dropbox" class="store-dropbox">
                         <div class="drop-wrap">

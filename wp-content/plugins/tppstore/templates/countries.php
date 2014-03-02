@@ -1,12 +1,12 @@
 <?php $select_name = isset($select_name)?$select_name:'countries'; ?>
-<?php $selected_id = isset($select_id)?$select_id:$select_name ?>
-<?php $selected_value = isset($selected_value)?$selected_value:'' ?>
+<?php $select_id = isset($select_id)?$select_id:$select_name ?>
+<?php $selected_value = isset($selected_value)?ucwords($selected_value):'' ?>
 <select name="<?php echo $select_name ?>" id="<?php echo $select_id ?>" class="form-control">
 <option value="">-- select --</option>
 <optgroup label="Most Used">
     <option value="Australia">Australia</option>
     <option value="United Kingdom">United Kingdom</option>
-    <option value="United States of America">United States of America</option>
+    <option value="United States Of America">United States of America</option>
     <option value="South Africa">South Africa</option>
 </optgroup>
 <option value="Afganistan">Afghanistan</option>
@@ -253,6 +253,4 @@
 <option value="Zambia">Zambia</option>
 <option value="Zimbabwe">Zimbabwe</option>
 </select>
-<script>
-document.getElementById('<?php echo $selected_id ?>').value = '<?php echo $selected_value ?>';
-</script>
+<script>document.getElementById('<?php echo $select_id ?>').value = "<?php echo $selected_value ?>";</script>

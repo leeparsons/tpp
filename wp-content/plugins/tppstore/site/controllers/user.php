@@ -20,6 +20,7 @@ class TppStoreControllerUser extends TppStoreAbstractBase {
         add_rewrite_rule('shop/store_login/?', 'index.php?pagename=tpp_login&args=$matches[1]', 'top');
         add_rewrite_rule('shop/store_logout/?', 'index.php?pagename=tpp_logout&args=$matches[1]', 'top');
 
+        add_rewrite_rule('shop/password_reset/?', 'index.php?pagename=tpp_password_reset', 'top');
 
 
 
@@ -58,6 +59,13 @@ class TppStoreControllerUser extends TppStoreAbstractBase {
                 $this->logOut();
                 break;
 
+            case 'tpp_password_reset':
+
+                $this->_setWpQueryOk();
+                $this->renderPasswordResetForm();
+
+                break;
+
             default:
 
                 break;
@@ -76,6 +84,7 @@ class TppStoreControllerUser extends TppStoreAbstractBase {
         switch ($args) {
             case 'details':
                 include TPP_STORE_PLUGIN_DIR . 'site/views/account/details.php';
+
                 break;
             default:
                 include TPP_STORE_PLUGIN_DIR . 'site/views/account/default.php';
@@ -88,6 +97,7 @@ class TppStoreControllerUser extends TppStoreAbstractBase {
 
     public function renderLoginForm($args)
     {
+
         $redirect = filter_input(INPUT_GET, 'redirect', FILTER_SANITIZE_STRING);
 
         if (is_null($redirect)) {
@@ -96,7 +106,6 @@ class TppStoreControllerUser extends TppStoreAbstractBase {
 
         //determine if the user is already logged in?
         if (false === ($user = $this->loadUserFromSession())) {
-
             $user = $this->getUserModel();
 
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -110,11 +119,12 @@ class TppStoreControllerUser extends TppStoreAbstractBase {
                     'password'  =>  filter_input(INPUT_POST, 'tpp_password', FILTER_SANITIZE_STRING),
                 ));
 
+
                 if (false !== $user->authenticate()) {
+
                     $this->saveUserToSession($user);
 
                     $this->_clearLogoutCookie();
-
 
                     if (!is_null($redirect)) {
                         $this->redirect(urldecode($redirect));
@@ -135,6 +145,10 @@ class TppStoreControllerUser extends TppStoreAbstractBase {
             if (!is_null($redirect)) {
                 $this->redirect(urldecode($redirect));
             }
+            if ($user->user_type == 'buyer') {
+                $this->redirectToAccount();
+            }
+
             $this->redirectToDashboard();
         }
 
@@ -154,6 +168,11 @@ class TppStoreControllerUser extends TppStoreAbstractBase {
      */
     public function loadUserFromSession()
     {
+        if (!session_id()) {
+            ob_start();
+            session_start();
+            ob_end_clean();
+        }
 
         if (empty($_SESSION['tpp_store_user'])) {
             return false;
@@ -189,12 +208,23 @@ class TppStoreControllerUser extends TppStoreAbstractBase {
 
     public function deleteUserFromSession()
     {
+        if (!session_id()) {
+            ob_start();
+            session_start();
+            ob_end_clean();
+        }
         $_SESSION['tpp_store_user'] = null;
         unset($_SESSION['tpp_store_user']);
     }
 
     public function logOut()
     {
+        if (!session_id()) {
+            ob_start();
+            session_start();
+            ob_end_clean();
+        }
+
         $this->deleteUserFromSession();
 
         TppStoreControllerStore::getInstance()->deleteStoreFromSession();
@@ -235,13 +265,54 @@ class TppStoreControllerUser extends TppStoreAbstractBase {
 
 
         if ($user->enabled == 0) {
-            $json['message']['body'] = 'Your user account has not yet been verified. Please check your email to confirm your user account. <br><br><a class="wrap text-center" href="/shop/store_login/send_verification">Click here to send a new verification email.</a><br><br><strong class="wrap text-center">OR</strong><br><br><a href="/shop/' . ($user->user_type == 'store_owner'?'dashboard':'myaccount') . '" class="wrap text-center">Click here to continue to your account</a>';
+            $json['message']['body'] = 'Your user account has not yet been verified. Please check your email to confirm your user account. <br><br><a class="wrap text-center" href="/shop/store_login/send_verification/">Click here to send a new verification email.</a><br><br><strong class="wrap text-center">OR</strong><br><br><a href="/shop/' . ($user->user_type == 'store_owner'?'dashboard':'myaccount') . '/" class="wrap text-center">Click here to continue to your account</a>';
             $json['message']['header'] = 'Verify your account';
         }
 
         $this->saveUserToSession($user);
 
         echo json_encode($json);
+
+        exit;
+
+    }
+
+    public function renderPasswordResetForm()
+    {
+
+        $user = $this->getUserModel();
+
+        if (false !== $user->readFromPost()) {
+            if (false === $user->getUserByEmail()) {
+                TppStoreMessages::getInstance()->addMessage('error', 'Could not find your email address on an account. Please contact us.');
+            } elseif (intval($user->user_id) < 1) {
+                TppStoreMessages::getInstance()->addMessage('error', 'Could not find your email address on an account. Please contact us.');
+            } else {
+                $user->generateNewPassword();
+                $user->setData(array(
+
+                ));
+                if (false !== $user->save(false, true)) {
+
+                    ob_start();
+
+                    include TPP_STORE_PLUGIN_DIR . 'emails/password_reset.php';
+
+                    $body = ob_get_contents();
+
+                    ob_end_clean();
+
+                    $this->sendMail($user->email, 'Your password has been reset', $body);
+
+                    TppStoreMessages::getInstance()->addMessage('message', 'Your new password has been sent to your email address. Please check your inbox and spam/ junk box just incase!');
+                    TppStoreMessages::getInstance()->saveToSession();
+                    $this->redirect('shop/password_reset/');
+                }
+
+            }
+        }
+
+        include TPP_STORE_PLUGIN_DIR . 'site/views/dashboard/user/password_reset.php';
 
         exit;
 

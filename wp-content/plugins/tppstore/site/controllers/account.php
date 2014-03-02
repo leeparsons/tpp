@@ -15,11 +15,24 @@ class TppStoreControllerAccount extends TppStoreAbstractBase {
 //            TppStoreControllerAccount::getInstance()->templateRedirect();
 //        } );
 
+        add_rewrite_rule('shop/myaccount/messages/page/([^/]+)', 'index.php?tpp_pagename=tpp_messages&page=$matches[1]', 'top');
 
+        add_rewrite_rule('shop/myaccount/messages/?', 'index.php?tpp_pagename=tpp_messages', 'top');
+
+
+
+
+        add_rewrite_rule('shop/myaccount/message/create/?', 'index.php?tpp_pagename=tpp_message_create', 'top');
+
+        add_rewrite_rule('shop/myaccount/message/delete/?', 'index.php?tpp_pagename=tpp_message_delete', 'top');
+        add_rewrite_rule('shop/myaccount/message/reply/?', 'index.php?tpp_pagename=tpp_message_reply', 'top');
+
+
+        add_rewrite_rule('shop/myaccount/message/(.*)?', 'index.php?tpp_pagename=tpp_message&args=$matches[1]', 'top');
 
         add_rewrite_rule('shop/profile/([^/]+)?', 'index.php?tpp_pagename=tpp_profile&args=$matches[1]', 'top');
 
-        add_rewrite_rule('shop/myaccount/order/([^/]+)?', 'index.php?tpp_pagename=tpp_account_order&args=$matches[1]', 'top');
+        add_rewrite_rule('shop/myaccount/purchase/([^/]+)?', 'index.php?tpp_pagename=tpp_account_purchase&args=$matches[1]', 'top');
 
         add_rewrite_rule('shop/myaccount/profile/edit', 'index.php?tpp_pagename=tpp_profile_edit', 'top');
 
@@ -61,9 +74,10 @@ class TppStoreControllerAccount extends TppStoreAbstractBase {
 
                 break;
 
-            case 'tpp_account_order':
+            case 'tpp_account_purchase':
+                $this->enqueueAccountResources();
 
-                $this->renderOrder($args);
+                TppStoreControllerOrders::getInstance()->renderPurchase($args);
 
                 break;
 
@@ -72,6 +86,34 @@ class TppStoreControllerAccount extends TppStoreAbstractBase {
 
                 $this->renderProfile($args);
 
+                break;
+
+            case 'tpp_messages':
+                wp_enqueue_style('dashboard', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/dashboard.css');
+
+
+                TppStoreControllerMessages::getInstance()->renderMessageList();
+                exit;
+                break;
+
+            case 'tpp_message':
+                wp_enqueue_style('dashboard', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/dashboard.css');
+
+                TppStoreControllerMessages::getInstance()->renderMessage();
+                exit;
+                break;
+
+            case 'tpp_message_create':
+                TppStoreControllerMessages::getInstance()->actionCreate();
+                exit;
+                break;
+
+            case 'tpp_message_reply':
+                TppStoreControllerMessages::getInstance()->actionReply();
+                break;
+
+            case 'tpp_message_delete':
+                TppStoreControllerMessages::getInstance()->actionDelete();
                 break;
 
             default:
@@ -96,10 +138,11 @@ class TppStoreControllerAccount extends TppStoreAbstractBase {
             'user_id'   =>  $user->user_id
         ))->getStoreByUserID();
 
-        if (intval($store->store_id) > 0 && intval($store->approved) == 1) {
+        if (intval($store->store_id) > 0 && intval($store->approved) == 1 && $user->user_type == 'store_owner') {
             TppStoreControllerStore::getInstance()->saveStoreToSession($store);
             $user->getUserById();
             TppStoreControllerUser::getInstance()->saveUserToSession($user);
+            $this->redirectToDashboard($args);
         }
 
 
@@ -137,11 +180,11 @@ class TppStoreControllerAccount extends TppStoreAbstractBase {
 
                 break;
 
-            case 'orders':
+            case 'purchases':
 
-                TppStoreControllerOrders::getInstance()->renderDashboardList($user, $store);
+                TppStoreControllerOrders::getInstance()->renderPurchaseList($user, $store);
 
-                $this->renderOrders($user, $store);
+               // $this->renderPurchases($user, $store);
                 break;
 
             default:
@@ -195,10 +238,10 @@ class TppStoreControllerAccount extends TppStoreAbstractBase {
                     ));
                     $store->getStoreByUserID();
                     $product_count = TppStoreControllerDashboard::getInstance()->getProductCount($store);
-                    $mentor_sessions_count = TppStoreControllerDashboard::getInstance()->getMentorSessionCount($store);
+                    $mentor_count = TppStoreControllerDashboard::getInstance()->getMentorCount($store);
                 } else {
                     $product_count = 0;
-                    $mentor_sessions_count = 0;
+                    $mentor_count = 0;
                 }
 
 
@@ -217,63 +260,7 @@ class TppStoreControllerAccount extends TppStoreAbstractBase {
         exit;
     }
 
-    public function renderOrder($order_id = 0, $user = false, $store = false)
-    {
 
-
-        if (false === $user && false === ($user = TppStoreControllerUser::getInstance()->loadUserFromSession())) {
-            $this->redirectToLogin();
-        }
-
-        if (false === $store && false === ($store = TppStoreControllerStore::getInstance()->loadStoreFromSession())) {
-            $product_count = 0;
-            $mentor_sessions_count = 0;
-        } else {
-            $product_count = TppStoreControllerDashboard::getInstance()->getProductCount($store);
-            $mentor_sessions_count = TppStoreControllerDashboard::getInstance()->getMentorSessionCount($store);
-        }
-
-
-        if (intval($order_id) < 1) {
-            if ($user->user_type == 'buyer') {
-                $this->redirectToAccount();
-            } else {
-                $this->redirectToDashboard();
-            }
-        }
-
-        $this->enqueueAccountResources();
-
-
-        $order = $this->getOrderModel()->setData(array(
-            'order_id'  =>  $order_id
-        ));
-        $order->getOrderById();
-
-
-
-
-
-        if ($order->user_id != $user->user_id) {
-            $this->redirectToAccount();
-        } else {
-
-            $store = TppStoreControllerStore::getInstance()->loadStoreFromSession();
-
-
-            $order_items = $this->getOrderItemsModel()->setData(array(
-                'order_id'  =>  $order_id
-            ))->getLineItems(true);
-
-            $payments = $this->getPaymentModel()->setData(array(
-                'order_id'  =>  $order->order_id
-            ))->getPaymentsByOrder();
-            include TPP_STORE_PLUGIN_DIR . 'site/views/account/orders/order.php';
-
-            exit;
-        }
-
-    }
 
 //    public function renderOrders(TppStoreModelUser $user, TppStoreModelStore $store)
 //    {
@@ -328,19 +315,19 @@ class TppStoreControllerAccount extends TppStoreAbstractBase {
         }
 
 
-        wp_enqueue_script('jquery', 'jquery', 'jquery', '1', true);
-        wp_enqueue_script('file_uploads_engine', '/assets/js/jquery.filedrop.js', 'jquery', '1', true);
-        wp_enqueue_script('file_uploads', '/assets/js/file_upload.js', 'jquery', '1', true);
+        wp_enqueue_script('jquery', 'jquery', array('jquery'), '1', true);
+        wp_enqueue_script('file_uploads_engine', '/assets/js/jquery.filedrop.js', array('jquery'), '1', true);
+        wp_enqueue_script('file_uploads', '/assets/js/file_upload-ck.js', array('jquery'), '1', true);
         wp_enqueue_style('uploads', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/upload.css');
 
 
 
         if (false !== ($store = TppStoreControllerStore::getInstance()->loadStoreFromSession())) {
             $product_count = TppStoreControllerDashboard::getInstance()->getProductCount($store);
-            $mentor_sessions_count = TppStoreControllerDashboard::getInstance()->getProductCount($store);
+            $mentor_count = TppStoreControllerDashboard::getInstance()->getMentorCount($store);
         } else {
             $product_count = 0;
-            $mentor_sessions_count = 0;
+            $mentor_count = 0;
         }
 
         include TPP_STORE_PLUGIN_DIR . '/site/views/account/profile/edit.php';
@@ -384,7 +371,7 @@ class TppStoreControllerAccount extends TppStoreAbstractBase {
             $image->setFile($save_path . $image->getUploadedName());
         } else {
             if (false === $image->createImageFromInput($save_path)) {
-                $this->_exitStatus('Error! Please upload an image.');
+                $this->_exitStatus('Error! Please upload an image.', true);
             }
 
             if (false === $image->validateUploadedFile($image::$image_mime_type)) {

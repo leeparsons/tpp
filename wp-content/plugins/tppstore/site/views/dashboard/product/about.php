@@ -2,8 +2,9 @@
 
 <div class="form-group">
     <label for="product_title">Product Title</label>
-    <pre>A short summary title, people will see this first and should be able to determine what you are selling from it. We recommend keeping it short and snappy, about 50 characters or 10 words as a rule of thumb</pre>
+    <pre>A short summary title, people will see this first and should be able to determine what you are selling from it. We recommend keeping it short and snappy, about 50 characters or 10 words as a rule of thumb. The maximum number of letters and spaces allowed is 140.</pre>
     <input type="text" class="form-control" id="product_title" name="product_title" placeholder="Product Title" value="<?php echo $product->product_title ?>">
+
 </div>
 
 <div class="form-group">
@@ -27,22 +28,42 @@
     </select>
 </div>
 
-<div class="form-group product-type-group <?php if (intval($product->product_type) != 1 || $product_category_1 == 3) {echo 'hidden';} ?>" id="download_group">
-    <label>Upload file for download</label>
-    <pre>Please note: the maximum upload limit is 10MB. If your file is larger than this please get in touch as we'd like to help you get it uploaded.</pre>
-    <input name="download" type="file" class="form-control">
-    <?php if (intval($product->product_type) == 1 ) { ?>
-        <input type="hidden" name="original_download" value="<?php echo $product->product_type_text; ?>">
-        <?php if($product->product_type_text != ''): ?>
-            <p><br>
-                <strong>Current Download File:</strong>
-                <a href="<?php echo $product->getDownloadUrl(false) ?>" target="_blank"><?php echo $product->product_type_text ?></a>
-                <input type="hidden" name="original_download" value="<?php echo $product->product_type_text?>">
-            </p>
 
+
+<div class="form-group product-type-group <?php if (intval($product->product_type) != 1 || $product_category_1 == 3) {echo 'hidden';} ?>" id="download_group">
+
+    <h3>File details for download</h3>
+
+    <label for="download_elsewhere">Enter the url for download (files hosted elsewhere)</label>
+    <pre>Entering text in the box below overrides all other download settings</pre>
+    <input type="text" placeholder="Enter the url where your download can be accessed if hosted elsewhere" class="form-control" name="download_elsewhere" id="download_elsewhere" value="<?php echo $product->product_type == 1 && stripos($product->product_type_text, 'http://') !== false?$product->product_type_text:'' ?>">
+
+    <div class="wrap">
+        <pre>Or select file for download</pre>
+        <input name="download" type="file" class="form-control">
+    </div>
+    <?php if (intval($product->product_type) == 1 ) { ?>
+        <?php if($product->product_type_text != ''): ?>
+            <div class="wrap">
+                <strong>Current Download File:</strong>
+                <a href="<?php echo $product->getDownloadUrl() ?>" target="_blank"><?php echo $product->product_type_text ?></a>
+                <input type="hidden" name="original_download" value="<?php echo $product->product_type_text?>">
+                <br><br><br>
+            </div>
         <?php endif; ?>
+        <input type="hidden" name="original_download" value="<?php echo $product->product_type_text; ?>">
+
     <?php } ?>
+
+    <p class="wp-error">Please note: some people may experience difficulty uploading files larger than 7MB. If your file is larger than this please either enter the url where it can be downloaded from, or get in touch as we'd like to help you get it uploaded.</p>
+
+    <br><br><br>
+
+
 </div>
+
+
+
 
 <div class="form-group product-type-group <?php if (intval($product->product_type) != 2 || $product_category_1 == 3) {echo 'hidden';} ?>" id="services_group">
     <!--        <label>Enter the name of your service</label>-->

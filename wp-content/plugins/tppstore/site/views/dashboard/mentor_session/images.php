@@ -1,9 +1,11 @@
 <legend class="wrap">Images</legend>
 
 <div class="form-group">
-    <pre>Upload some images to help sell your session
+    <pre>Upload some images to help sell your session.
 
-We suggest the first image is of yourself as this is the one that will appear in category listings. Other images could be examples of your work or you at work</pre>
+Images could be examples of your work or yourself/you at work.
+
+The ideal image size is under 500KB.</pre>
 </div>
 <div class="form-group">
 

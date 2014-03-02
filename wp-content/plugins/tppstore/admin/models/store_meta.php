@@ -50,7 +50,7 @@ class TppStoreAdminModelStoreMeta extends TppStoreAbstractModelResource {
         global $wpdb;
 
         $wpdb->query(
-            "SELECT a.*, COUNT(p.product_id) AS product_count, CONCAT(u.first_name, ' ', u.last_name) AS owner, s.approved, s.store_name
+            "SELECT a.*, COUNT(p.product_id) AS product_count, CONCAT(u.first_name, ' ', u.last_name) AS owner, u.email, s.approved, s.store_name
 
             FROM " . $this->getTable() . " AS a
             INNER JOIN " . TppStoreModelStore::getInstance()->getTable() . " AS s ON s.store_id = a.store_id

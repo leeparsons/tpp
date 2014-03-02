@@ -4,7 +4,6 @@
  * Date: 01/12/2013
  * Time: 15:38
  */
-
 class TppStoreModelUser extends TppStoreAbstractModelBase
 {
 
@@ -64,7 +63,17 @@ class TppStoreModelUser extends TppStoreAbstractModelBase
         return $this->first_name . ' ' . $this->last_name;
     }
 
+    public function getSeoTitle()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
     public function getDescription()
+    {
+        return esc_attr($this->bio);
+    }
+
+    public function getSeoDescription()
     {
         return esc_attr($this->bio);
     }
@@ -94,19 +103,19 @@ class TppStoreModelUser extends TppStoreAbstractModelBase
 
             if (false === $create) {
                 return false;
-            } else {
-                if (false === $directory->createDirectory()) {
-                    return false;
-                }
+            } else if (false === $directory->createDirectory()) {
+                return false;
             }
-        } else {
-            return WP_CONTENT_DIR . '/uploads/store/users/' . $this->user_id . '/';
         }
+
+        return WP_CONTENT_DIR . '/uploads/store/users/' . $this->user_id . '/';
+
+
     }
 
     public function getPermalink()
     {
-        return '/shop/profile/' . $this->user_id;
+        return '/shop/profile/' . $this->user_id . '/';
     }
 
     public function getSrc($size = false, $html = false, $link = false)
@@ -114,7 +123,7 @@ class TppStoreModelUser extends TppStoreAbstractModelBase
 
 
 
-        if (is_null($this->user_src) || intval($this->user_id) <= 0) {
+        if (trim($this->user_src) == '' || intval($this->user_id) <= 0) {
             return false;
         }
 
@@ -223,6 +232,8 @@ class TppStoreModelUser extends TppStoreAbstractModelBase
                         $this->$key = $value;
                     } elseif ($key == 'user_type') {
                         $this->user_type = $value;
+                    } elseif ($key == 'enabled') {
+                        $this->enabled = $value;
                     }
                 }
             }
@@ -265,6 +276,12 @@ class TppStoreModelUser extends TppStoreAbstractModelBase
     public function getProfilePic()
     {
         return false;
+    }
+
+    public function generateNewPassword()
+    {
+        $this->password = $this->generatePassword();
+        $this->_confirm_password = $this->password;
     }
 
     public function readFromPost()

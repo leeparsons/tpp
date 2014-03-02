@@ -70,6 +70,15 @@ get_header();
             </script>
 
             <div class="form-group">
+
+                <label for="newsletter_agree">
+                    <input type="checkbox" value="1" name="newsletter_agree" id="newsletter_agree">
+                    Sign up to our newsletter to receive latest news and product information.
+                </label>
+
+            </div>
+
+            <div class="form-group">
                 <input type="submit" value="Register" class="btn btn-primary align-right">
             </div>
         </form>

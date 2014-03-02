@@ -64,6 +64,8 @@ Whether you're a wedding photographer offering mentor sessions, a small PR firm 
                     $select_name = 'country';
                     $select_id = 'store_country';
 
+                    $selected_value = $store->country;
+
                     flush(); include TPP_STORE_PLUGIN_DIR . 'templates/countries.php';flush();
 
                     unset($select_id);
@@ -75,12 +77,12 @@ Whether you're a wedding photographer offering mentor sessions, a small PR firm 
                 <div class="form-group">
                     <label for="store_description">About your business</label>
                     <pre>Tell us about your business and the products or services you'd like to sell through The Photography Parlour. This will also become your store bio on the site when approved.</pre>
-                    <textarea name="store_description" id="store_description" rows="10" class="form-control"></textarea>
+                    <textarea name="store_description" id="store_description" rows="10" class="form-control"><?php echo esc_textarea($store->description) ?></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="store_website">Website Url</label>
-                    <input name="store_website" id="store_website" value="" type="text" placeholder="http://example.com" class="form-control">
+                    <input name="store_website" id="store_website" value="<?php echo $store->url; ?>" type="text" placeholder="http://example.com" class="form-control">
                 </div>
 
             </div>
@@ -117,12 +119,17 @@ Whether you're a wedding photographer offering mentor sessions, a small PR firm 
             <fieldset>
                 <legend>Create a user account</legend>
                 <div class="slider">
+
                     <div class="wrap">
                         <div class="half-left">
                             <h3>Sign in with Facebook</h3>
+                            <div class="wrap">
+                                <pre>We recommend signing in with Facebook so buyers will see any mutual friends you have in common as this will improve your store's trust.</pre>
+                            </div>
                             <div class="inner" id="facebook_register_form">
                                 <a id="fb_connect" class="fb-login-button-a"></a>
                             </div>
+
                         </div>
 
                         <div class="half-right">
@@ -223,5 +230,5 @@ Whether you're a wedding photographer offering mentor sessions, a small PR firm 
     </form>
 
     </article>
-<script src="<?php echo TPP_STORE_PLUGIN_URL ?>/site/assets/js/apply-ck.js"></script>
+<?php wp_enqueue_script('tpp-application', TPP_STORE_PLUGIN_URL . '/site/assets/js/apply-ck.js', array('jquery'), null, true) ?>
 <?php flush(); get_footer();

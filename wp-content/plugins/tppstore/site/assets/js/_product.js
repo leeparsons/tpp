@@ -6,40 +6,80 @@ jQuery(function($) {
 
 
     $.fn.slideHeightAdjust = function(init) {
+        $(this).find('img').each(function(x) {
+            if (init === true && x > 0) {
+                $(this).fadeOut().removeClass('vhidden');
+            }
 
-
+        });
+return;
         var container_width = $('#product_images .slides').width()*1;
         var container_height = $('#product_images .slides').height()*1;
         var w = 0;
         var h = 0;
         var scale = 0;
         var tp = 0;
-        $(this).find('img').each(function(x) {
-            var img = $(this);
-            img.data('ind', x);
-            w = $(this).get(0).clientWidth;
 
-            h = $(this).get(0).clientHeight;
-            if (h > container_height) {
-                scale = container_height / h;
-                h = container_height;
-                w = scale * w;
-                tp = 0;
-            } else {
-                tp = (container_height - h)/2;
+        var imgs = $(this).find('img');
+
+
+        imgs.each(function(x) {
+
+            $(this).data('ind', x);
+            if (x > 0) {
+                $(this).fadeOut();
             }
 
-            $(this).css({width:w,height:h, top:tp});
 
-            w = $(this).get(0).clientWidth;
 
-            if (w < container_width) {
-                $(this).css({left:(container_width - w)/2});
-            }
+            $(this).load(function() {
 
-            if (init === true && x > 0) {
-                img.fadeOut().removeClass('vhidden');
-            }
+                var x = $(this).data('ind');
+                var w = $(this).attr('width');
+                var h = $(this).attr('height');
+
+                if (w == undefined || h == undefined) {
+                    w = $(this).get(0).clientWidth;
+                    h = $(this).get(0).clientHeight;
+                }
+
+                var lft = false;
+
+                //if height > wrapper height, reduce the height and set the width to auto
+
+                if (h > container_height) {
+                    $(this).css({height:container_height, width:'auto', top:0});
+                    $(this).css('left', (container_width - parseInt($(this).width()))/2);
+
+//                    scale = container_height / h;
+//                    h = container_height;
+//                    w = scale * w;
+//                    tp = 0;
+//                    lft = (container_width - w);
+                } else {
+                    tp = (container_height - h)/2;
+                    $(this).css({'left': (container_width - parseInt($(this).width()))/2, top: tp});
+
+
+
+                    lft = 0;
+                }
+
+               // $(this).css({width:w,height:h, top:tp});
+
+
+                w = $(this).width()*1;
+
+//                if (lft === false) {
+//                    lft = container_width - w;
+//                }
+//
+//                if (w < container_width) {
+//                    $(this).css({left:lft/2});
+//                }
+
+
+            });
 
         });
 //
@@ -146,6 +186,105 @@ jQuery(function($) {
     $('.slide-navigation').ready(function() {
         $('.slide-navigation').setUpSlides();
     });
+
+    var email_form = false;
+    var shs = $('.email-share').on('click', function() {
+        if (email_form === false) {
+            email_form = document.createElement('div');
+            var frm = document.createElement('form');
+            frm.setAttribute('action', '/shop/email_friend/');
+            frm.setAttribute('id', 'email_send_form');
+            var sub = document.createElement('input');
+            sub.setAttribute('type', 'submit');
+            sub.setAttribute('class', 'btn btn-primary');
+            sub.value = 'Send';
+
+            var err = document.createElement('div');
+            err.setAttribute('id', 'email_errors');
+            err.style.display = 'none';
+            var gr = document.createElement('div');
+            gr.setAttribute('class', 'form-group');
+            frm.appendChild(err);
+            var lbl = document.createElement('label');
+            lbl.setAttribute('for', 'friend_email');
+            lbl.innerHTML = 'Friend\s email:';
+            var em = document.createElement('input');
+            em.setAttribute('name', 'femail');
+            em.setAttribute('placeholder', 'Friend\'s Email');
+            em.setAttribute('id', 'friend_email');
+            em.setAttribute('class', 'form-control');
+            gr.appendChild(lbl);
+            gr.appendChild(em);
+
+            frm.appendChild(gr);
+
+            var gr2 = document.createElement('div');
+            gr2.setAttribute('class', 'form-group');
+            var lbl2 = document.createElement('label');
+            lbl2.setAttribute('for', 'from');
+            lbl2.innerHTML = 'Your name:';
+            var em2 = document.createElement('input');
+            em2.setAttribute('name', 'from');
+            em2.setAttribute('placeholder', 'Your Name');
+            em2.setAttribute('id', 'from');
+            em2.setAttribute('class', 'form-control');
+            gr2.appendChild(lbl2);
+            gr2.appendChild(em2);
+
+            frm.appendChild(gr2);
+
+            var gr3 = document.createElement('div');
+            gr3.setAttribute('class', 'form-group');
+
+            gr3.appendChild(sub);
+
+            frm.appendChild(gr3);
+            email_form.appendChild(frm);
+
+            $('#email_send_form').live('submit', function(e) {
+
+                e.preventDefault();
+                $('#email_errors').hide().html('');
+                var errors = [];
+                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                if ('' == $('#from').val().replace(/\s+/g, '')) {
+                    errors.push('Please enter your name');
+                }
+                if (false === re.test($('#friend_email').val())) {
+                    errors.push('Please make sure your friend\'s email address is valid');
+                }
+
+                if (errors.length > 0) {
+                    e.preventDefault();
+                    for ( var x = 0; x < errors.length; x++ ) {
+                        $('#email_errors').append('<p class="wp-error">' + errors[x] + '</p>').show();
+                    }
+                } else {
+
+                    $.post(
+                        '/shop/email_share/',
+                        {
+                            'from':$('#from').val(),
+                            'femail':$('#friend_email').val(),
+                            'p':$('#product').val()
+                        },
+                        function() {
+                            $('#email_send_form').find('div.form-group').slideUp();
+                            $('#email_errors').html('').show().html('<p class="wp-message">Your share has been sent!</p>');
+                        }
+                    );
+                }
+
+            });
+        } else {
+            $('#email_send_form').find('div.form-group').slideDown();
+        }
+        overlay.setBody(email_form.innerHTML);
+        overlay.setHeader('Send to a friend');
+        overlay.populateInner();
+    });
+
+
 });
 
 

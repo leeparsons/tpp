@@ -83,6 +83,8 @@ class TppStoreControllerStore extends TppStoreAbstractBase {
 
                 break;
 
+
+
             default:
 
                 break;
@@ -158,7 +160,12 @@ class TppStoreControllerStore extends TppStoreAbstractBase {
     {
         $store_id = filter_input(INPUT_POST, 'store', FILTER_SANITIZE_NUMBER_INT);
 
-        if (intval($store_id) < 1) {
+        $store = $this->getStoreModel()->setData(array(
+            'store_id'  =>  $store_id
+        ))->getStoreByID();
+
+
+        if (intval($store->store_id) < 1) {
             $this->_setWpQuery403();
             include TPP_STORE_PLUGIN_DIR . 'site/views/404.php';
         } else {
@@ -170,7 +177,39 @@ class TppStoreControllerStore extends TppStoreAbstractBase {
             if (false === $question->readFromPost()) {
                 $this->_renderAskForm($question);
             } else {
-                echo 'handle post';
+
+
+
+                $question->setData(array(
+                    'receiver'  =>  $store->user_id,
+                    'subject'   =>  'Question about your store'
+                ));
+
+                if (false !== $question->save()) {
+
+                    $title = 'Question sent!';
+
+                    $message = $question;
+
+                    ob_start();
+
+                    include TPP_STORE_PLUGIN_DIR . 'emails/private_message_received.php';
+
+                    $body = ob_get_contents();
+
+                    ob_end_clean();
+
+                    $this->sendMail($message->getReceiver(true)->email, 'You have received a private message on your account', $body);
+
+
+                    TppStoreMessages::getInstance()->addMessage('message', 'Your question has been submitted.');
+
+                }
+                TppStoreMessages::getInstance()->saveToSession();
+
+                $this->redirectToReferer();
+
+
             }
 
 
@@ -333,6 +372,7 @@ class TppStoreControllerStore extends TppStoreAbstractBase {
                         }
 
                     }
+                    $store->url = filter_input(INPUT_POST, 'store_website', FILTER_SANITIZE_STRING);
 
                     if ($store->readFromPost(true)) {
 
@@ -363,10 +403,8 @@ class TppStoreControllerStore extends TppStoreAbstractBase {
             }
 
 
-            add_filter( 'wp_title', function() {
-                return 'sell with us!';
 
-}, 10, 2);
+            $this->pageTitle('Sell with The Photography parlour');
             $this::$_meta_description = 'Apply to sell with us';
 
             wp_enqueue_style('tpp-apply', '/wp-content/plugins/tppstore/site/assets/css/apply.css');
@@ -442,6 +480,11 @@ class TppStoreControllerStore extends TppStoreAbstractBase {
      */
     public function loadStoreFromSession()
     {
+        if (!session_id()) {
+            ob_start();
+            session_start();
+            ob_end_clean();
+        }
 
         if (isset($_SESSION['tpp_store_store'])) {
             return unserialize($_SESSION['tpp_store_store']);
@@ -452,6 +495,12 @@ class TppStoreControllerStore extends TppStoreAbstractBase {
 
     public function deleteStoreFromSession()
     {
+        if (!session_id()) {
+            ob_start();
+            session_start();
+            ob_end_clean();
+        }
+
         if (isset($_SESSION['tpp_store_store'])) {
             $_SESSION['tpp_store_store'] = null;
             unset($_SESSION['tpp_store_store']);
@@ -460,6 +509,12 @@ class TppStoreControllerStore extends TppStoreAbstractBase {
 
     public function saveStoreTempPath(TppStoreModelStore $store)
     {
+
+        if (!session_id()) {
+            ob_start();
+            session_start();
+            ob_end_clean();
+        }
 
         if (intval($store->store_id) > 0) {
             $path = WP_CONTENT_DIR . '/uploads/store/' . $store->store_id . '/';
@@ -472,6 +527,12 @@ class TppStoreControllerStore extends TppStoreAbstractBase {
 
     public function loadStoreTempPath()
     {
+        if (!session_id()) {
+            ob_start();
+            session_start();
+            ob_end_clean();
+        }
+
         if (isset($_SESSION['tpp_store_save_path']) && !empty($_SESSION['tpp_store_save_path'])) {
             return $_SESSION['tpp_store_save_path'];
         } else {
@@ -482,6 +543,12 @@ class TppStoreControllerStore extends TppStoreAbstractBase {
 
     public function deleteStoreTempPath()
     {
+        if (!session_id()) {
+            ob_start();
+            session_start();
+            ob_end_clean();
+        }
+
         $_SESSION['tpp_store_save_path'] = null;
         unset($_SESSION['tpp_store_save_path']);
     }
@@ -538,7 +605,7 @@ class TppStoreControllerStore extends TppStoreAbstractBase {
             } else {
                 //they're trying to hack something perhaps?
                 //The facebook ids do not match as this entry point is only accessible via facebook connect on apply page
-                $this->_exitStatus('error', 'Unable to find your store or login session');
+                $this->_exitStatus('error', true, 'Unable to find your store or login session');
             }
         }
 

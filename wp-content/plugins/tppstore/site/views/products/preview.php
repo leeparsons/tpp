@@ -124,9 +124,19 @@ TppStoreMessages::getInstance()->addMessage('message', 'You are in preview mode.
 
 
     <div class="half-left">
+        <?php
+
+        include TPP_STORE_PLUGIN_DIR . 'site/views/product/default/share.php';
+
+        ?>
         <div class="description">
             <h2>Item Details</h2>
             <div class="wrap"><pre><?php echo $product->product_description ?></pre></div>
+            <?php
+
+            include TPP_STORE_PLUGIN_DIR . 'site/views/product/default/share.php';
+
+            ?>
         </div>
     </div>
     <div class="half-right" id="store_profile">
@@ -205,5 +215,5 @@ TppStoreMessages::getInstance()->addMessage('message', 'You are in preview mode.
         var title = "<?php echo esc_attr($product->product_title) ?>";
         var shop_fb_id = "<?php echo $store->getFacebookId() ?>";
         var description = "<?php echo esc_attr(str_replace('<br>', ' ', nl2br($product->excerpt, false))) ?>";
-        <?php wp_enqueue_script('product', TPP_STORE_PLUGIN_URL . '/site/assets/js/product-ck.js', 'jquery', 1.1, 1) ?></script>
+        <?php wp_enqueue_script('product', TPP_STORE_PLUGIN_URL . '/site/assets/js/product-ck.js', array('jquery'), 2.5, true) ?></script>
 <?php get_footer();

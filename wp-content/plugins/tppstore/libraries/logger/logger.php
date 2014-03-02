@@ -24,11 +24,17 @@ class TppStoreLibraryLogger extends TppStoreAbstractInstantiable {
     public function add($user_id = 0, $action = '', $message = '', $data = null)
     {
 
+
+
+        if (getenv('ENVIRONMENT') != 'local') {
+        //    return false;
+        }
+
         if (false === $this->_directory->createDirectory()) {
             return false;
         }
 
-        if ($user_id == null) {
+        if (intval($user_id) == 0) {
             if (false !== ($user = TppStoreControllerUser::getInstance()->loadUserFromSession())) {
                 $user_id = $user->user_id;
             }
@@ -37,7 +43,7 @@ class TppStoreLibraryLogger extends TppStoreAbstractInstantiable {
         $file = $this->dir . '/' . $this->file;
 
         if (!file_exists($file)) {
-            $f = fopen($file, 'a');
+            $f = fopen($file, 'a+');
 
             fputcsv($f, array(
                 'Date',
@@ -49,7 +55,7 @@ class TppStoreLibraryLogger extends TppStoreAbstractInstantiable {
                 'data'
             ));
         } else {
-            $f = fopen($file, 'a');
+            $f = fopen($file, 'a+');
         }
 
 

@@ -17,6 +17,8 @@ class TppStoreModelPayment extends TppStoreModelCurrency {
     public $gateway = null;
     public $payment_date = null;
 
+    public $message = null;
+
     protected $_table = 'shop_order_payments';
 
     public function getGatewayData()
@@ -37,11 +39,11 @@ class TppStoreModelPayment extends TppStoreModelCurrency {
         return '';
     }
 
-    public function getFormattedTotal($with_currency = true)
+    public function getFormattedTotal($with_currency = true, $override_currency = false)
     {
 
         if (true === $with_currency) {
-            return $this->getFormattedCurrency() . number_format($this->amount, 2);
+            return $this->getFormattedCurrency(true, $override_currency) . number_format($this->amount, 2);
         } else {
             return number_format($this->amount, 2);
         }
@@ -125,7 +127,8 @@ class TppStoreModelPayment extends TppStoreModelCurrency {
                     'user_data'     =>  is_serialized($this->user_data)?$this->user_data:serialize($this->user_data),
                     'gateway_data'  =>  is_serialized($this->gateway_data)?$this->gateway_data:serialize($this->gateway_data),
                     'payment_date'  =>  $this->payment_date,
-                    'gateway'       =>  $this->gateway
+                    'gateway'       =>  $this->gateway,
+                    'message'       =>  $this->message
                 ),
                 array(
                     'payment_id'    =>  $this->payment_id
@@ -133,6 +136,7 @@ class TppStoreModelPayment extends TppStoreModelCurrency {
                 array(
                     "%f",
                     "%d",
+                    "%s",
                     "%s",
                     "%s",
                     "%s",
@@ -153,14 +157,16 @@ class TppStoreModelPayment extends TppStoreModelCurrency {
                     'amount'        =>  $this->amount,
                     'order_id'      =>  $this->order_id,
                     'status'        =>  $this->status,
-                    'user_data'     =>  $this->user_data,
+                    'user_data'     =>  is_serialized($this->user_data)?$this->user_data:serialize($this->user_data),
                     'gateway_data'  =>  is_serialized($this->gateway_data)?$this->gateway_data:serialize($this->gateway_data),
                     'payment_date'  =>  $this->payment_date,
-                    'gateway'       =>  $this->gateway
+                    'gateway'       =>  $this->gateway,
+                    'message'       =>  $this->message
                 ),
                 array(
                     "%f",
                     "%d",
+                    "%s",
                     "%s",
                     "%s",
                     "%s",

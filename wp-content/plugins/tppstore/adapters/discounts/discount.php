@@ -57,12 +57,35 @@ class TppStoreAdapterDiscount extends TppStoreAbstractBase {
             foreach ($store_products as $product) {
                 if (isset(TppStoreAdapterDiscount::$discounts[$product->product_id])) {
 
+
+
                     if (is_array($product->options) && !empty($product->options)) {
                         foreach ($product->options as $option) {
-                            $discount += TppStoreAdapterDiscount::$discounts[$product->product_id] * $option['order_quantity'] * $option['price'];
+                            if ($product->currency !== geo::getInstance()->getCurrency()) {
+                                if (false === ($price = geo::getInstance()->convertCurrency($option['price'], $product->currency))) {
+                                    $price = $option['price'];
+                                }
+                            } else {
+                                $price = $option['price'];
+                            }
+
+                            $discount += TppStoreAdapterDiscount::$discounts[$product->product_id] * $option['order_quantity'] * $price;
                         }
                     } else {
-                        $discount += TppStoreAdapterDiscount::$discounts[$product->product_id] * $product->order_quantity * $product->price;
+                        if ($product->currency !== geo::getInstance()->getCurrency()) {
+                            if (false === ($price = geo::getInstance()->convertCurrency($product->price, $product->currency))) {
+                                $price = $product->price;
+                            }
+                        } else {
+                            $price = $product->price;
+                        }
+
+                        if (intval($product->price_includes_tax) == 1) {
+                            $discount += TppStoreAdapterDiscount::$discounts[$product->product_id] * $product->order_quantity * $price;
+                        } else {
+                            $discount += (TppStoreAdapterDiscount::$discounts[$product->product_id] * $product->order_quantity * $price);// * (1 + ($product->tax_rate/100));
+                        }
+
                     }
 
                 }

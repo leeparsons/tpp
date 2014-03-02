@@ -10,6 +10,8 @@ class TppStoreHelperHtml extends TppStoreAbstractInstantiable {
 
     private $og_images = array();
 
+    public $block_search_engines = false;
+
     /*
      * for open graph images
      */
@@ -30,6 +32,15 @@ class TppStoreHelperHtml extends TppStoreAbstractInstantiable {
                 echo '<meta property="og:image" content="' . $image . '" />';
             }
         }
+    }
+
+    public function robots()
+    {
+        global $paged;
+
+        if ($this->block_search_engines === true || intval($paged) > 1 || is_author() || is_tag() || is_date() || is_attachment()):
+            ?><meta name="robots" content="noindex,nofollow"><?php
+        endif;
     }
 
 }

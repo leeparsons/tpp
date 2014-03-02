@@ -13,6 +13,7 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
     public function applyRewriteRules()
     {
 
+        add_rewrite_rule('shop/email_share/?', 'index.php?tpp_pagename=tpp_email_share', 'top');
 
 
 //        add_rewrite_rule('shop/([^/]+)/product/([^/]+)?', 'index.php?pagename=tpp_product&store_slug=$matches[1]&product_slug=$matches[2]', 'bottom');
@@ -44,6 +45,11 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
         $args = get_query_var('shop_args');
 
         switch (strtolower($pagename)) {
+
+            case 'tpp_email_share':
+                $this->sendEmailShare();
+                break;
+
             case 'tpp_vendor-store':
 
                 $store_slug = get_query_var('store_slug');
@@ -52,11 +58,14 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
                 //the author should determine the store!
 
 
+                $this->pageTitle($store);
+                $this->setPageDescription($store);
 
                 $this->renderStoreProducts($store);
 
 
                 break;
+
 
             case 'tpp_product':
 
@@ -74,6 +83,9 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
                     include TPP_STORE_PLUGIN_DIR . 'site/views/404.php';
                 }
 
+                if ($product->product_type == 5) {
+                    $product = $this->getEventModel()->setData($product)->loadEventData();
+                }
 
 
                 $this->renderProduct($product, $store);
@@ -122,6 +134,9 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
 
                 if (false === $file->streamFile($download_file)) {
                     $this->_setWpQuery404();
+
+                    $title = 'Sorry, file not found';
+
                     include TPP_STORE_PLUGIN_DIR . 'site/views/404.php';
                     exit;
                 }
@@ -140,6 +155,9 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
                     include TPP_STORE_PLUGIN_DIR . 'site/views/404.php';
 
                 } else {
+
+
+
 
                     if (false === ($store = TppStoreControllerStore::getInstance()->loadStoreFromSession())) {
                         $this->_setWpQuery403();
@@ -204,6 +222,8 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
 
         if (is_null($product->product_id) || intval($product->product_id) <= 0) {
 
+            $this->_setWpQuery404();
+
             $message = 'Sorry, the product you searched for could not be found or is no longer available.';
 
             $title = 'Product not found';
@@ -212,16 +232,26 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
         } else {
 
 
-
             $this->_setWpQueryOk();
 
-            $this->pageTitle(array($product, $store));
+            $c = new TppCacher();
 
-            //add_filter( 'wp_title', (function() use($product, $store) {TppStoreAbstractBase::pageTitle(array($product, $store));}), 10, 2);
-            $this::$_meta_description = $product->getDescription();
-            wp_enqueue_script('jquery');
+            $c->setCachePath('product');
+            $c->setCacheName($product->product_id);
 
-            include TPP_STORE_PLUGIN_DIR . 'site/views/product.php';
+            if (false !== ($contents = $c->readCache(-1))) {
+                echo $contents;
+            } else {
+                $this->pageTitle(array($product, $store));
+                $this::$_meta_description = $product->getDescription();
+                ob_start();
+                wp_enqueue_script('jquery');
+                include TPP_STORE_PLUGIN_DIR . 'site/views/product.php';
+                $contents = ob_get_contents();
+                ob_end_clean();
+                $c->saveCache($contents);
+                echo $contents;
+            }
         }
 
         exit;
@@ -233,7 +263,7 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
 
 
 
-        if (intval($store>enabled) == 1) {
+        if (intval($store->enabled) == 1) {
 
             $page = get_query_var('paged');
 
@@ -241,9 +271,9 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
                 $page = 1;
             }
 
-            $products = $store->getproducts(1, $page);
+            $products = $store->getProducts(1, $page);
 
-            $total = $store->getproducts(1, 0, true);
+            $total = $store->getProducts(1, 0, true);
 
             $this->_setWpQueryOk();
 
@@ -267,20 +297,20 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
     {
 
         if(strtolower($_SERVER['REQUEST_METHOD']) != 'post'){
-            $this->_exitStatus('Error! Wrong HTTP method!');
+            $this->_exitStatus('Error! Wrong HTTP method!', true);
         }
 
         if ( false === ($user = TppStoreControllerUser::getInstance()->loadUserFromSession())) {
-            $this->_exitStatus('Could not authenticate you', true);
+            $this->_exitStatus('Could not authenticate your user account', true);
         }
 
         if (false === ($store = TppStoreControllerStore::getInstance()->loadStoreFromSession())) {
-            $this->_exitStatus('Could not authenticate you', true);
+            $this->_exitStatus('Could not authenticate your store', true);
         }
 
         //determine if the temporary file store has been saved to session?
         if (false === ($save_path = TppStoreControllerDashboard::getInstance()->loadTempStorePathSession($store->store_id))) {
-            $this->_exitStatus('Error! Could not save your images. Please contact us for help.');
+            $this->_exitStatus('Error! Could not save your images. Please contact us for help.', true);
         }
 
         //determine if the save path can be created
@@ -288,7 +318,7 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
         $directory = new TppStoreDirectoryLibrary();
 
         if (false === $directory->createDirectory($save_path)) {
-            $this->_exitStatus('Error! Could not save your images. Please contact us for help.');
+            $this->_exitStatus('Error! Could not save your images. Please contact us for help.', true);
         }
 
         $lib = new TppStoreLibraryFileImage();
@@ -304,6 +334,7 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
                 $this->_exitStatus($lib->getError(), true);
             }
 
+
             if (false === $lib->moveUploadedFile($save_path)) {
                 $this->_exitStatus($lib->getError(), true);
             }
@@ -311,7 +342,7 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
         } else {
 
             if (false === $lib->createImageFromInput($save_path)) {
-                $this->_exitStatus('Error! Please upload an image.');
+                $this->_exitStatus('Error! Please upload an image.', true);
             }
 
             if (false === $lib->validateUploadedFile($lib::$image_mime_type)) {
@@ -342,6 +373,105 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
         if (count($products) > 0) {
             include TPP_STORE_PLUGIN_DIR . 'site/views/products/latest_products.php';
         }
+
+    }
+
+    public function sendEmailShare()
+    {
+        $product_id = filter_input(INPUT_POST, 'p', FILTER_SANITIZE_NUMBER_INT);
+
+        if (intval($product_id) < 1) {
+            $this->_setWpQuery403();
+            $this->_exitStatus('product not recognised', true);
+        }
+
+        $email_to = filter_input(INPUT_POST, 'femail', FILTER_SANITIZE_STRING);
+        $email_from = filter_input(INPUT_POST, 'from', FILTER_SANITIZE_STRING);
+
+
+        $product = $this->getProductModel()->setData(array(
+            'product_id'    =>  $product_id
+        ))->getProductById();
+
+        if (intval($product->product_id) > 0) {
+            //get the email to send the product to!
+            $this->_setWpQueryOk();
+
+            ob_start();
+
+            include TPP_STORE_PLUGIN_DIR . 'emails/product_share.php';
+
+            $html = ob_get_contents();
+
+            ob_end_clean();
+
+            $this->sendMail($email_to, $email_from . ' thought you might like this on the photography parlour', $html);
+            $this->_exitStatus('email sent', false);
+        } else {
+            $this->_setWpQuery403();
+            $this->_exitStatus('product not recognised', true);
+        }
+
+    }
+
+
+    public function delete()
+    {
+
+        if (false === ($user = TppStoreControllerUser::getInstance()->loadUserFromSession())) {
+            TppStoreMessages::getInstance()->addMessage('error', 'You are not authorised to delete this product.');
+            TppStoreMessages::getInstance()->saveToSession();
+            $this->redirectToLogin();
+        }
+
+        if (false === ($store = TppStoreControllerStore::getInstance()->loadStoreFromSession())) {
+            TppStoreMessages::getInstance()->addMessage('error', 'You are not authorised to delete this product.');
+            TppStoreMessages::getInstance()->saveToSession();
+            $this->redirectToLogin();
+        }
+
+
+        $product_id = filter_input(INPUT_POST, 'p', FILTER_SANITIZE_NUMBER_INT);
+
+        if (intval($product_id) < 1) {
+            TppStoreMessages::getInstance()->addMessage('error', 'You are not authorised to delete this product.');
+            TppStoreMessages::getInstance()->saveToSession();
+            $this->redirectToDashboard('products/');
+        }
+
+
+        $product = $this->getProductModel()->setData(array(
+            'product_id'    =>  $product_id
+        ))->getProductById();
+
+        if (intval($product->product_id) < 1 || $product->store_id != $store->store_id) {
+            TppStoreMessages::getInstance()->addMessage('error', 'You are not authorised to delete this product.');
+            TppStoreMessages::getInstance()->saveToSession();
+            $this->redirectToDashboard('products/');
+        }
+
+        if (true === $product->delete()) {
+            TppStoreMessages::getInstance()->addMessage('message', $product->product_title . ' deleted!');
+        }
+
+        TppStoreMessages::getInstance()->saveToSession();
+
+
+        switch ($product->product_type) {
+            case '4':
+                $this->redirectToDashboard('mentors/');
+                break;
+
+            case '5':
+                $this->redirectToDashboard('events/');
+                break;
+            default:
+                $this->redirectToDashboard('products/');
+                break;
+        }
+
+
+
 
     }
 

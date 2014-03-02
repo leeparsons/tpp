@@ -27,6 +27,7 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
         $this->_ratings_model = new TppStoreModelRatings();
     }
 
+
     public function getCategories()
     {
 
@@ -38,7 +39,9 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
                 return array();
             }
 
-            $this->categories = $this->_p2c_model->setData(array('product_id'   =>  $this->product_id))->getCategories();
+            $this->categories = $this->_p2c_model->setData(array(
+                'product_id'   =>  $this->product_id
+            ))->getCategories();
 
         }
 
@@ -110,6 +113,8 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
         return $this;
     }
 
+
+
     public function readFromPost()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -129,7 +134,7 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
             //validate the price:
             $this->price = (float)$this->price;
 
-            $this->price_includes_tax = filter_input(INPUT_POST, 'price_includes_tax', FILTER_SANITIZE_NUMBER_INT);
+            $this->price_includes_tax = filter_input(INPUT_POST, 'price_includes_tax', FILTER_SANITIZE_STRING);
 
             $this->tax_rate = (float)$this->tax_rate;
 
@@ -148,12 +153,16 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
                     //hosted
                     $this->product_type_text = filter_input(INPUT_POST, 'hosted', FILTER_SANITIZE_STRING);
                     break;
+                case 5:
+
+                    break;
 
                 case 4:
                 default:
 
-                    //download
-                    if (isset($_FILES['download']) && $_FILES['download']['name'] !== '') {
+                    if ('' != ($download_elsewhere = filter_input(INPUT_POST, 'download_elsewhere', FILTER_SANITIZE_STRING))) {
+                        $this->product_type_text = $download_elsewhere;
+                    } elseif (isset($_FILES['download']) && $_FILES['download']['name'] !== '') {
                         $this->product_type_text = $_FILES['download']['name'];
                     } else {
                         $this->product_type_text = filter_input(INPUT_POST, 'original_download', FILTER_SANITIZE_STRING);
@@ -202,12 +211,12 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
         }
     }
 
-    public function getImages($parent_id = 0, $heirarchical = false)
+    public function getImages($parent_id = 0, $heirarchical = false, $count = false)
     {
 
         return $this->_product_images_model->setData(array(
             'product_id'    =>  $this->product_id
-        ))->getImages($parent_id, $heirarchical);
+        ))->getImages($parent_id, $heirarchical, $count);
 
     }
 
@@ -244,17 +253,15 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
 
         );
 
+        $this->clearCache();
 
     }
 
     /*
-    *   @param $validate_records - determines whether or not to validate the unique fields, like title or slug against current items in the database owned by this user?
-    *  product full urls are determined by the store owner so can have duplicate product slugs that are not in this store
-    */
-    public function save($validate_records = true)
+     * Save images in a session temporarily incase the save fails
+     */
+    protected function saveImagesTemporarily()
     {
-
-
         //if there are files that have been uploaded then save them into the session and retrieve them later
         $images_to_save_in_session = array();
         $new_images = array();
@@ -289,13 +296,38 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
 
 
         $_SESSION['tpp_store']['tmp_new_product_images'] = $images_to_save_in_session;
-        unset($images_to_save_in_session);
-        unset($image_ordering);
-        unset($new_images);
+
+        TppStoreLibraryLogger::getInstance()->add(0, 'saving images to session', 'see if they get saved?', print_r($images_to_save_in_session, true));
+
+        return $saved_already;
+    }
+
+    public function deleteTemporaryImages()
+    {
+        if (intval(filter_input(INPUT_POST, 'preview', FILTER_SANITIZE_NUMBER_INT)) != 1) {
+            $_SESSION['tpp_store']['tmp_new_product_images'] = null;
+            unset($_SESSION['tpp_store']['tmp_new_product_images']);
+        }
+    }
+
+    /*
+    *   @param $validate_records - determines whether or not to validate the unique fields, like title or slug against current items in the database owned by this user?
+    *  product full urls are determined by the store owner so can have duplicate product slugs that are not in this store
+    */
+    public function save($validate_records = true)
+    {
+
+
+        $saved_already = $this->saveImagesTemporarily();
 
         if (!$this->validate($validate_records)) {
             if (intval($this->product_type) == 4) {
-                $this->getMentor()->readFromPost();
+                if (true === $this->getMentor2Product()->readFromPost()) {
+                    if (false === $this->getMentor2Product()->validate(true)) {
+                        TppStoreMessages::getInstance()->addMessage('error', array('mentor' =>  'Please select a mentor'));
+                    }
+                }
+
             }
             return false;
         }
@@ -327,16 +359,16 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
                     '%s',
                     '%s',
                     '%d',
-                    '%d',
-                    '%d',
-                    '%d',
-                    '%s',
-                    '%s',
+                    '%f',
                     '%d',
                     '%d',
                     '%s',
+                    '%s',
                     '%d',
-                    '%d'
+                    '%d',
+                    '%s',
+                    '%d',
+                    '%s'
                 )
             );
 
@@ -372,7 +404,7 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
                     '%s',
                     '%s',
                     '%d',
-                    '%d',
+                    '%f',
                     '%d',
                     '%d',
                     '%s',
@@ -381,7 +413,7 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
                     '%d',
                     '%s',
                     '%d',
-                    '%d'
+                    '%s'
                 ),
                 array(
                     '%d'
@@ -418,23 +450,26 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
 
         $product_options_continue = $this->_product_options_model->save();
 
-        if ($saved_already == 0) {
-            $this->_product_images_model->setData(array(
-                'product_id'    =>  $this->product_id,
-                'store_id'      =>  $this->store_id
-            ))->retrieveUsingSession();
+        if ($product_categories_continue === true) {
+            if ($saved_already == 0) {
 
-            $product_images_continue = $this->_product_images_model->save();
+                $this->_product_images_model->setData(array(
+                    'product_id'    =>  $this->product_id,
+                    'store_id'      =>  $this->store_id
+                ))->retrieveUsingSession();
+
+                $product_images_continue = $this->_product_images_model->save();
+            } else {
+                $product_images_continue = true;
+            }
+            $this->deleteTemporaryImages();
+
         } else {
-            $product_images_continue = true;
+            TppStoreMessages::getInstance()->addMessage('error', 'Warning: your new images have not yet been saved. Please fix the errors before saving.');
         }
 
-        if (intval(filter_input(INPUT_POST, 'preview', FILTER_SANITIZE_NUMBER_INT)) != 1) {
-            $_SESSION['tpp_store']['tmp_new_product_images'] = null;
-            unset($_SESSION['tpp_store']['tmp_new_product_images']);
-        }
-
-
+        //determine if there are any images that have been saved?
+        $product_image_count = $this->getImages(0, false, true);
 
         $product_discounts_continue = false;
 
@@ -449,22 +484,63 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
             $product_discounts_continue = $discount->save();
         }
 
+        if (intval($this->enabled) == 1) {
+
+            if ($product_image_count <= 0) {
+
+                $this->setOffline();
+
+
+                switch ($this->product_type) {
+                    case '4':
+                        $product_type = 'mentor session';
+                        break;
+                    case '5':
+                        $product_type = 'event/ workshop';
+                        break;
+                    default:
+                        $product_type = 'product';
+                        break;
+                }
+
+                TppStoreMessages::getInstance()->addMessage('error', 'No images were saved - your ' . $product_type . ' has been set to offline and will not appear on the website listings. Please upload some images to be able to make this ' . $product_type . ' go live.');
+                $product_images_continue = false;
+            }
+
+            if (trim($this->product_type_text) == '') {
+                $this->setOffline();
+                TppStoreMessages::getInstance()->addMessage('error', 'Please fill out the download options before you can make this product go live');
+                $product_discounts_continue = false;
+            }
+        }
+
+
+
+
 
         $product_mentor_continue = true;
 
         if ($this->product_type == 4) {
 
-            if (true === $this->getMentor()->readFromPost()) {
-                $this->_product_mentor_model->setData(array(
-                    'product_id'    =>  $this->product_id
-                ));
-                $product_mentor_continue = $this->_product_mentor_model->save();
-            } else {
-                $product_mentor_continue = false;
+            if (true === $this->getMentor2Product()->readFromPost()) {
+                if (false === $this->getMentor2Product()->validate(true)) {
+                    TppStoreMessages::getInstance()->addMessage('error', array('mentor' =>  'Please select a mentor'));
+                    $product_mentor_continue = false;
+                } else {
+
+                    $product_mentor_continue = $this->_mentor_2_product->setData(array(
+                        'product_id'    =>  $this->product_id
+                    ))->save();
+                }
             }
-
-
         }
+
+        if ($this->product_id == 1 && ($this->product_type_text) == '') {
+            $this->setOffline();
+        }
+
+        //clean out the product cache!
+        $this->clearCache();
 
         return
             $product_mentor_continue
@@ -480,11 +556,39 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
             $product_discounts_continue;
     }
 
+    public function clearCache()
+    {
+        $c = new TppCacher();
+        $c->setCacheName($this->product_id);
+        $c->setCachePath('product');
+        $c->deleteCache();
+    }
+
+    public function setOffline()
+    {
+        if (intval($this->product_id) > 0 && intval($this->enabled) != 0) {
+            global $wpdb;
+
+            $wpdb->query(
+                $wpdb->prepare(
+                    "UPDATE " . $this->getTable() . " SET enabled = 0 WHERE product_id = %d",
+                    $this->product_id
+                )
+            );
+        }
+
+        $this->enabled = 0;
+
+        $this->clearCache();
+    }
+
     public function validate($validate_records = true)
     {
 
         if (intval($this->product_type) === 4) {
             $product_string = 'mentor session';
+        } elseif (intval($this->product_type) === 5) {
+            $product_string = 'event';
         } else {
             $product_string = 'product';
         }
@@ -492,13 +596,21 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
         $error = false;
 
         if (is_null($this->store_id) || intval($this->store_id) <= 0) {
-            TppStoreMessages::getInstance()->addMessage('error', array('product_store'  =>  'We could not determine your store.'));
 
-            TppStoreLibraryLogger::getInstance()->add(null, 'We could not determine the users store', 'product upload', array(
-                'product_id'    =>  $this->product_id
-            ));
+            if (false === ($store = TppStoreControllerStore::getInstance()->loadStoreFromSession())) {
+                TppStoreMessages::getInstance()->addMessage('error', array('product_store'  =>  'We could not determine your store.'));
 
-            return false;
+                TppStoreLibraryLogger::getInstance()->add(null, 'We could not determine the users store', 'product upload', array(
+                    'product_id'    =>  $this->product_id
+                ));
+                return false;
+
+            }
+
+            $this->store_id = $store->store_id;
+
+
+
         }
 
         global $wpdb;
@@ -562,6 +674,7 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
 
                 break;
             case 3:
+
                 //physical product - no need for the hosted url
 //                if (trim($this->product_type_text) == '' || is_null($this->product_type_text)) {
 //                    $error = true;
@@ -569,15 +682,54 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
 //                }
                 break;
 
+
+            case 5:
+                //event!
+
+                break;
             case 1:
+                //download
+
+                if ('' != ($download = filter_input(INPUT_POST, 'download_elsewhere', FILTER_SANITIZE_STRING))) {
+
+                    $this->product_type_text = $download;
+
+                    if (!$e = preg_match('_^(?:(?:https?|http|ftp)://)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\x{00a1}-\x{ffff}0-9]+-?)*[a-z\x{00a1}-\x{ffff}0-9]+)(?:\.(?:[a-z\x{00a1}-\x{ffff}0-9]+-?)*[a-z\x{00a1}-\x{ffff}0-9]+)*(?:\.(?:[a-z\x{00a1}-\x{ffff}]{2,})))(?::\d{2,5})?(?:/[^\s]*)?$_iuS', $download)) {
+
+                        if (intval($this->enabled) == 1) {
+                            $this->setOffline();
+                            TppStoreMessages::getInstance()->addMessage('error', 'The url you provided for the download: ' . $download . ' is not a valid url. Please fix this before your product can go live.');
+                        } else {
+                            TppStoreMessages::getInstance()->addMessage('error', 'The url you provided for the download: ' . $download . ' is not a valid url. The download will probably not work.');
+                        }
+                    }
+
+                } elseif (isset($_FILES['download']) && $_FILES['download']['name'] !== '' && (!is_null($this->product_type_text) && $this->product_type_text != '')) {
+                    //determine if this file can be uploaded?
+                    if (true === $this->_product_download_model->setData(array('upload_file'   =>  $_FILES['download']))->canUpload(false)) {
+                        $this->product_type_text = $this->_product_download_model->upload_file['name'];
+                        //don't stop on the file upload, so don't raise an error on this point!
+                    }
+                } else {
+                    TppStoreMessages::getInstance()->addMessage('error', 'Please complete your download options for this product.');
+                }
+
+
+                break;
             case 4:
 
+                //mentor session
+
                 //download file
-                if (trim($this->product_type_text) == '' || is_null($this->product_type_text)) {
+               // if (trim($this->product_type_text) == '' || is_null($this->product_type_text)) {
                     //don't stop on the file upload, so don't raise an error on this point!
 
                     //TppStoreMessages::getInstance()->addMessage('error', array('product_type'    =>  'Please choose a file to be downloaded.'));
-                } elseif (isset($_FILES['download']) && $_FILES['download']['name'] !== '' && (!is_null($this->product_type_text) && $this->product_type_text != '')) {
+                //} else
+                if (
+                    isset($_FILES['download']) && $_FILES['download']['name'] !== ''
+                    &&
+                    (!is_null($this->product_type_text) && $this->product_type_text != '')) {
                     //determine if this file can be uploaded?
                     if (true === $this->_product_download_model->setData(array('upload_file'   =>  $_FILES['download']))->canUpload(false)) {
                         $this->product_type_text = $this->_product_download_model->upload_file['name'];
@@ -591,9 +743,12 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
                 break;
         }
 
-        if (intval($this->price_includes_tax) == 1 && floatval($this->tax_rate) <= 0) {
-            $error = true;
-            TppStoreMessages::getInstance()->addMessage('error', array('product_tax' => 'Please enter a tax rate so we can determine the tax to display on invoices'));
+        if ($this->price_includes_tax != 'na' && floatval($this->tax_rate) <= 0) {
+            //$error = true;
+            $this->tax_rate = 0.00;
+            //TppStoreMessages::getInstance()->addMessage('error', array('product_tax' => 'Please enter a tax rate so we can determine the tax to display on invoices'));
+        } elseif ($this->price_includes_tax == 'na') {
+            $this->tax_rate = 0;
         }
 
 
@@ -606,5 +761,49 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
 
         return !$error;
     }
+
+
+    public function delete()
+    {
+        if (intval($this->product_id) < 1 || intval($this->store_id) < 1) {
+            return false;
+        }
+
+
+        //delete the files and directory
+
+        $dir = new TppStoreDirectoryLibrary();
+
+        $dir->setDirectory(WP_CONTENT_DIR . '/uploads/store/' . $this->store_id . '/' . $this->product_id);
+
+        if (false === $dir->deleteDirectory()) {
+            TppStoreMessages::getInstance()->addMessage('error', 'Unable to delete your directory: ' . '/uploads/store/' . $this->store_id . '/' . $this->product_id . ' <br><br> Please contact us!');
+            return false;
+        } elseif (false === $dir->directoryExists()) {
+            global $wpdb;
+
+            $wpdb->query(
+                $wpdb->prepare(
+                    "DELETE FROM " . $this->getTable() . " WHERE product_id = %d",
+                    $this->product_id
+                )
+            );
+
+            if ($wpdb->result === false) {
+                TppStoreMessages::getInstance()->addMessage('error', 'Unable to delete your product: ' . $wpdb->last_error);
+            } else {
+                $this->clearCache();
+            }
+            return $wpdb->result;
+        } else {
+            TppStoreMessages::getInstance()->addMessage('error', 'Unable to delete your directory: ' . '/uploads/store/' . $this->store_id . '/' . $this->product_id . ' <br><br> Please contact us!');
+            return false;
+        }
+
+
+
+
+    }
+
 
 }

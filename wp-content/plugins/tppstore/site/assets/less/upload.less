@@ -38,10 +38,16 @@
 
 
 .upload-icon {
-    height:100px;
+    height:250px;
     width:100px;
     margin:auto;
     background:url(../../../../../../themes/tpp_take_2/assets/images/upload-icon.png) no-repeat center center;
+}
+
+#product_form {
+    .upload-icon {
+        height:100px;
+    }
 }
 
 .ui-state-highlight {
@@ -75,24 +81,28 @@
 #dropbox.store-dropbox {
     float:none;
     margin:auto;
+    height:250px;
+    width:250px;
     .handle {
         cursor:default;
     }
-    width:260px;
+    width:250px;
     .drop-wrap {
         width:100%;
     }
     .preview {
-        width:260px;
+        width:250px;
+        height:250px;
         img {
-            height:auto;
+            max-height:250px;
+            max-width:250px;
         }
     }
 }
 
 #dropbox .preview {
 	width:100%;
-	height: auto;
+	height: 100px;
 	float:left;
 	margin:10px 0;
 	position: relative;
@@ -126,7 +136,7 @@
 #dropbox .preview img {
     margin:auto;
 	max-width: 90%;
-	max-height:150px;
+	max-height:100px;
 	border:3px solid #fff;
 	display: block;
 	box-shadow:0 0 2px #000;

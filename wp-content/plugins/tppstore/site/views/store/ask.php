@@ -5,7 +5,12 @@
         <h1>Ask <?php echo $store->getOwner() ?> a question</h1>
     </header>
 
+
+
     <div class="wrap">
+
+        <?php TppStoreMessages::getInstance()->render() ?>
+
         <form method="post" action="/shop/ask">
             <input type="hidden" value="<?php echo $store->store_id ?>" name="store">
             <div class="form-group">

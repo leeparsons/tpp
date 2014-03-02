@@ -34,9 +34,14 @@ class TppStoreModelStore extends TppStoreModelCurrency {
         $this->_user = new TppStoreModelUser();
     }
 
-    public function getTitle()
+    public function getSeoTitle()
     {
         return $this->store_name;
+    }
+
+    public function getTitle()
+    {
+        return $this->getSeoTitle();
     }
 
     public function getSafeTitle()
@@ -44,9 +49,14 @@ class TppStoreModelStore extends TppStoreModelCurrency {
         return esc_textarea($this->store_name);
     }
 
-    public function getDescription()
+    public function getSeoDescription()
     {
         return esc_attr($this->description);
+    }
+
+    public function getDescription()
+    {
+        return $this->getSeoDescription();
     }
 
     /*
@@ -123,7 +133,8 @@ class TppStoreModelStore extends TppStoreModelCurrency {
 
     public function getPermalink($preview = false, $full_url = false)
     {
-        return ($full_url === true?get_site_url():'') . '/shop/store/' . $this->store_slug . ($preview === true?'?preview=true':'');
+
+        return ($full_url === true?'http://www.' . $_SERVER['HTTP_HOST']:'') . '/shop/store/' . $this->store_slug . ($preview === true?'?preview=true':'');
     }
 
     public function getOwner()
@@ -149,6 +160,19 @@ class TppStoreModelStore extends TppStoreModelCurrency {
         }
 
         return $this->_user->facebook_user_id;
+    }
+
+    public function getUser($load = false)
+    {
+        if (true === $load && is_null($this->_user) || ($this->_user instanceof TppStoreModelUser && intval($this->_user->user_id) < 1)) {
+            if (!($this->_user instanceof TppStoreModelUser)) {
+                $this->_user = new TppStoreModelUser();
+            }
+            $this->_user->setData(array(
+                'user_id'   =>  $this->user_id
+            ))->getUserByID();
+        }
+        return $this->_user;
     }
 
     public function getStoreBySlug($slug = '', $enabled = 1)
@@ -416,24 +440,29 @@ class TppStoreModelStore extends TppStoreModelCurrency {
 
             if (is_array($product_not_in)) {
                 $where .= " AND p.product_id NOT IN('" . implode(',', $product_not_in) . "') ";
-            } elseif (is_string($product_not_in)) {
+            } elseif (is_string($product_not_in) && trim($product_not_in) != '') {
                 $where .= " AND p.product_id <> " . $product_not_in;
             }
 
             if ($count === false) {
-                $start = (($page-1) * $limit) - $page + 1;
+                if ($page == 0) {
+                    $page = 1;
+                }
+
+                $start = (($page-1) * 20);
 
                 $rows = $wpdb->get_results(
                     $wpdb->prepare(
                         "SELECT p.*, i.path, i.src, i.alt, i.filename, i.extension, i.size_alias, s.currency, s.store_slug, s.store_name FROM " . TppStoreModelProduct::getInstance()->getTable() . " AS p
                 INNER JOIN " . TppStoreModelStore::getInstance()->getTable() . " AS s ON s.store_id = p.store_id AND s.enabled = 1
 
-                INNER JOIN (SELECT product_id, path, src, alt, filename, extension, size_alias FROM shop_product_images WHERE size_alias = 'main' ORDER BY ordering ASC)
+                INNER JOIN (SELECT product_id, path, src, alt, filename, extension, size_alias FROM shop_product_images ORDER BY ordering ASC)
                      AS i ON i.product_id = p.product_id
 
                 WHERE s.store_id = %s
                 $where
                 GROUP BY p.product_id
+                ORDER BY p.product_type IN (4,5) DESC, p.product_type
                 LIMIT $start, $limit
                 ",
                         array(
@@ -457,6 +486,8 @@ class TppStoreModelStore extends TppStoreModelCurrency {
 
                 return $c;
             }
+
+            //mail('parsolee@gmail.com', 'test store', print_r($wpdb, true));
 
 
             if ($wpdb->num_rows > 0) {
@@ -572,6 +603,7 @@ class TppStoreModelStore extends TppStoreModelCurrency {
         }
 
         $save_path = false;
+
         if ($wpdb->rows_affected <= 1 && $wpdb->last_error == '') {
 
             //not affected if nothing to update. Still is a valid result
@@ -751,40 +783,37 @@ class TppStoreModelStore extends TppStoreModelCurrency {
 
 
 
-        if (false === $application_submission) {
+        if (true === $application_submission) {
 
             if (is_null($this->store_slug) || trim($this->store_slug) == '') {
 //                $errors = true;
 //                TppStoreMessages::getInstance()->addMessage('error', array('store_slug' =>  'Please enter a store url'));
                 //create a store slug for them!
                 $this->store_slug = sanitize_title_with_dashes($this->store_name);
-            }
 
-            if (true === $validate_records && !is_null($this->store_slug) && $this->store_slug !== '') {
-                $wpdb->query(
-                    $wpdb->prepare("SELECT store_id FROM " . $this->getTable() . " WHERE user_id <> %d AND store_slug = %s",
-                        array(
-                            $this->user_id,
-                            $this->store_slug
-                        )
-                    )
+
+//            if (true === $validate_records && !is_null($this->store_slug) && $this->store_slug !== '') {
+                $c = $wpdb->get_var(
+                    "SELECT COUNT(store_id) AS c FROM " . $this->getTable() . " WHERE user_id <> " . intval($this->user_id) . " AND store_slug LIKE '%" . $wpdb->escape($this->store_slug) . "%'"
                 );
 
-                if ($wpdb->num_rows > 0) {
-                    $errors = true;
-                    TppStoreMessages::getInstance()->addMessage('error', array('store_name' =>  'A store with this url already exists. Please enter a new url'));
-                    $this->enabled = 0;
+                if ($c > 0) {
+                    $this->store_slug .= '-' . $c;
                 }
+  //          }
+
             }
 
+        } else {
             if (!filter_var($this->paypal_email, FILTER_VALIDATE_EMAIL)) {
                 $errors = true;
                 TppStoreMessages::getInstance()->addMessage('error', array('paypal_email' =>  'Could not validate your paypal email address. Please make sure it is formatted correctly. Your store will not be able to take payments without a valid linked paypal account.'));
                 //force disable of this store!
                 $this->enabled = 0;
             }
-
         }
+
+
 
         if (is_null($this->store_name) || trim($this->store_name) == '') {
             //determine if this store name already exists?

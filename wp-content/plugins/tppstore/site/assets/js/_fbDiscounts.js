@@ -67,9 +67,13 @@ var fbDiscounts = {
                 message: ''
             },
             function(response) {
+
+
                 if (response && response.post_id) {
 
-                    FB.api('https://graph.facebook.com/' + response.post_id, 'get', function(response) {
+
+
+//                    FB.api('https://graph.facebook.com/' + response.post_id, 'get', function(response) {
 
                         if (!response || response.error) {
                             overlay.setHeader('Opps!');
@@ -92,9 +96,9 @@ var fbDiscounts = {
                                 }
                             );
                         }
-                    });
+  //                  });
                 } else {
-                    alert('You would have got a discount code if you shared!.');
+                   // alert('You would have got a discount code if you shared!.');
                 }
             }
         );
@@ -197,26 +201,47 @@ var fbDiscounts = {
 
 var fbFriends = {
 
+    watcher: 0,
+
     init: function() {
-        if (fbLogin.me > 0) {
-            fbFriends.status();
-            //fbLogin.getFBLoginStatus(false, 'fbFriends.status()');
-        }
+
+        FB.getLoginStatus(function(response) {
+            if (response.status && response.status == 'connected') {
+                fbLogin.me = response.authResponse.userID;
+            }
+        });
+
+        fbFriends.watcher = setInterval(function() {
+            if (fbLogin.me > 0) {
+                clearInterval(fbFriends.watcher);
+                fbFriends.status();
+                //fbLogin.getFBLoginStatus(false, 'fbFriends.status()');
+            }
+        }, 500);
+
     },
 
     status: function() {
 
         if (fbLogin.me && fbLogin.me !== shop_fb_id) {
 
-            // query your friend's likes based on their ID
-            FB.api(
-                '/me/mutualfriends/' + shop_fb_id + '?limit=10000&offset=0',
-                fbFriends.friends
-            );
+            if (shop_fb_id > 0) {
+                // query your friend's likes based on their ID
+                FB.api(
+                    '/me/mutualfriends/' + shop_fb_id + '?limit=10000&offset=0',
+                    fbFriends.friends
+                );
+            }
+
+
         }
     },
 
     friends: function(response) {
+
+        console.log(response);
+
+
         if (response && !response.error && response.data.length > 0) {
             //get the first five only!
             var i, d = document.getElementById('facebook_friends');
@@ -288,7 +313,8 @@ jQuery(document).ready(function($) {
     // Create the event
     $(document).on("facebook:ready", function() {
         fbDiscounts.init();
-        fbFriends.init();
+        setTimeout(function() {fbFriends.init();}, 1000);
+
     });
 
 });

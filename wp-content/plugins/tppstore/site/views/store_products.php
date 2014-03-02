@@ -1,5 +1,7 @@
 <?php
 
+
+
 require TPP_STORE_PLUGIN_DIR . 'helpers/paginator.php';
 
 $paginator = new TppStoreHelperPaginator();
@@ -22,7 +24,7 @@ get_header(); ?>
             <?php echo $store->getSrc(true, 'thumb'); ?>
 
             <div class="form-group">
-                <a href="/shop/ask/<?php echo $store->store_slug ?>" class="btn btn-primary form-control">Ask Store Owner a Question</a>
+                <a href="/shop/ask/<?php echo $store->store_slug ?>" class="btn btn-primary form-control">Ask store owner a question</a>
             </div>
 
         <?php if (false !== $store->getPages()->getTerms()): ?>
@@ -44,7 +46,7 @@ get_header(); ?>
                     </header>
                 <?php endif; ?>
                 <div class="description">
-                    <?php echo $store->getDescription() ?>
+                    <pre><?php echo $store->getDescription() ?></pre>
                 </div>
             </div>
         </div>
@@ -55,17 +57,18 @@ get_header(); ?>
     <p class="wrap">There are no products in this store. Please check back later</p>
 <?php else: ?>
 </div>
-
+    <?php echo $paginator->render() ?>
     <div class="wrap wrap-white store-product-list">
         <section class="innerwrap">
             <header class="wrap store-header">
                 <h2 class="innerwrap">Items for sale</h2>
             </header>
+        </section>
+    </div>
             <?php
 
             include TPP_STORE_PLUGIN_DIR . 'site/views/products/store_list.php' ?>
-        </section>
-    </div>
+
 <?php endif; ?>
 
 

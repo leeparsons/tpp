@@ -11,6 +11,8 @@ class TppStoreModelOrderItems extends TppStoreAbstractModelResource {
 
     protected $_table = 'shop_order_items';
 
+
+
     public function getLineItems($load = false)
     {
 
@@ -31,7 +33,7 @@ class TppStoreModelOrderItems extends TppStoreAbstractModelResource {
 
                 $wpdb->query(
                     $wpdb->prepare(
-                        "SELECT product_id, data FROM " . $this->getTable() . " WHERE ordeR_id = %d",
+                        "SELECT product_id, data FROM " . $this->getTable() . " WHERE order_id = %d",
                         $this->order_id
                     ),
                     OBJECT_K
@@ -44,7 +46,7 @@ class TppStoreModelOrderItems extends TppStoreAbstractModelResource {
                             'product_id'    =>  $row->product_id,
                             'order'         =>  $this->order_id,
                             'data'          =>  $row->data
-                        ));
+                        ))->setData(unserialize($row->data));
                     }
                 }
             }
@@ -63,7 +65,7 @@ class TppStoreModelOrderItems extends TppStoreAbstractModelResource {
 
         global $wpdb;
 
-        $sql = "INSERT IGNORE INTO " . $this->getTable() . ' (order_id, product_id, data) VALUES ';
+        $sql = "INSERT IGNORE INTO " . $this->getTable() . ' (order_id, product_id, store_id, product_type, product_name, quantity, data) VALUES ';
 
         $insert = array();
 
@@ -71,12 +73,19 @@ class TppStoreModelOrderItems extends TppStoreAbstractModelResource {
 
         foreach ($this->products as $product) {
             $ids[] = intval($product->product_id);
-            $insert[] = "(" . intval($this->order_id) . "," . intval($product->product_id) . ", '" . esc_sql(serialize($product)) . "')";
+            $insert[] = "(" . intval($this->order_id) .
+                    "," . intval($product->product_id) .
+                    "," . intval($product->store_id) .
+                    "," . intval($product->product_type) .
+                    ",'" . esc_sql($product->product_title) . "'" .
+                    "," . esc_sql($product->order_quantity) .
+                    ",'" . esc_sql(serialize($product)) . "')";
+
         }
 
         $sql = $sql . implode(',', $insert);
 
-        $wpdb->query("DELETE FROM " . $this->getTable() . " WHERE product_id NOT IN (" . implode(",", $ids) . " AND order_id = " . intval($this->order_id) . ")");
+        $wpdb->query("DELETE FROM " . $this->getTable() . " WHERE product_id NOT IN (" . implode(",", $ids) . ") AND order_id = " . intval($this->order_id));
 
         //delete from the order items currently existing that do not exist in this set!
 

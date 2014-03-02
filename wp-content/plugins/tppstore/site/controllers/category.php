@@ -38,14 +38,20 @@ class TppStoreControllerCategory extends TppStoreAbstractBase {
 
         if ($slug !== '') {
 
+            $tmp = explode('/', $slug);
+
+            $level = count($tmp);
+
+            //get the count of slashes - this indicates the level.
+
             if (substr($slug, -1) == '/') {
                 $slug = substr($slug, 0, -1);
             }
 
             if (false !== strpos($slug, '/')) {
-
                 $slug = substr($slug, strrpos($slug, '/') + 1);
             }
+
 
 
             switch (strtolower($pagename)) {
@@ -55,7 +61,7 @@ class TppStoreControllerCategory extends TppStoreAbstractBase {
 
 
 
-                    $this->renderCategoryPage($slug);
+                    $this->renderCategoryPage($slug, $level);
                     break;
 
                 default:
@@ -83,12 +89,12 @@ class TppStoreControllerCategory extends TppStoreAbstractBase {
     }
 
 
-    private function renderCategoryPage($slug = '')
+    private function renderCategoryPage($slug = '', $level = 1)
     {
 
         $category = $this->getCategoryModel();
 
-        $category->getCategoryBySlug($slug);
+        $category->getCategoryBySlug($slug, $level);
 
         if (intval($category->category_id) <= 0) {
 
@@ -123,10 +129,46 @@ class TppStoreControllerCategory extends TppStoreAbstractBase {
                 $total = $category->getProducts(false, array('count'    =>  true));
             }
 
+            $this->pageTitle($category);
+
+            //add_filter( 'wp_title', (function() use($category) {TppStoreAbstractBase::pageTitle(array($category));}), 10, 2);
+            $this::$_meta_description = $category->getSeoDescription();
+
+
             include TPP_STORE_PLUGIN_DIR . 'site/views/category.php';
         }
 
         exit;
 
     }
+
+    public function renderCategoryMenu()
+    {
+
+        TppCacher::getInstance()->setCacheName('category-menu');
+        TppCacher::getInstance()->setCachePath('menu');
+
+
+        if (false === ($menu = TppCacher::getInstance()->readCache(-1))) {
+
+            ob_start();
+            $categories = $this->getCategoriesModel();
+            $categories->getCategories(array(
+                'heirarchical'  =>  true
+            ));
+            $categories = $categories->categories;
+            include TPP_STORE_PLUGIN_DIR . 'site/views/common/categories_menu.php';
+            $menu = ob_get_contents();
+            ob_end_clean();
+
+            TppCacher::getInstance()->saveCache($menu);
+
+        }
+
+
+        echo $menu;
+        flush();
+
+    }
+
 }

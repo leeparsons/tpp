@@ -57,7 +57,7 @@ class TppStoreControllerDiscount extends TppStoreAbstractBase {
         if ($discount->readFromPost()) {
 
             $discount->setData(array(
-                'max_uses'  =>  1
+                'max_uses'  =>  0
             ));
 
             if ($discount->save()) {

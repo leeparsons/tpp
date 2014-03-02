@@ -43,10 +43,21 @@ class TppStoreLibraryFileImage extends TppStoreLibraryAbstractFile {
             if (is_array($sizes)) {
 
                 switch ($extension) {
+
+                    case 'png':
+
+                        $src = imagecreatefrompng($this->_file);
+
+
+                        break;
+
                     case 'jpeg':
                     case 'jpg':
-                    case 'png':
-                        $image = getimagesize($this->_file);
+
+
+
+
+                        $src = imagecreatefromjpeg($this->_file);
 
                         break;
                     default:
@@ -54,26 +65,94 @@ class TppStoreLibraryFileImage extends TppStoreLibraryAbstractFile {
                         break;
                 }
 
-                $image = wp_get_image_editor($this->_file);
-                if ($image instanceof WP_Error) {
-                 return false;
-                } else {
+                list($original_w, $original_h) = getimagesize($this->_file);
 
+                $tmp = $sizes;
+
+                if (!is_array(array_shift($tmp))) {
                     $tmp = $sizes;
-
-                    if (!is_array(array_shift($tmp))) {
-                        $tmp = $sizes;
-                        unset($sizes);
-                        $sizes[] = $tmp;
-                    }
-
-                    unset($tmp);
-
-                    foreach ($sizes as $name => $size) {
-                        $image->resize($size['width'], $size['height'], (isset($size['crop'])?$size['crop']:false));
-                        $image->save($this->path . $base_name . '_' . $size['width'] . '_' . $size['height'] . '.' . $extension);
-                    }
+                    unset($sizes);
+                    $sizes[] = $tmp;
                 }
+
+                unset($tmp);
+
+                foreach ($sizes as $size) {
+                    if ($original_w >= $size['width'] || $original_h >= $size['height']) {
+                        //resize the width, but make sure the resized height does not exceed teh height
+
+                        if ($original_w > $original_h || $original_h != $size['height']) {
+
+                            $resized_height = $size['height'];
+
+                            $scale = $size['height'] / $original_h;
+
+                            $resized_width = $scale * $original_w;
+
+
+                        } else {
+                            $resized_width = $size['width'];
+
+                            $scale = $size['width'] / $original_w;
+
+                            $resized_height = $scale * $original_h;
+
+                        }
+
+                    } elseif ($original_h < $size['height'] || $original_w < $size['height']) {
+
+                        //smaller so don't resize, just take the current dimensions
+
+                        $resized_height = $original_h;
+                        $resized_width = $original_w;
+
+                    } else {
+                        $resized_width = $size['width'];
+                        $resized_height = $size['height'];
+                    }
+
+                    $dest = imagecreatetruecolor($size['width'], $size['height']);
+
+                    $bg = imagecolorallocate ( $dest, 255, 255, 255 );
+
+                    imagefilledrectangle($dest, 0, 0, $size['width'], $size['height'], $bg);
+
+                    unset($bg);
+
+                    imagecopyresampled(
+                        $dest,
+                        $src,
+                        ($size['width'] - $resized_width) / 2, ($size['height'] - $resized_height) / 2,
+                        0, 0,
+                        $resized_width, $resized_height,
+                        //$size['width'], $size['height'],
+                        $original_w, $original_h
+                    );
+
+
+
+                    imagejpeg($dest, $this->path . $base_name . '_' . $size['width'] . '_' . $size['height'] . '.' . $extension, 100);
+                    imagedestroy($dest);
+                    @chmod($this->path . $base_name . '_' . $size['width'] . '_' . $size['height'] . '.' . $extension, 0777);
+                }
+
+
+
+
+
+
+//                $image = wp_get_image_editor($this->_file);
+//                if ($image instanceof WP_Error) {
+//                 return false;
+//                } else {
+//
+//
+//
+//                    foreach ($sizes as $name => $size) {
+//                        $image->resize($size['width'], $size['height'], (isset($size['crop'])?$size['crop']:false));
+//                        $image->save($this->path . $base_name . '_' . $size['width'] . '_' . $size['height'] . '.' . $extension);
+//                    }
+//                }
             }
         }
 

@@ -49,6 +49,12 @@ get_header();
         </div>
 
     </form>
+
+        <div class="wrap">
+            <br>
+            <a href="/shop/password_reset/" class="btn btn-primary">Forgot your password?</a>
+        </div>
+
     </div>
 
     <div class="half-left">

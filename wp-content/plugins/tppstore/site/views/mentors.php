@@ -2,9 +2,9 @@
 
 get_header(); ?>
 
-<a href="/shop">Shop</a> / <span>Mentors</span>
+<a href="/shop/">Shop</a> / <span>Mentors</span>
 
-<?php if (count($products) > 0): ?>
+<?php if (count($mentors) > 0): ?>
     <?php $image_size = isset($image_size)?$image_size:'thumb' ?>
 <!--    --><?php //echo $paginator->render(); ?>
 
@@ -13,12 +13,10 @@ get_header(); ?>
         <div class="form-group">
             <label for="sort">Sort by
             <select id="sort">
-                <option value="">best rated</option>
-                <option <?php echo $args == 'lowest-rated'?'selected="selected"':'' ?> value="lowest-rated">least rated</option>
-                <option <?php echo $args == 'a-z'?'selected="selected"':'' ?> value="a-z">A-Z</option>
-                <option <?php echo $args == 'z-a'?'selected="selected"':'' ?> value="z-a">Z-A</option>
-                <option <?php echo $args == 'highest-price'?'selected="selected"':'' ?> value="highest-price">Price high - low</option>
-                <option <?php echo $args == 'lowest-price'?'selected="selected"':'' ?> value="lowest-price">Price low - high</option>
+<!--                <option value="">best rated</option>-->
+<!--                <option --><?php //echo $args == 'lowest-rated'?'selected="selected"':'' ?><!-- value="lowest-rated">least rated</option>-->
+                <option <?php echo $args == 'a-z'?'selected="selected"':'' ?> value="a-z">Name A-Z</option>
+                <option <?php echo $args == 'z-a'?'selected="selected"':'' ?> value="z-a">Name Z-A</option>
             </select>
             </label>
 
@@ -27,30 +25,30 @@ get_header(); ?>
 
     <script>
         document.getElementById('sort').onchange = function() {
-            window.location.href = '/shop/mentors/sort/' + this.value;
+            window.location.href = '/shop/category/mentors/sort/' + this.value;
         }
     </script>
 
     </section>
-    <section class="wrap wrap-grey">
 
+    <section class="wrap wrap-grey">
 
 
         <ul class="item-list" id="product_list">
             <?php $i = 1; ?>
-            <?php foreach ($products as $product): ?>
+            <?php foreach ($mentors as $mentor): ?>
                 <li class="item-box<?php echo $i%4?'':' last' ?>">
-                    <a href="<?php echo $product->getPermalink() ?>">
-                        <?php echo $product->getProductImage()->getSrc($image_size, true) ?>
-                        <span class="strong"><?php echo $product->product_title ?></span>
+                    <a href="<?php echo $mentor->getPermalink() ?>">
+                        <?php echo $mentor->getSrc($image_size, true) ?>
+<?php /*                        <span class="strong"><?php echo $mentor->product_title ?></span> */ ?>
 
-                        <b class="wrap text-center"><?php echo $product->mentor_name ?></b>
-                        <br>
-                        <span><?php echo $product->getMentor()->getLocation() ?></span>
+                        <span><?php echo $mentor->mentor_name ?></span>
+
+                        <span><?php echo $mentor->getLocation() ?></span>
 
                         <?php
-/*
-                            $specialities = $product->getMentor()->getSpecialism()->specialities;
+
+                            $specialities = $mentor->getSpecialism()->specialities;
 
                             if (is_array($specialities) && count($specialities) > 0): ?>
                                 <ul class="specialisms">
@@ -58,12 +56,10 @@ get_header(); ?>
                                         <li><?php echo $speciality; ?></li>
                                     <?php endforeach; ?>
                                 </ul>
-                            <?php endif;
+                            <?php endif; ?>
+                        <?php /* <span class="price">From: <?php echo $mentor->getFormattedMinPrice(true) ?></span>*/ ?>
+                        <?php /* <a class="store-tag" href="<?php echo $mentor->getStore()->getPermalink(); ?>"><?php echo $mentor->getStore()->store_name ?></a> */ ?>
 
-*/
-?>
-                        <span class="price">From: <?php echo $product->getFormattedMinPrice(true) ?></span>
-                        <a class="store-tag" href="<?php echo $product->getStore()->getPermalink(); ?>"><?php echo $product->getStore()->store_name ?></a>
                     </a>
                 </li>
                 <?php $i++; ?>

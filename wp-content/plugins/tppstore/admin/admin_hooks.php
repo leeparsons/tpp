@@ -24,6 +24,20 @@ add_action('admin_menu', function() {
     add_submenu_page('tpp-store', NULL, NULL, 'edit_pages', 'tpp-store-application', function() {
         TppStoreAdminControllerStore::getInstance()->renderApplication();
     });
+
+    add_submenu_page('tpp-store', 'Reports', 'Reports', 'edit_pages', 'tpp-store-reports',
+        array(
+            'TppStoreAdminControllerReports',
+            'renderReports'
+        )
+    );
+
+    add_submenu_page('tpp-store-reports', 'Report', 'Report', 'edit_pages', 'tpp-store-report',
+        array(
+            'TppStoreAdminControllerReports',
+            'renderReport'
+        )
+    );
 });
 
 add_action('admin_action_tpp_store_save_ctgy', array(

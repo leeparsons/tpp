@@ -1,7 +1,9 @@
 <legend class="wrap">Images</legend>
 
 <div class="form-group">
-    <p>Upload some images to help sell your product</p>
+    <pre>Upload some images to help sell your product.
+
+The ideal image size is under 500KB.</pre>
 </div>
 
 <div id="dropbox">
@@ -24,7 +26,13 @@
                     <div class="delete-icon"></div>
                     <div class="preview">
                         <?php $src = $image->getSrc(); ?>
-                        <?php $new_src = (!empty($_SESSION['tpp_store']['tmp_new_product_images']) && $_SESSION['tpp_store']['tmp_new_product_images'][$x])?$_SESSION['tpp_store']['tmp_new_product_images'][$x]:false; ?>
+                        <?php $new_src = (!empty($_SESSION['tpp_store']['tmp_new_product_images']) && $_SESSION['tpp_store']['tmp_new_product_images'][$x])?$_SESSION['tpp_store']['tmp_new_product_images'][$x]:false;
+
+                        if (!file_exists(WP_CONTENT_DIR . '/uploads' . $new_src)) {
+                            $new_src = false;
+                        }
+
+                        ?>
                         <?php if ($src || $new_src): ?>
                             <img src="<?php echo $new_src?$base_src . $new_src:$src ?>">
                             <?php if(!$new_src): ?>
@@ -60,10 +68,10 @@
                 <div class="handle"></div>
                 <div class="delete-icon"></div>
                 <div class="preview">
-                    <?php if (!empty($_SESSION['tpp_store']['tmp_new_product_images']) && isset($_SESSION['tpp_store']['tmp_new_product_images'][$x])): ?>
+                    <?php if (!empty($_SESSION['tpp_store']['tmp_new_product_images']) && isset($_SESSION['tpp_store']['tmp_new_product_images'][$x]) && file_exists(WP_CONTENT_DIR . '/uploads' . $base_src .$_SESSION['tpp_store']['tmp_new_product_images'][$x])): ?>
                         <span class=imageHolder">
-                                    <img src="<?php echo $base_src . $_SESSION['tpp_store']['tmp_new_product_images'][$x] ?>">
-                                </span>
+                            <img src="<?php echo $base_src . $_SESSION['tpp_store']['tmp_new_product_images'][$x] ?>">
+                        </span>
                         <input type="hidden" name="uploaded_pic[]" value="<?php echo $_SESSION['tpp_store']['tmp_new_product_images'][$x] ?>">
                         <input type="hidden" class="image-ordering" name="image_ordering[<?php echo $_SESSION['tpp_store']['tmp_new_product_images'][$x] ?>]" value="<?php echo $x; ?>">
                     <?php else: ?>

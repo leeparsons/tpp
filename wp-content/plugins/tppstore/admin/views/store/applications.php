@@ -9,7 +9,7 @@ function TppRenderTds($store)
 
         if ($store->approved == 1) {
             echo 'tick.png';
-        } elseif ($store->approved == 0) {
+        } elseif (intval($store->approved) == 0) {
             echo 'cross.png';
         } else {
             echo 'declined.png';
@@ -17,6 +17,17 @@ function TppRenderTds($store)
 
 
         ?>"></td>
+    <td style="text-align:center;"><?php
+
+
+        if ($store->newsletter == 1) {
+            echo $store->email;
+        } else {
+            echo '<img src="/assets/images/cross.png">';
+        }
+
+
+        ?></td>
     <td><?php echo $store->owner; ?></td>
     <td><?php echo $store->product_count; ?></td>
 <?php
@@ -31,6 +42,7 @@ function TppRenderTds($store)
             <th>Title</th>
             <th>Application Date</th>
             <th style="text-align: center">Approved</th>
+            <th style="text-align: center">Newsletter</th>
             <th>Owner</th>
             <th>Number of Products</th>
         </tr>

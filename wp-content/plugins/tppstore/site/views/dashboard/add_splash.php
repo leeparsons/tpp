@@ -20,6 +20,11 @@ include 'header.php';
 
         <ul class="dashboard-icons">
             <li>
+                <a href="/shop/dashboard/event/new" class="dashboard-event-new dashboard-icon">
+                    <span>New event or workshop</span>
+                </a>
+            </li>
+            <li>
                 <a href="/shop/dashboard/product/new" class="dashboard-product-new dashboard-icon">
                     <span>New Product</span>
                 </a>

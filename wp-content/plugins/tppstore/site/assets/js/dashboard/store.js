@@ -8,12 +8,31 @@ jQuery(function($) {
         }
 
 
+        var errors = [];
+
+
+        if (document.getElementById('paypal_email').value.replace(/\s+/g, '') == '') {
+            errors.push('Please enter your paypal address to receive payments');
+        }
+
+        if (errors.length > 0) {
+            overlay.setHeader('Oops!');
+            overlay.setBody(errors.join('<br>'));
+            overlay.populateInner();
+            return false;
+        }
+
         if (true === dropper.uploading) {
             var c = confirm('Your image has not finished uploading. If you choose to continue, you may lose the  image. Continue?');
             if (false === c) {
                 return false;
             }
         }
+
+
+
+
+
     });
 
     $('#store_form').on('click', 'input[type="submit"]', function(e) {

@@ -18,9 +18,18 @@ class TppStoreModelStorePage extends TppStoreAbstractModelResource {
         return $this->page;
     }
 
-    public function getDescription()
+    public function getSeoTitle()
+    {
+        return $this->page;
+    }
+
+    public function getSeoDescription()
     {
         return substr(strip_tags($this->content), 0, 150);
     }
 
+    public function getDescription()
+    {
+        return substr(strip_tags($this->content), 0, 150);
+    }
 }

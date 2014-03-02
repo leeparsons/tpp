@@ -36,7 +36,10 @@
 
                 <legend>Profile Image</legend>
                     <div class="form-group">
-                        <p>Upload an image for your profile. The ideal image size is 250 pixels by 250 pixels, but we will resize your image is it's larger.</p>
+
+                        <pre>This should be an image of yourself.
+
+The ideal image size is below 500KB.</pre>
                         <div id="dropbox" class="store-dropbox">
                             <div class="drop-wrap">
                                 <div class="photo-box">

@@ -21,20 +21,26 @@ include 'header.php';
 
     <ul class="dashboard-icons">
         <li>
-            <a href="/shop/dashboard/product/new" class="dashboard-product-new dashboard-icon">
-                <span>New Product</span>
+            <a href="/shop/dashboard/event/new" class="dashboard-event-new dashboard-icon">
+                <span>New event or workshop</span>
             </a>
         </li>
         <li>
-            <a href="/shop/dashboard/mentor/new" class="dashboard-mentor-new dashboard-icon">
+            <a href="/shop/dashboard/mentors/" class="dashboard-mentor-new dashboard-icon">
                 <span>New mentor</span>
             </a>
         </li>
         <li>
+            <a href="/shop/dashboard/product/new" class="dashboard-product-new dashboard-icon">
+                <span>New Product</span>
+            </a>
+        </li>
+
+        <!--li>
             <a href="/shop/dashboard/mentor_session/new" class="dashboard-mentor-session-new dashboard-icon">
                 <span>New mentor Session</span>
             </a>
-        </li>
+        </li-->
         <li>
             <a href="/shop/dashboard/orders" class="dashboard-orders dashboard-icon">
                 <span>My Orders</span>
@@ -46,7 +52,7 @@ include 'header.php';
             </a>
         </li>
         <li>
-            <a href="/shop/<?php echo $store->getPermalink() ?>" class="dashboard-store dashboard-icon">
+            <a href="<?php echo $store->getPermalink() ?>" class="dashboard-store dashboard-icon">
                 <span>My Store</span>
             </a>
         </li>

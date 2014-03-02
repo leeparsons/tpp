@@ -11,11 +11,16 @@ if (!class_exists('TppStoreAbstractBase')) {
 
 class TppStoreControllerDashboard extends TppStoreAbstractBase {
 
+
+
     public function applyRewriteRules()
     {
 
 
         add_rewrite_rule('shop/dashboard/store/upload/?', 'index.php?tpp_pagename=tpp_store_upload&path=product', 'top');
+
+        add_rewrite_rule('shop/dashboard/product_delete/?', 'index.php?tpp_pagename=tpp_product_delete', 'top');
+        add_rewrite_rule('shop/dashboard/mentor_delete/?', 'index.php?tpp_pagename=tpp_mentor_delete', 'top');
 
         add_rewrite_rule('shop/dashboard/product/edit/([^/]+)/?', 'index.php?tpp_pagename=tpp_dashboard&path=edit_product&product_id=$matches[1]', 'top');
 
@@ -23,14 +28,19 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
 
         add_rewrite_rule('shop/dashboard/product/upload/?', 'index.php?tpp_pagename=tpp_product_upload&path=product', 'top');
 
-        add_rewrite_rule('shop/dashboard/mentor_session/new/?', 'index.php?tpp_pagename=tpp_dashboard&path=new_mentor_session', 'top');
+        add_rewrite_rule('shop/dashboard/mentor-sessions/([^/]+)/?', 'index.php?tpp_pagename=tpp_dashboard&path=mentor_sessions&mentor_id=$matches[1]', 'top');
+
+        add_rewrite_rule('shop/dashboard/mentor_session/new/(.*)/?', 'index.php?tpp_pagename=tpp_dashboard&path=new_mentor_session&mentor_id=$matches[1]', 'top');
         add_rewrite_rule('shop/dashboard/mentor_session/edit/([^/]+)/?', 'index.php?tpp_pagename=tpp_dashboard&path=edit_mentor_session&product_id=$matches[1]', 'top');
+
 
         add_rewrite_rule('shop/dashboard/mentor/new/?', 'index.php?tpp_pagename=tpp_dashboard&path=new_mentor', 'top');
         add_rewrite_rule('shop/dashboard/mentor/edit/([^/]+)/?', 'index.php?tpp_pagename=tpp_dashboard&path=mentor&mentor_id=$matches[1]', 'top');
 
+        add_rewrite_rule('shop/dashboard/mentor/upload/?', 'index.php?tpp_pagename=tpp_mentor_upload', 'top');
 
-        add_rewrite_rule('shop/dashboard/order/([^/]+)?', 'index.php?tpp_pagename=tpp_dashboard&path=order&args=$matches[1]', 'top');
+
+        add_rewrite_rule('shop/dashboard/purchase/([^/]+)?', 'index.php?tpp_pagename=tpp_dashboard&path=purchase&args=$matches[1]', 'top');
 
         add_rewrite_rule('shop/dashboard/profile/edit', 'index.php?tpp_pagename=tpp_profile_edit', 'top');
 
@@ -42,6 +52,15 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
 
         add_rewrite_rule('shop/dashboard/store/golive', 'index.php?tpp_pagename=tpp_dashboard&path=storegolive', 'top');
         add_rewrite_rule('shop/dashboard/store/gooffline', 'index.php?tpp_pagename=tpp_dashboard&path=storegooffline', 'top');
+
+        add_rewrite_rule('shop/dashboard/order/(.*)/?', 'index.php?tpp_pagename=tpp_dashboard&path=order&args=$matches[1]', 'top');
+
+        add_rewrite_rule('shop/dashboard/events', 'index.php?tpp_pagename=tpp_dashboard&path=events', 'top');
+
+        add_rewrite_rule('shop/dashboard/event/new', 'index.php?tpp_pagename=tpp_dashboard&path=new_event', 'top');
+
+        add_rewrite_rule('shop/dashboard/event/edit/(.*)?', 'index.php?tpp_pagename=tpp_dashboard&path=edit_event&product_id=$matches[1]', 'top');
+
 
         add_rewrite_rule('shop/dashboard/?([^/]+)', 'index.php?tpp_pagename=tpp_dashboard&path=$matches[1]', 'top');
         add_rewrite_rule('shop/dashboard/?', 'index.php?tpp_pagename=tpp_dashboard', 'top');
@@ -65,6 +84,17 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
                 $this->_setWpQueryOk();
 
                 $this->renderDashboard($path);
+                break;
+
+
+            case 'tpp_product_delete':
+
+
+                TppStoreControllerProduct::getInstance()->delete();
+                break;
+
+            case 'tpp_mentor_delete':
+                TppStoreControllerMentors::getInstance()->delete();
                 break;
 
             case 'tpp_product_upload':
@@ -95,6 +125,8 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
 
                 break;
 
+
+
             case 'tpp_preview_close':
 
                 $this->_destroyPreviewSession();
@@ -111,6 +143,7 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
                 $this->renderProfile($args);
 
                 break;
+
 
 
 
@@ -133,9 +166,13 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
 
         if (false === ($user = TppStoreControllerUser::getInstance()->loadUserFromSession() )) {
             $this->redirectToLogin('redirect=' . urlencode($_SERVER['REQUEST_URI']));
+
+
         } elseif ($user->user_type == 'buyer') {
             $this->redirectToAccount();
         }
+
+
 
         switch (TppStoreBrowserLibrary::getInstance()->getBrowserName())
         {
@@ -144,9 +181,9 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
                 break;
 
             case 'Apple Safari':
-                if (TppStoreBrowserLibrary::getInstance()->getBrowserVersion() < 6) {
-                    TppStoreMessages::getInstance()->addMessage('error', array("We've detected you are using a browser that does not support advanced features of this dashboard. Please use the latest versions of either <b>Firefox</b>, <b>Google Chrome</b> or <b>Safari</b> to experience the full power of your dashboard!<br><br>Continuing to use your dashboard in this browser/version will result in un expected reults!!<br><br>Things that will not work:<br><strong>Image Uploads</strong>"));
-                }
+                //if (TppStoreBrowserLibrary::getInstance()->getBrowserVersion() < 6 || TppStoreBrowserLibrary::getInstance()->getBrowserVersion() >= 7) {
+                    TppStoreMessages::getInstance()->addMessage('error', array("We've detected you are using a browser that does not support advanced features of this dashboard. Please use the latest versions of either <b>Firefox</b>, or <b>Google Chrome</b> to experience the full power of your dashboard!<br><br>Continuing to use your dashboard in this browser/version will result in un expected reults!!<br><br>Things that will not work:<br><strong>Image Uploads</strong><script>alert('Warning: image uploads do not work in the latest version of Safari (7). We are working with Apple to fix this. In the mean time please use either google chrome or firefox.')</script>"));
+                //}
                 break;
 
             default:
@@ -155,15 +192,21 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
         }
 
 
+        $this->_is_dashboard = true;
+
+
+        if ($user->user_type == 'store_owner') {
+            if ($user->user_src == '') {
+                TppStoreMessages::getInstance()->addMessage('error', array('profile-image' => 'Complete your profile: <a href="/shop/dashboard/profile/edit/" class="btn btn-primary">upload an image</a><br><br>Uploading a personal photo of you builds trust with your customers and can increase sales.'));
+            }
+        }
 
 
 
-
-
-        if (is_null($user->last_dashboard_visit)) {
+        if (strtotime($user->last_dashboard_visit) < strtotime('-1days')) {
             TppStoreMessages::getInstance()->addMessage('message', 'Hello and Congratulations on your new store!');
             $user->setData(array(
-            'last_dashboard_visit'  =>  date('Y-m-d H:i:s')
+                'last_dashboard_visit'  =>  date('Y-m-d H:i:s')
             ))->save();
             TppStoreControllerUser::getInstance()->saveUserToSession($user);
         }
@@ -187,63 +230,73 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
 
 
 
+
+
         //if the user does not have a store created, stop them doing anything else that depends on their store!
 
         if (intval($store->store_id) < 1) {
             $product_count = 0;
+            $mentor_count = 0;
+            $event_count = 0;
             $part = $part == 'store'?$part:'';
         } else {
             //for the sidebar
             $product_count = $this->getProductCount($store);
-            $mentor_sessions_count = $this->getMentorSessionCount($store);
+            $mentor_count = $this->getMentorCount($store);
+            $event_count = $this->getEventCount($store);
         }
 
 
         if ($part !== 'store-pages' && $part !== 'store') {
             if (intval($store->store_id) < 1) {
                 //try and load it from the database
-                TppStoreMessages::getInstance()->addMessage('message', 'To get started with selling your products, <a href="/shop/dashboard/store" class="btn btn-primary">create your store</a>.');
+                TppStoreMessages::getInstance()->addMessage('message', 'To get started with selling your products, <a href="/shop/dashboard/store/" class="btn btn-primary">create your store</a>.');
             } else {
 
                 //load the store from the database to make sure we are getting the latest information for it!
                 $store->getStoreByID();
 
                 if (!filter_var($store->paypal_email, FILTER_VALIDATE_EMAIL)) {
-                    $store->setData(array(
-                        'enabled'   =>  0
-                    ))->save(false, true);
                     TppStoreControllerStore::getInstance()->saveStoreToSession($store);
-                    TppStoreMessages::getInstance()->addMessage('message', 'To complete your seller registration please complete the following: <br><br>Paypal Email address for receiving payments <a href="/shop/dashboard/store#ecommerce" class="btn btn-primary">Complete this step</a>');
-                } elseif (strpos($part, 'product') === false && strpos($part, 'mentor_session') === false && $product_count == 0 && $mentor_sessions_count == 0) {
-                    TppStoreMessages::getInstance()->addMessage('message', 'Ready to start listing products? <a href="/shop/dashboard/product_add" class="btn btn-primary">click here</a>.');
+                    TppStoreMessages::getInstance()->addMessage('error', 'To complete your seller registration please complete the following: <br><br>Paypal Email address for receiving payments <a href="/shop/dashboard/store/#ecommerce" class="btn btn-primary">Complete this step</a>');
+                } elseif (strpos($part, 'product') === false && strpos($part, 'mentor_session') === false && $product_count == 0 && $mentor_count == 0) {
+                    TppStoreMessages::getInstance()->addMessage('message', 'Ready to start listing products? <a href="/shop/dashboard/product_add/" class="btn btn-primary">click here</a>.');
                 }
             }
             //determine if the user has set any store pages yet?
-            if (strpos($part, 'product') === false && strpos($part, 'mentor') === false  && intval($store->approved) == 1 && $store->getPages(false)->getPageCount() < 1) {
-                TppStoreMessages::getInstance()->addMessage('message', array('store_terms' => 'Complete your store by filling in your own store <a href="/shop/dashboard/store-pages" class="btn btn-primary">terms and conditions</a>, which could include your policy for refunds and cancellations, what happens if you cannot fulfill an order and your sale processes and timescales for services and mentor sessions.'));
-            }
+//            if (strpos($part, 'product') === false && strpos($part, 'mentor') === false  && intval($store->approved) == 1 && $store->getPages(false)->getPageCount() < 1) {
+//                TppStoreMessages::getInstance()->addMessage('message', array('store_terms' => 'Complete your store by filling in your own store <a href="/shop/dashboard/store-pages/" class="btn btn-primary">terms and conditions</a>, which could include your policy for refunds and cancellations, what happens if you cannot fulfill an order and your sale processes and timescales for services and mentor sessions.'));
+//            }
         }
 
         $this->_destroyPreviewSession();
 
         switch ($part) {
 
+            case 'purchases':
+                TppStoreControllerOrders::getInstance()->renderPurchaseList($user, $store);
+                break;
+
             case 'orders':
-                TppStoreControllerOrders::getInstance()->renderDashboardList($user, $store);
+                TppStoreControllerOrders::getInstance()->renderReceivedOrders($user, $store);
                 break;
 
             case 'order':
+                TppStoreControllerOrders::getInstance()->renderReceivedOrder($user, $store);
+                break;
+
+            case 'purchase':
                 $order_id = get_query_var('args');
-                TppStoreControllerAccount::getInstance()->renderOrder($order_id, $user, $store);
+                TppStoreControllerOrders::getInstance()->renderPurchase($order_id, $user, $store);
                 break;
 
             case 'products':
-            case 'mentors':
+
 
                 $page = get_query_var('page')?:1;
 
                 if ($page > 1) {
-                    $limit = (($page-1) * 20) + 1;
+                    $limit = (($page-1) * 20);
                 } else {
                     $limit = 0;
                 }
@@ -267,11 +320,33 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
 
                 wp_enqueue_script('table', TPP_STORE_PLUGIN_URL . '/site/assets/js/dashboard/table-ck.js', null, 1, true);
 
-                include TPP_STORE_PLUGIN_DIR . 'site/views/dashboard/products_list.php';
+                include TPP_STORE_PLUGIN_DIR . 'site/views/dashboard/' . $part . '/list.php';
                 break;
 
+            case 'mentors':
+
+                $page = get_query_var('page')?:1;
+
+                if ($page > 1) {
+                    $limit = (($page-1) * 20);
+                } else {
+                    $limit = 0;
+                }
+                unset($page);
+
+                wp_enqueue_script('table', TPP_STORE_PLUGIN_URL . '/site/assets/js/dashboard/table-ck.js', null, 1, true);
+
+                $mentors = $this->getMentorsModel()->setData(array(
+                    'store_id'  =>  $store->store_id
+                ))->getMentorsByStore($limit);
+
+                include TPP_STORE_PLUGIN_DIR . 'site/views/dashboard/mentors/list.php';
+
+                break;
 
             case 'product_add':
+
+
 
                 include TPP_STORE_PLUGIN_DIR . 'site/views/dashboard/add_splash.php';
 
@@ -281,6 +356,8 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
             case 'new_mentor_session':
             case 'edit_mentor_session':
 
+
+                //TppStoreMessages::getInstance()->addMessage('error', 'Please note we are in the process of upgrading the products. Your images may not upload. Please check back in an hour.');
 
                 if (!class_exists('TppStoreBrowserLibrary')) {
                     include TPP_STORE_PLUGIN_DIR . 'libraries/browser.php';
@@ -313,6 +390,8 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
                 } else {
 
 
+                    $already_enabled = $product->enabled;
+
                     if ($product->readFromPost()) {
                         $preview = filter_input(INPUT_POST, 'preview', FILTER_SANITIZE_NUMBER_INT);
 
@@ -342,7 +421,7 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
                             $product->getDiscount(false)->readFromPost();
 
                             //store any images into this product...
-                            $this->_setPreviewSession($product, $ordered_images);
+                            $this->setPreviewSession($product, $ordered_images);
 
                             $this->_setJsonHeader();
                             $this->_exitStatus('success', false, array(
@@ -350,6 +429,8 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
                             ));
 
                         }
+
+
 
                         if ($product->save()) {
 
@@ -370,24 +451,36 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
                                 if ($product->product_type == 4) {
                                     if ($product->enabled && $store->enabled) {
 
-                                        TppStoreMessages::getInstance()->addMessage('message', 'Congratulations you have listed your session and it is now live on the site! <a href="' . $product->getPermalink() . '" class="btn btn-primary" target="_blank">View now</a>');
-                                        TppStoreMessages::getInstance()->addMessage('message', 'Share your session: <div class="fb-share-button" data-href="' . $product->getPermalink() . '" data-type="button"></div>');
+                                        if (intval($already_enabled) == 0 && $product->enabled == 1) {
+                                            TppStoreMessages::getInstance()->addMessage('message', 'Congratulations you have listed your session and it is now live on the site! <a href="' . $product->getPermalink() . '" class="btn btn-primary" target="_blank">View now</a>');
+                                        }
+
+                                        TppStoreMessages::getInstance()->addMessage('message', '<div class="align-left" style="margin-right:10px;">Share your session: </div><div class="align-left" style="margin-right:10px;"><div class="fb-share-button" data-href="' . $product->getPermalink() . '" data-type="button"></div></div> <div class="align-left" style="margin-right:10px;"><script type="IN/Share" data-url="' . $product->getPermalink() . '" data-counter="right"></script><script src="//platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script></div> <div class="align-left" style="margin-right:10px;"><a href="https://twitter.com/share" class="twitter-share-button" data-url="' . $product->getpermalink() . '">Tweet</a></div><div class="align-left" style="margin-right:10px;"><div class="g-plusone" data-href="' . $product->getPermalink() . '"></div></div>');
+
+
 
                                     } else {
-                                        TppStoreMessages::getInstance()->addMessage('message', 'Congratulations you have listed your session!');
-
+                                        if (intval($already_enabled) == 0 && $product->enabled == 1 && $product->getImages(0, false, true) > 0) {
+                                            TppStoreMessages::getInstance()->addMessage('message', 'Congratulations you have listed your session!');
+                                        } else {
+                                            TppStoreMessages::getInstance()->addMessage('message', 'Session Saved!');
+                                        }
                                     }
                                     TppStoreMessages::getInstance()->saveToSession();
-                                    $this->redirectToDashboard('mentor/edit/' . $product->product_id);
+
+
+                                    $product->getMentor();
+
+
+                                    $this->redirectToDashboard('mentor-sessions/' . $product->getMentor()->mentor_id);
                                 } else {
                                     if (intval($product->enabled) == 1 && intval($store->enabled) == 1) {
 
                                         TppStoreMessages::getInstance()->addMessage('message', 'Congratulations you have listed your product and it is now live on the site! <a href="' . $product->getPermalink() . '" class="btn btn-primary" target="_blank">View now</a>');
-                                        TppStoreMessages::getInstance()->addMessage('message', 'Share your product: <div class="fb-share-button" data-href="' . $product->getPermalink() . '" data-type="button"></div>');
-
+                                        TppStoreMessages::getInstance()->addMessage('message', '<div class="align-left" style="margin-right:10px;">Share your product: </div><div class="align-left" style="margin-right:10px;"><div class="fb-share-button" data-href="' . $product->getPermalink() . '" data-type="button"></div></div> <div class="align-left" style="margin-right:10px;"><script type="IN/Share" data-url="' . $product->getPermalink() . '" data-counter="right"></script><script src="//platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script></div> <div class="align-left" style="margin-right:10px;"><a href="https://twitter.com/share" class="twitter-share-button" data-url="' . $product->getpermalink() . '">Tweet</a></div><div class="align-left" style="margin-right:10px;"><div class="g-plusone" data-href="' . $product->getPermalink() . '"></div></div>');                                    } elseif (intval($product->enabled == 0 && $already_enabled == 1)) {
+                                        TppStoreMessages::getInstance()->addMessage('message', 'Your product is offline!');
                                     } else {
-                                        TppStoreMessages::getInstance()->addMessage('message', 'Congratulations you have listed your product!');
-
+                                        TppStoreMessages::getInstance()->addMessage('message', 'Your product has been saved!');
                                     }
                                     TppStoreMessages::getInstance()->saveToSession();
                                     $this->redirectToDashboard('product/edit/' . $product->product_id);
@@ -412,7 +505,9 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
 
                     $store_id = $store->store_id;
 
-
+                    if (empty($_POST)) {
+                        $product->deleteTemporaryImages();
+                    }
 
                     switch ($part) {
                         case 'new_product':
@@ -421,7 +516,14 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
 
 
                         $categories_model = $this->getCategoriesModel();
-                        $categories_model->getCategories(array('heirarchical'   =>  true, 'type'    =>  'assoc'));
+                        $categories_model->getCategories(array(
+                            'heirarchical'  =>  true,
+                            'type'          =>  'assoc',
+                            'exclude'        =>  array(
+                                3,
+                                2
+                            )
+                        ));
 
                         $categories = $categories_model->categories;
 
@@ -434,8 +536,37 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
                             break;
 
                         default:
-                            include TPP_STORE_PLUGIN_DIR . 'site/views/dashboard/mentor/default.php';
 
+                            $categories_model = $this->getCategoriesModel();
+                            $categories_model->getCategories(array(
+                                'heirarchical'  =>  true,
+                                'type'          =>  'assoc',
+                                'category_id'   =>  array(
+                                    2
+                                )
+                            ));
+
+                            $categories = $categories_model->categories;
+
+                            //get the mentor that should be selected
+
+                            $selected_mentor = get_query_var('mentor_id');
+
+                            $mentors = $this->getMentorsModel()->setData(array(
+                                'store_id'  =>  $store->store_id
+                            ))->getMentorsByStore(0, 0);
+
+                            if ($selected_mentor == '') {
+
+                                $product->getMentor();
+
+                                $selected_mentor = $product->getMentor()->mentor_id;
+                            }
+
+
+                            include TPP_STORE_PLUGIN_DIR . 'site/views/dashboard/mentor_session/default.php';
+
+                            exit;
                             break;
                     }
 
@@ -445,11 +576,60 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
 
                 break;
 
+            case 'mentor_sessions':
+
+
+                $mentor_id = get_query_var('mentor_id');
+
+                if (intval($mentor_id) == 0) {
+                    TppStoreMessages::getInstance()->addMessage('error', 'No Mentor Selected');
+                    TppStoreMessages::getInstance()->saveToSession();
+                    $this->redirectToDashboard();
+                }
+
+
+                $mentor = $this->getMentorModel()->setData(array(
+                    'mentor_id' =>  $mentor_id
+                ))->getMentorById();
+
+                if (intval($mentor_id) > 0 && $mentor->store_id != $store->store_id) {
+                    $this->redirectToDashboard();
+                }
+
+                $page = get_query_var('page')?:1;
+
+//                if ($page > 1) {
+//                    $limit = (($page-1) * 20);
+//                } else {
+//                    $limit = 0;
+//                }
+
+                $mentors_model = $this->getMentorsModel()->setData(array(
+                    'store_id'  =>  $store->store_id
+                ));
+
+                $mentor_session_count = $mentors_model->getMentorSessionCountByMentor($mentor_id);
+
+                if ($mentor_session_count > 0) {
+                    $mentor_sessions = $mentors_model
+                        ->getMentorSessionsByMentor($mentor_id, $page, 20);
+                } else {
+                    $mentor_sessions = array();
+                }
+
+                unset($page);
+
+                unset($limit);
+
+
+                include TPP_STORE_PLUGIN_DIR . 'site/views/dashboard/mentor_sessions/list.php';
+
+                break;
+
             case 'mentor':
             case 'new_mentor':
 
-                TppStoreControllerMentors::getInstance()->renderMentorForm();
-            exit('Sorry, we are currently working on updating this section');
+                TppStoreControllerMentors::getInstance()->renderMentorForm($store);
 
                 break;
 
@@ -493,7 +673,7 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
                             TppStoreMessages::getInstance()->saveToSession();
                             $this->redirectToDashboard();
                         } else {
-                            TppStoreMessages::getInstance()->addMessage('message', array('Your store is live!'));
+                            TppStoreMessages::getInstance()->addMessage('message', array('View your store: <a target="_blank" href="' . $store->getPermalink(false, true) . '">open store page</a>'));
                             TppStoreMessages::getInstance()->saveToSession();
                             TppStoreControllerStore::getInstance()->saveStoreToSession($store);
                             TppStoreControllerStore::getInstance()->sendStoreGoLiveNotification($store);
@@ -568,19 +748,35 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
                     }
                 }
 
-                wp_enqueue_script('jquery', 'jquery', 'jquery', '1', true);
-                wp_enqueue_script('file_uploads_engine', '/assets/js/jquery.filedrop.js', 'jquery', '1', true);
-                wp_enqueue_script('file_uploads', '/assets/js/file_upload.js', 'jquery', '1', true);
+                wp_enqueue_script('jquery', 'jquery', array('jquery'), 1, true);
+                wp_enqueue_script('file_uploads_engine', '/assets/js/jquery.filedrop.js', array('jquery'), '1', true);
+                wp_enqueue_script('file_uploads', '/assets/js/file_upload.js', array('jquery'), '1', true);
                 wp_enqueue_style('uploads', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/upload.css');
-                wp_enqueue_script('store_js', TPP_STORE_PLUGIN_URL . '/site/assets/js/dashboard/store-ck.js', 'jquery', 1, true);
+                wp_enqueue_script('store_js', TPP_STORE_PLUGIN_URL . '/site/assets/js/dashboard/store-ck.js', array('jquery'), 1, true);
 
                 include TPP_STORE_PLUGIN_DIR . 'site/views/dashboard/store.php';
                 break;
 
-            case 'orders':
+            case 'events':
 
-                TppStoreControllerOrder::getInstance()->renderDashboardList();
+                TppStoreControllerEvents::renderDashboardList($store, $user, $product_count, $event_count, $mentor_count);
 
+                break;
+
+            case 'new_event':
+            case 'edit_event':
+                TppStoreControllerEvents::getInstance()->renderEventDashboardForm($store, $user);
+
+                break;
+
+            case 'messages':
+                TppStoreControllerMessages::getInstance()->renderMessageList();
+                exit;
+                break;
+
+            case 'message':
+                TppStoreControllerMessages::getInstance()->renderMessage();
+                exit;
                 break;
 
             default:
@@ -624,14 +820,40 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
         }
     }
 
+    public function getOrderCount(TppStoreModelStore $store)
+    {
+        return $this->getOrderModel()->setData(array(
+            'store_id' =>   $store->store_id
+        ))->getOrdersReceivedByStore(null, true);
+    }
+
+    public function getPurchaseCount(TppStoreModelUser $user)
+    {
+        return $this->getOrderModel()->setData(array(
+            'user_id'   =>  $user->user_id
+        ))->getOrdersByUser(null, true);
+    }
+
     public function getProductCount(TppStoreModelStore $store)
     {
         return $this->getProductsModel()->setData(array('store_id'    =>  $store->store_id))->getProductCountByStore(false, 'all');
     }
 
-    public function getMentorSessionCount(TppStoreModelStore $store)
+    public function getMentorCount(TppStoreModelStore $store)
     {
-        return $this->getProductsModel()->setData(array('store_id'    =>  $store->store_id))->getProductCountByStore(true, 'all');
+        return $this->getMentorsModel()->setData(array('store_id'    =>  $store->store_id))->getMentorCountByStore();
+    }
+
+    public function getUnreadMessagesCount(TppStoreModelUser $user)
+    {
+        return $this->getMessagesModel()->setData(array(
+            'receiver'   =>  $user->user_id
+        ))->getUnreadMessages(null, true);
+    }
+
+    public function getEventCount(TppStoreModelStore $store)
+    {
+        return $this->getEventsModel()->setData(array('store_id'    =>  $store->store_id))->getEventCountByStore();
     }
 
 
@@ -649,18 +871,46 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
 
     }
 
-    private function _setPreviewSession(TppStoreModelProduct $product, $images = false)
+    public function setPreviewSession(TppStoreModelProduct $product, $images = false)
     {
         $_SESSION['preview_session']['product'] = serialize($product);
         $_SESSION['preview_session']['images'] = serialize($images);
     }
 
-    private function _destroyPreviewSession()
+    public function _destroyPreviewSession()
     {
         $_SESSION['preview_session'] = null;
         unset($_SESSION['preview_session']);
     }
 
 
+    public function renderSidebar()
+    {
+        if (false === ($user = TppStoreControllerUser::getInstance()->loadUserFromSession())) {
+            $user = $this->getUserModel();
+        }
+
+        $store = TppStoreControllerStore::getInstance()->loadStoreFromSession();
+
+        if (intval($store->store_id) < 1) {
+            $product_count = 0;
+            $mentor_count = 0;
+            $event_count = 0;
+        } else {
+            //for the sidebar
+            $product_count = $this->getProductCount($store);
+            $mentor_count = $this->getMentorCount($store);
+            $event_count = $this->getEventCount($store);
+        }
+
+        $purchase_count = $this->getPurchaseCount($user);
+
+
+        if ($user->user_type == 'store_owner') {
+            include TPP_STORE_PLUGIN_DIR . 'site/views/dashboard/sidebars/dashboard.php';
+        } else {
+            include TPP_STORE_PLUGIN_DIR . 'site/views/dashboard/sidebars/account.php';
+        }
+    }
 
 }

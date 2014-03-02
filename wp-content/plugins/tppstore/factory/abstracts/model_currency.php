@@ -10,22 +10,38 @@ class TppStoreModelCurrency extends TppStoreAbstractModelResource {
     public $currency = 'GBP';
     protected $option_min_price = null;
 
-    public function getFormattedCurrency($with_currency = true)
+    public function getFormattedCurrency($with_currency = true, $currency = false, $html = true)
     {
 
         if (false === $with_currency) {
             return '';
         }
 
+        if (false === $currency) {
+            $currency = geo::getInstance()->getCurrency();
+        }
 
-        switch (geo::getInstance()->getCurrency()) {
-            case 'USD':
-                return '&dollar;';
-                break;
+        if ($html === true) {
+            switch ($currency) {
+                case 'USD':
+                    return '&dollar;';
+                    break;
 
-            default:
-                return '&pound;';
-                break;
+                default:
+                    return '&pound;';
+                    break;
+            }
+        } else {
+            switch ($currency) {
+                case 'USD':
+                    return '$';
+                    break;
+
+                default:
+                    return '£';
+                    break;
+            }
+
         }
     }
 
@@ -62,14 +78,16 @@ class TppStoreModelCurrency extends TppStoreAbstractModelResource {
 //        }
 //    }
 
-    public function getFormattedPrice($with_currency = false)
+    public function getFormattedPrice($with_currency = false, $convert_using_geo_location = true)
     {
 
-        if (false === ($price = geo::getInstance()->convertCurrency($this->price, $this->currency))) {
+        if (false === $convert_using_geo_location) {
+            $price = $this->price;
+        } elseif (false === ($price = geo::getInstance()->convertCurrency($this->price, $this->currency))) {
             $price = $this->price;
         }
 
-        if ($this->price_includes_tax == 1) {
+        if ($this->price_includes_tax == '1') {
             return $this->getFormattedCurrency($with_currency) . $this->format($price);
         } else {
             return $this->getFormattedCurrency($with_currency) . $this->format($price * (1+($this->tax_rate/100)));
@@ -77,9 +95,11 @@ class TppStoreModelCurrency extends TppStoreAbstractModelResource {
     }
 
 
-    public function getLineItemFormattedTotal($with_currency = false, $with_discount = false)
-    {
 
+
+
+    public function getFormattedTax($with_currency = false, $with_discount = false, $order_quantity = 1)
+    {
         $price = 0;
         if (false === ($price = geo::getInstance()->convertCurrency($this->price, $this->currency))) {
             $price = $this->price;
@@ -88,40 +108,15 @@ class TppStoreModelCurrency extends TppStoreAbstractModelResource {
 
         if (intval($this->price_includes_tax) == 1) {
             if (true === $with_discount) {
-                $price = $price  - $this->discount;
+                $tax = $this->format($price - (($price - $this->discount) / (1 + ($this->tax_rate/100))));
+            } else {
+                $tax = $this->format($price * (1 -  1 / (1 + ($this->tax_rate/100))));
             }
         } else {
             if (true === $with_discount) {
-                $price = ($price - $this->discount) * (1 + ($this->tax_rate/100));
+                $tax = $this->format($this->tax_rate * ($price - $this->discount)/ 100);
             } else {
-                $price = $price * (1 + ($this->tax_rate/100));
-            }
-        }
-
-        $price = round($this->order_quantity * $price, 2);
-
-        if (true === $with_currency) {
-            return $this->getFormattedCurrency() . $price;
-        } else {
-            return $price;
-        }
-    }
-
-
-    public function getFormattedTax($with_currency = false, $with_discount = false, $order_quantity = 1)
-    {
-
-        if (intval($this->price_includes_tax) == 1) {
-            if (true === $with_discount) {
-                $tax = $this->format($this->price - (($this->price - $this->discount) / (1 + ($this->tax_rate/100))));
-            } else {
-                $tax = $this->format($this->price * (1 -  1 / (1 + ($this->tax_rate/100))));
-            }
-        } else {
-            if (true === $with_discount) {
-                $tax = $this->format($this->tax_rate * ($this->price - $this->discount)/ 100);
-            } else {
-                $tax = $this->format($this->tax_rate * $this->price / 100);
+                $tax = $this->format($this->tax_rate * $price / 100);
             }
         }
 
@@ -134,15 +129,22 @@ class TppStoreModelCurrency extends TppStoreAbstractModelResource {
     }
 
 
-    public function formatAmount($amount = 0)
+    public function formatAmount($amount = 0, $with_currency = false, $convert = true)
     {
 
-        if (false === ($price = geo::getInstance()->convertCurrency($amount, $this->currency))) {
+
+
+        if ($convert === false || false === ($price = geo::getInstance()->convertCurrency($amount, $this->currency))) {
             $price = $amount;
         }
 
-        return $this->format($price, 2);
+        if ($with_currency === true) {
+            return $this->getFormattedCurrency() . $this->format($price);
+        } else {
+            return $this->format($price);
+        }
     }
+
 
     protected function format($number = 0)
     {

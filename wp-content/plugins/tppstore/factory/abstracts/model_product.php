@@ -31,6 +31,7 @@ class TppStoreAbstractModelBaseProduct extends TppStoreModelCurrency {
     protected $_product_discount_model = null;
     protected $_store_model = null;
     protected $_product_mentor_model = null;
+    protected $_mentor_2_product = null;
 
 
     public function __construct()
@@ -40,6 +41,13 @@ class TppStoreAbstractModelBaseProduct extends TppStoreModelCurrency {
         $this->_product_options_model = new TppStoreModelProductOptions();
         $this->_product_images_model = new TppStoreModelProductImages();
         $this->_product_image_model = new TppStoreModelProductImage();
+        $this->_mentor_2_product = new TppStoreModelMentor2product();
+
+    }
+
+    public function getMentor2Product()
+    {
+        return $this->_mentor_2_product;
     }
 
     public function getProductOptionsModel()
@@ -57,6 +65,12 @@ class TppStoreAbstractModelBaseProduct extends TppStoreModelCurrency {
     {
         if (is_null($this->_store_model)) {
             $this->_store_model = new TppStoreModelStore();
+            if ($auto_load === true && intval($this->store_id) > 0) {
+                $this->_store_model->setData(array(
+                    'store_id'  =>  $this->store_id
+                ))->getStoreByID();
+            }
+
         }
 
         return $this->_store_model;
@@ -144,6 +158,12 @@ class TppStoreAbstractModelBaseProduct extends TppStoreModelCurrency {
             return $this->product_title;
         }
     }
+
+    public function getSeoTitle()
+    {
+        return $this->product_title;
+    }
+
 
 
     public function getDisplayAvailability()
@@ -234,7 +254,7 @@ class TppStoreAbstractModelBaseProduct extends TppStoreModelCurrency {
                 $url = substr($url, -1);
             }
 
-            return get_bloginfo('url') . '/shop/' . $store->store_slug . '/product/' . $this->product_slug;
+            return get_bloginfo('url') . '/shop/' . $store->store_slug . '/product/' . $this->product_slug .'/';
         } else {
             return '';
         }
@@ -267,7 +287,7 @@ class TppStoreAbstractModelBaseProduct extends TppStoreModelCurrency {
     }
 
 
-    public function getDownloadUrl($ecrypted = true)
+    public function getDownloadUrl($ecrypted = true, $product_edit = false)
     {
         if (is_null($this->_product_download_model->product_id)) {
             $this->_product_download_model->setData(array(
@@ -275,11 +295,11 @@ class TppStoreAbstractModelBaseProduct extends TppStoreModelCurrency {
                 'file'          =>  $this->product_type_text
             ));
         }
-        return $this->_product_download_model->getDownloadUrl($ecrypted);
+        return $this->_product_download_model->getDownloadUrl($ecrypted, $product_edit);
 
     }
 
-    public function getProductById($enabled = 'all')
+    public function getProductById($enabled = 'all', $type = 0)
     {
 
         switch ($enabled) {
@@ -300,15 +320,31 @@ class TppStoreAbstractModelBaseProduct extends TppStoreModelCurrency {
             $this->reset();
         } else {
             global $wpdb;
-            $rows = $wpdb->get_results(
-                $wpdb->prepare(
-                    "SELECT p.*, s.currency FROM " . $this->getTable() . " AS p
+
+            if ($type == 5) {
+                //event
+                $rows = $wpdb->get_results(
+                    $wpdb->prepare(
+                        "SELECT p.*, s.currency, e.* FROM " . $this->getTable() . " AS p
+                        LEFT JOIN " . TppStoreModelEvent::getInstance()->getEventTable() . " AS e ON e.product_id = p.product_id
+                    INNER JOIN shop_product_stores AS s ON s.store_id = p.store_id
+                    WHERE p.product_id = %d $where",
+                        $this->product_id
+                    ),
+                    OBJECT_K
+                );
+
+            } else {
+                $rows = $wpdb->get_results(
+                    $wpdb->prepare(
+                        "SELECT p.*, s.currency FROM " . $this->getTable() . " AS p
                     INNER JOIN shop_product_stores AS s ON s.store_id = p.store_id
                     WHERE product_id = %d $where",
-                    $this->product_id
-                ),
-                OBJECT_K
-            );
+                        $this->product_id
+                    ),
+                    OBJECT_K
+                );
+            }
 
             if ($wpdb->num_rows == 1) {
                 foreach ($rows as $row) {

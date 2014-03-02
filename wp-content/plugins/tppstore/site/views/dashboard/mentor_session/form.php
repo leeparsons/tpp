@@ -1,22 +1,22 @@
 <?php wp_enqueue_script('jquery-ui-sortable'); ?>
-<?php wp_enqueue_script('file_uploads', '/assets/js/file_upload.js', 'jquery', '1', true) ?>
-<?php wp_enqueue_script('file_uploads_engine', '/assets/js/jquery.filedrop.js', 'jquery', '1', true) ?>
+<?php wp_enqueue_script('file_uploads_engine', '/assets/js/jquery.filedrop.js', array('jquery'), '1', true) ?>
+<?php wp_enqueue_script('file_uploads', '/assets/js/file_upload-ck.js', array('jquery'), '1', true) ?>
 <?php wp_enqueue_style('uploads', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/upload.css'); ?>
-<?php wp_enqueue_script('tpp_product_dashboard', TPP_STORE_PLUGIN_URL . '/site/assets/js/dashboard/product-ck.js', 'jquery', 2.3, true); ?>
+<?php wp_enqueue_script('tpp_product_dashboard', TPP_STORE_PLUGIN_URL . '/site/assets/js/dashboard/product-ck.js', array('jquery'), 3.5, true); ?>
 <script>var currency = '<?php echo $store->getFormattedCurrency() ?>';</script>
 <form method="post" enctype="multipart/form-data" id="product_form">
 
     <input type="hidden" id="upload_destination" value="/shop/dashboard/product/upload/">
 
-    <input type="hidden" name="category" id="categories" value="2">
 
     <input type="hidden" name="product_type" value="4">
 
     <div class="aside-25">
-        <a href="/shop/dashboard" class="btn btn-primary">&lt; &lt; Back to dashboard</a>
+        <a href="/shop/dashboard/mentors" class="btn btn-primary">&lt; &lt; Back to Mentors</a>
 
         <ul class="product-togglers">
             <li class="first active">The Mentor</li>
+            <li>Categories</li>
             <li>About</li>
             <li>Pricing</li>
 <!--            <li>Variations (optional)</li>-->
@@ -44,9 +44,19 @@
 
             <div class="switch-control form-group bt">
                 <h4>Next Step</h4>
-                <a href="#1" data-step="1" class="step btn-primary btn">Go to About</a>
+                <a href="#1" data-step="1" class="step btn-primary btn">Go to Categories</a>
             </div>
 
+        </fieldset>
+
+        <fieldset>
+            <?php include TPP_STORE_PLUGIN_DIR . 'site/views/dashboard/product/category.php'; ?>
+            <div class="switch-control form-group bt">
+                <h4>Next Step</h4>
+                <a href="#2" data-step="2" class="step btn-primary btn">Go to About</a>
+                <a href="#0" data-step="0" class="step btn-primary btn">Go back to The Mentor</a>
+
+            </div>
         </fieldset>
 
         <fieldset>
@@ -55,8 +65,8 @@
 
             <div class="switch-control form-group bt">
                 <h4>Next Step</h4>
-                <a href="#2" data-step="2" class="step btn-primary btn">Go to Pricing</a>
-                <a href="#0" data-step="0" class="step btn-primary btn">Go back to The Mentor</a>
+                <a href="#3" data-step="3" class="step btn-primary btn">Go to Pricing</a>
+                <a href="#1" data-step="1" class="step btn-primary btn">Go back to Categories</a>
 
             </div>
 
@@ -70,8 +80,8 @@
                 <h4>Next Step</h4>
 <!--                <a href="#3" data-step="3" class="step btn-primary btn">Go to Variations</a>-->
 
-                <a href="#3" data-step="3" class="step btn-primary btn">Go to Images</a>
-                <a href="#1" data-step="1" class="step btn-primary btn">Go back to About</a>
+                <a href="#4" data-step="4" class="step btn-primary btn">Go to Images</a>
+                <a href="#2" data-step="2" class="step btn-primary btn">Go back to About</a>
 
             </div>
 
@@ -97,9 +107,9 @@
             <div class="switch-control form-group">
                 <br>
                 <h4>Next Step</h4>
-                <a href="#4" data-step="4" class="step btn-primary btn">Go to SEO &amp; Meta</a>
+                <a href="#5" data-step="5" class="step btn-primary btn">Go to SEO &amp; Meta</a>
 <!--                <a href="#3" data-step="3" class="step btn-primary btn">Go back to Variations</a>-->
-                <a href="#2" data-step="2" class="step btn-primary btn">Go back to Pricing</a>
+                <a href="#3" data-step="3" class="step btn-primary btn">Go back to Pricing</a>
 
             </div>
 
@@ -112,8 +122,8 @@
 
             <div class="switch-control form-group">
                 <h4>Next Step</h4>
-                <a href="#5" data-step="5" class="step btn-primary btn">Go to Save &amp; Preview</a>
-                <a href="#3" data-step="3" class="step btn-primary btn">Go back to Images</a>
+                <a href="#6" data-step="6" class="step btn-primary btn">Go to Save &amp; Preview</a>
+                <a href="#4" data-step="4" class="step btn-primary btn">Go back to Images</a>
 
             </div>
 
@@ -132,19 +142,19 @@
 
                 <?php if (intval($product->enabled) == 1): ?>
                     <input type="submit" class="btn-primary btn" value="Save">
-                    <input type="submit" class="btn-primary btn unpublish" value="Save &amp; Go offline">
+                    <input type="submit" class="btn-danger btn unpublish" value="Save &amp; Go offline">
                 <?php else: ?>
                     <input type="submit" class="btn-primary btn unpublish<?php
 
                     //if the product has never been created, then it's published by default. If they only want to save then force it unpublished
 
                     ?>" value="Save">
-                    <input type="submit" class="btn-primary btn publish" value="Save &amp; Go live">
+                    <input type="submit" class="btn-go btn publish" value="Save &amp; Go live">
                 <?php endif; ?>
 
 
                 <input type="submit" value="Preview" class="btn btn-info preview" >
-                <a href="#4" data-step="4" class="step btn-primary btn">Go back to SEO &amp; Meta</a>
+                <a href="#5" data-step="5" class="step btn-primary btn">Go back to SEO &amp; Meta</a>
 
                 <a href="/shop/dashboard" class="btn btn-default">Cancel</a>
             </div>

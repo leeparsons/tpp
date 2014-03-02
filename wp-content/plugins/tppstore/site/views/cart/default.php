@@ -56,7 +56,7 @@ get_header(); ?>
                 <?php
 
                 echo $store->getSrc(true, 'thumb');
-
+                flush();
                 ?>
                 <p>
                     <a class="store-tag align-right" href="<?php echo $store->getPermalink() ?>">Browse store &gt;&gt;</a>
@@ -65,11 +65,18 @@ get_header(); ?>
 
             <aside class="aside-75">
                 <header>
-                    <h3>Products</h3>
+                    <h3>Items</h3>
                 </header>
 
 
                 <?php foreach($cart_store['products'] as $cart_item): ?>
+
+                    <?php
+
+                    $cart_item->setData(array('store_id'    =>  $store->store_id));
+
+
+                    ?>
 
                     <div class="cart-product wrap">
                         <div class="wrap">
@@ -85,7 +92,7 @@ get_header(); ?>
                                             <span>original Price:</span>
                                             <span class="red price"><?php echo $cart_item->getFormattedPrice(true) ?></span>
                                             <span>Your discounted price:</span>
-                                            <span class="green price"><?php echo $cart_item->getFormattedDiscountedPrice(true); ?>
+                                            <span class="green price"><?php echo $cart_item->formatAmount($cart_item->getDiscountedPrice(), true, true) ?></span>
                                         <?php else: ?>
                                             <span class="price align-right">Price: <?php echo $cart_item->getFormattedPrice(true) ?></span>
                                         <?php endif; ?>
@@ -118,12 +125,12 @@ get_header(); ?>
                             </div>
                         </div>
                     </div>
-
+                <?php flush(); ?>
                 <?php endforeach; ?>
 
                 <div class="wrap checkout">
                     <div class="align-right">
-                        <span>Store Total: <?php echo $cart_item->getFormattedCurrency() .  $cart_store['total'] ?></span>
+                        <span>Store Total: <?php echo $cart_item->getFormattedCurrency() .  $cart->getStoreTotal($store->store_id) ?></span>
                     </div>
                 </div>
 
@@ -131,7 +138,7 @@ get_header(); ?>
                     <form method="post" action="/shop/checkout/process" class="align-right">
                         <label>Checkout and purchase these products</label>
                         <input type="hidden" name="store" value="<?php echo $store_id ?>">
-                        <input type="submit" value="checkout &amp; Purchase" class="btn btn-primary">
+                        <input type="submit" value="Checkout &amp; Purchase" class="btn btn-primary">
                     </form>
                 </div>
 
@@ -142,9 +149,8 @@ get_header(); ?>
 
             </aside>
 
-
+        <?php flush(); ?>
         <?php endforeach; ?>
-
 
 
     <?php else: ?>
@@ -154,5 +160,7 @@ get_header(); ?>
     <?php endif; ?>
 
     </article>
+
+
 
 <?php get_footer();

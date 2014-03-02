@@ -49,8 +49,8 @@ class TppStoreModelStorePages extends TppStoreAbstractModelResource {
                 $wpdb->prepare(
                     "SELECT * FROM " . $this->getTable() . " WHERE store_id = %d",
                     $this->store_id
-                ),
-                OBJECT_K
+                )
+
             );
 
             if ($wpdb->num_rows > 0) {

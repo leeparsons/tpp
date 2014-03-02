@@ -99,7 +99,13 @@ class TppStoreModelProductImage extends TppStoreAbstractModelResource {
 
                 $size_info = $this->getImageSize($size);
 
-                $src = substr($this->path, strlen(WP_CONTENT_DIR . '/uploads')) . $this->filename . '_' . $size_info['width'] . '_' . $size_info['height'] . '.' . $this->extension;
+                $sub = substr($this->path, strlen(WP_CONTENT_DIR . '/uploads'));
+
+                if (substr($sub, -1) != '/') {
+                    $sub .= '/';
+                }
+
+                $src = $sub . $this->filename . '_' . $size_info['width'] . '_' . $size_info['height'] . '.' . $this->extension;
 
 
                 $base_file_exists = file_exists($this->path . $this->src);
@@ -145,9 +151,15 @@ class TppStoreModelProductImage extends TppStoreAbstractModelResource {
                 }
 
             } elseif (false === $base_file_exists) {
+
+                TppStoreLibraryLogger::getInstance()->add(0, 'view product image', 'product_id: ' . $this->product_id, array($base_file_exists, $this->path . $this->filename));
+
+
                 return false;
             }
         } else {
+            TppStoreLibraryLogger::getInstance()->add(0, 'view product image', 'product_id: ' . $this->product_id, array($this->path . $this->filename));
+
             return false;
         }
         if (true === $html) {
@@ -158,6 +170,7 @@ class TppStoreModelProductImage extends TppStoreAbstractModelResource {
                     $str .= $attrib .'="' .$value . '"';
                 }
             }
+
             return '<img src="' . $src . '" alt="' . $this->alt . '" ' . $str . '>';
         } else {
             return $src;

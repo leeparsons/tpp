@@ -470,7 +470,7 @@ var overlay = {
     setBody: function(data) {
         overlay.body.innerHTML = data;
     },
-    populateInner: function() {
+    populateInner: function(top) {
 
 
 
@@ -496,7 +496,10 @@ var overlay = {
             .append(overlay.header, overlay.body);
         inner_wrap.append(div);
 
-        var top = jQuery(window).scrollTop()*1.2;
+        if (top == undefined) {
+            top = jQuery(window).scrollTop()*1.2;
+        }
+
 
         if (top == 0) {
             top = '100px';

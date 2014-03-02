@@ -26,6 +26,8 @@ add_action('init', function() {
     TppStoreControllerDashboard::getInstance()->applyRewriteRules();
     TppStoreControllerProduct::getInstance()->applyRewriteRules();
     TppStoreControllerMentors::getInstance()->applyRewriteRules();
+    TppStoreControllerEvents::getInstance()->applyRewriteRules();
+
     TppStoreControllerRegister::getInstance()->applyRewriteRules();
     TppStoreControllerUser::getInstance()->applyRewriteRules();
     //TppStoreControllerUser::getInstance()->registerActions();
@@ -51,6 +53,7 @@ add_action( 'template_redirect', function() {
     TppStoreControllerDashboard::getInstance()->templateRedirect();
     TppStoreControllerProduct::getInstance()->templateRedirect();
     TppStoreControllerMentors::getInstance()->templateRedirect();
+    TppStoreControllerEvents::getInstance()->templateRedirect();
 
     TppStoreControllerRegister::getInstance()->templateRedirect();
     TppStoreControllerUser::getInstance()->templateRedirect();
@@ -118,11 +121,12 @@ include get_template_directory() . '/classes/ip2location/locator.php';
 
 function tpp_geo_locate() {
 
-    $testing = true;
-
-    $test_ip = '31.185.167.16';
-
+    $testing = getenv('ENVIRONMENT') == 'local';
         if (geo::getInstance()->code === false) {
+
+
+            $test_ip = '31.185.167.16';//uk
+            $test_ip = '196.255.255.255';//us
 
 
 //            include get_template_directory() . '/classes/geoip/geoip.inc';
@@ -159,5 +163,8 @@ function tpp_geo_locate() {
 
 
 }
+
+add_action('init', 'tpp_geo_locate');
+
 
 //add_action('tpp_store_products', function() {TppStoreControllerProduct::getInstance()->listProducts();});

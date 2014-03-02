@@ -5,62 +5,32 @@
  * Time: 11:58
  */
 
+if (!class_exists('TppStorePaypalBase')) {
+    include TPP_STORE_PLUGIN_DIR . 'adapters/paypal/base.php';
+}
+
+class TppStoreAdapterPaypal  extends TppStorePaypalBase {
+
+    public $code = 'paypal_adaptive';
+    public $id = 'paypal_adaptive';
 
 
-class TppStoreAdapterPaypal {
+    public $sandbox_url = 'https://svcs.sandbox.paypal.com/AdaptivePayments/';
 
-    private $sandbox_url = 'https://svcs.sandbox.paypal.com/AdaptivePayments/';
+    public $sandbox_app_id = 'APP-80W284485P519543T';
+    public $sandbox_api_user = 'squibe_1316263024_biz_api1.gmail.com';
+    public $sandbox_api_pwd = '1316263084';
+    public $sandbox_api_sig = 'AFcWxV21C7fd0v3bYYYRCpSSRl31AlnQ.aSfCWj2p0FjqqYWF3rWDveN';
+    public $sandbox_endpoint = 'https://svcs.sandbox.paypal.com/AdaptivePayments/Pay';
 
-    private $sandbox_app_id = 'APP-80W284485P519543T';
-    private $sandbox_api_user = 'squibe_1316263024_biz_api1.gmail.com';
-    private $sandbox_api_pwd = '1316263084';
-    private $sandbox_api_sig = 'AFcWxV21C7fd0v3bYYYRCpSSRl31AlnQ.aSfCWj2p0FjqqYWF3rWDveN';
-    private $sandbox_endpoint = 'https://svcs.sandbox.paypal.com/AdaptivePayments/Pay';
+    public $live_url = 'https://svcs.paypal.com/AdaptivePayments/';
+    public $live_app_id = 'K5ULLT635CMGSQTY';
+    public $live_api_user = 'rosie_api1.rosieparsons.com';
+    public $live_api_pwd = 'K5ULLT635CMGSQTY';
+    public $live_api_sig = 'AFcWxV21C7fd0v3bYYYRCpSSRl31AYuaOvrjEMsmQ-G05RxBaojuwCj3';
+    public $live_endpoint = 'https://svcs.paypal.com/AdaptivePayments/Pay';
 
-    private $environment = 'sandbox';
 
-    private $paypal_email = '';
-
-    private $live_url = '';
-    private $products = array();
-    private $total = 0;
-
-    private $currency;
-    private $commission = 0;
-    private $store_email = '';
-    private $purchaser_email = '';
-
-    //curl
-    private $ch = null;
-
-    public function __construct()
-    {
-        $this->id = 'paypal_adaptive_payments';
-
-        $this->icon = 'https://www.paypalobjects.com/webstatic/mktg/Logo/AM_SbyPP_mc_vs_ms_ae_UK.png';
-        $this->has_fields = true;
-
-        global $wpdb;
-
-        $wpdb->get_results(
-            "SELECT config FROM shop_adapters WHERE adapter = 'paypal_adaptive'",
-            OBJECT_K
-        );
-
-        if ($wpdb->num_rows > 0) {
-            $config = $wpdb->last_result[0]->config;
-
-            $config = json_decode($config);
-
-            foreach ($config as $key => $setting) {
-                $this->$key = $setting;
-            }
-
-        } else {
-            throw new Exception('Could not find the payment gateway configuration');
-        }
-
-    }
 
 
     public function generateExchangeRates()
@@ -71,7 +41,7 @@ class TppStoreAdapterPaypal {
         global $wpdb;
 
         $wpdb->query(
-            "SELECT currency_code, rate_from_gbp FROM shop_exchange_rates WHERE DAY(last_update_time) > DAY(NOW() - INTERVAL 1 DAY)"
+            "SELECT currency_code, rate_from_gbp FROM shop_exchange_rates WHERE last_update_time > NOW() - INTERVAL 1 DAY"
         );
 
 
@@ -88,7 +58,7 @@ class TppStoreAdapterPaypal {
 
         $this->setUpCurl(
             'ConvertCurrency/',
-            'baseAmountList.currency(0).code=GBP&baseAmountList.currency(0).amount=1&convertToCurrencyList.currencyCode=USD&requestEnvelope.errorLanguage=en_US',
+            'baseAmountList.currency(0).code=GBP&baseAmountList.currency(0).amount=1&convertToCurrencyList.currencyCode=USD&requestEnvelope.errorLanguage=en_US&requestEnvelope.detailLevel=ReturnAll&requestEnvelope.conversionType=RECEIVER_SIDE',
             'JSON'
         );
         $res = $this->execCurl();
@@ -131,44 +101,14 @@ class TppStoreAdapterPaypal {
 
     }
 
-    /*
-     * total paid
-     */
-    public function getTotal()
-    {
-        return $this->total;
-    }
-
-    public function getCommission()
-    {
-        return $this->commission;
-    }
-
-    public function setOrder($store_id = 0)
-    {
-        $cart = TppStoreModelCart::getInstance()->getCart(true);
-
-        $this->products = $cart['stores'][$store_id]['products'];
-
-        $this->total = $cart['stores'][$store_id]['total'];
-
-        $store = TppStoreModelStore::getInstance()->setData(array(
-            'store_id'  =>  $store_id
-        ));
-
-        $store->getStoreById();
-
-        $this->store_email = $store->paypal_email;
-        $this->currency = $store->currency;
-        //$this->purchaser_email = $user->email;
 
 
-    }
+
 
 
     private function setUpCurl($end_point = 'Pay', $request_string = '', $format = 'NV')
     {
-        $ch = curl_init($this->sandbox_url . $end_point);
+        $ch = curl_init($this->{$this->environment . '_url'} . $end_point);
 
 //        $apiUser = 'squibe_1316263024_biz_api1.gmail.com';//'rosie_api1.rosieparsons.com';
 //        $apiPWD = '1316263084';//'LR3X8R7NGPVYFFGD';
@@ -220,11 +160,11 @@ class TppStoreAdapterPaypal {
 
         //pay for each product
 
-        $commission = number_format(0.1 * $this->total, 2, '.', '');
+        $commission = number_format(($this->commission_rate / 100) * $this->total, 2, '.', '');
 
         $this->commission = $commission;
 
-        $to_pay = number_format($this->total * 0.9, 2, '.', '');
+        $to_pay = number_format($this->total *( 1 - ($this->commission_rate / 100)), 2, '.', '');
 
 
         $currency = $this->currency;
@@ -239,44 +179,22 @@ class TppStoreAdapterPaypal {
             "currencyCode=$currency",
             "returnUrl=$return",
             "requestEnvelope.errorLanguage=en_US",
-            "receiverList.receiver(0).amount=" . $this->total,
-            "receiverList.receiver(0).primary=true",
-            "receiverList.receiver(0).email=" . $store_owner_email,
-            "receiverList.receiver(1).amount=" . $commission,
-            "receiverList.receiver(1).primary=false",
-            "receiverList.receiver(1).email=" . $this->paypal_email,
+            "receiverList.receiver(0).amount=" . $commission,
+            //"receiverList.receiver(0).primary=false",
+            "receiverList.receiver(0).email=" . $this->paypal_email,
+            "receiverList.receiver(1).amount=" . $this->total,
+            //"receiverList.receiver(1).primary=true",
+            "receiverList.receiver(1).email=" . $store_owner_email,
         );
 
+
+
+
         $reqstr = implode("&", $reqstr);
+
+
         $this->setUpCurl('Pay', $reqstr);
 
-        //$reqstr .= "&senderEmail=" . $this->purchaser_email;
-
-//        $fields = array(
-//            "actionType"    =>  "PAY",    // Specify the payment action
-//            "currencyCode"  =>  'GBP',  // The currency of the payment
-//            "senderEmail"   =>  "parsolee-facilitator@gmail.com",
-//            "receiverList"  =>  array(
-//                'receiver[0]'  =>  array(
-//                    'primary'   =>  true,
-//                    'amount'     =>  $this->total,
-//                    'email'      =>  $this->paypal_email
-//                ),
-//                'receiver[1]'  =>  array(
-//                    'primary'    =>  false,
-//                    'amount'     =>  $to_pay,
-//                    'email'      =>  $store_email
-//                )
-//            ),
-//            'returnUrl' =>  $return,
-//            'cancelUrl' =>  $cancelUrl,
-//        );
-
-
-
-
-
-//        $currency = get_option('woocommerce_currency');
         unset($to_pay);
         unset($return);
         unset($cancelUrl);
@@ -454,11 +372,7 @@ exit;
 
     }
 
-    private function getStoreEmail()
-    {
 
-        return $this->store_email;
-    }
 
 }
 
