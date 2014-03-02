@@ -3,9 +3,13 @@ var tppMenu = {
     menu: {},
     toggler: {},
     init: function() {
-        tppMenu.menu = document.getElementById('main_menu');
-        tppMenu.toggler = document.getElementById('menu_toggle');
-        tppMenu.toggler.onclick = tppMenu.toggle;
+        if (document.getElementById('main_menu')) {
+            tppMenu.menu = document.getElementById('main_menu');
+        }
+        if (document.getElementById('menu_toggle')) {
+            tppMenu.toggler = document.getElementById('menu_toggle');
+            tppMenu.toggler.onclick = tppMenu.toggle;
+        }
     },
     toggle: function() {
         if (tppMenu.open === false) {

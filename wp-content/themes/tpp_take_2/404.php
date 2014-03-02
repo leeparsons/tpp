@@ -7,7 +7,7 @@
  
 get_header(); ?>
 
-<article class="page-article wrap">
+<article class="page-article aside-60">
 
     <header>
         <h1>Sorry! Page not found</h1>
@@ -18,7 +18,6 @@ get_header(); ?>
     </div>
 
 </article>
-
 
 <?php get_template_part('sidebars/page');
 

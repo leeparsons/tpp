@@ -26,16 +26,6 @@
         text-align: center;
     }
 
-    ul {
-        border-top:1px dashed @mainColour;
-        border-bottom:1px dashed @mainColour;
-
-        list-style-type: none;
-        margin:0;
-        padding:10px 0;
-        width:85%;
-        margin:auto;
-    }
     li {
         margin:0 0 10px;
     }
@@ -45,6 +35,7 @@
     min-height:290px;
     margin:0 30px 40px 0;
     a {
+        color:@mainColourDarker;
         background:#FFFFFF;
         box-shadow: 0 0 4px #A7A7A7;
         text-decoration: none;
@@ -60,6 +51,7 @@
     }
     .store-tag {
         background:#888888;
+        color:#FFFFFF;
     }
     strong, .strong {
         width:96%;
@@ -92,5 +84,24 @@
         min-width:100%;
         height:auto;
         max-height:250px;
+    }
+}
+
+.specialisms {
+    list-style-type:none;
+    padding:0;
+    margin:0;
+    li {
+        background:@secondaryColourDarker;
+        margin:0;
+        border-bottom:1px solid #ffffff;
+        padding:7px 5px;
+        .boxShadow(0, 0, 4px, #A7A7A7);
+        &:last-child {
+            border-bottom:none;
+        }
+
+            color:#FFFFFF;
+
     }
 }

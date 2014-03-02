@@ -1,11 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="http://tpp.loc/wp-content/plugins/google-sitemap-generator/sitemap.xsl"?><!-- generator="wordpress/3.8" -->
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="http://tpp.loc/wp-content/plugins/google-sitemap-generator/sitemap.xsl"?><!-- generator="wordpress/3.8.1" -->
 <!-- sitemap-generator-url="http://www.arnebrachhold.de" sitemap-generator-version="3.3" -->
-<!-- generated-on="February 6, 2014 9:57 pm" -->
+<!-- generated-on="March 1, 2014 4:31 pm" -->
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">	<url>
 		<loc>http://tpp.loc/</loc>
-		<lastmod>2014-01-30T13:09:33+00:00</lastmod>
+		<lastmod>2014-03-01T16:30:58+00:00</lastmod>
 		<changefreq>daily</changefreq>
 		<priority>1.0</priority>
+	</url>
+	<url>
+		<loc>http://tpp.loc/contact</loc>
+		<lastmod>2014-03-01T16:30:58+00:00</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
 	</url>
 	<url>
 		<loc>http://tpp.loc/front-page</loc>
@@ -120,12 +126,6 @@
 		<lastmod>2011-06-28T08:54:13+00:00</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>1.0</priority>
-	</url>
-	<url>
-		<loc>http://tpp.loc/contact</loc>
-		<lastmod>2011-06-20T08:38:53+00:00</lastmod>
-		<changefreq>weekly</changefreq>
-		<priority>0.6</priority>
 	</url>
 	<url>
 		<loc>http://tpp.loc/2011/06/5-photography-books-reviewed-by-5-photographers/5739</loc>

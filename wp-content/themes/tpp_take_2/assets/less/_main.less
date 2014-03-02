@@ -250,7 +250,7 @@ legend {
     float:right;
 }
 
-.aside-25, .aside-75, .aside-60 {
+.aside-25, .aside-75, .aside-60, .aside-40 {
     float:left;
 }
 
@@ -263,6 +263,10 @@ legend {
     width:60%;
 }
 
+.aside-40 {
+    width:39%;
+    margin-left:1%;
+}
 
 .aside-75 {
     width:75%;
@@ -304,5 +308,29 @@ pre {
     display: block;
     a {
         color:#ffffff;
+    }
+}
+
+
+.half-right {
+    position:relative;
+}
+
+.abs-or {
+    position:absolute;
+    left: -45px;
+    top: 0;
+    bottom: 0;
+    border-left: 1px dashed @secondaryColourDarker;
+
+    span {
+        top: 40%;
+        position: absolute;
+        padding: 20px 0;
+        background: white;
+        display: block;
+        width: 50px;
+        height: inherit;
+        left: -10px;
     }
 }

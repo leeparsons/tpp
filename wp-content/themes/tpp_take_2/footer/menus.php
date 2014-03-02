@@ -52,8 +52,8 @@
 
         <nav class="aside-25 social">
             <h5>Follow Us</h5>
-            <a href="https://twitter.com/ThePhotoParlour" target="_blank" class="fb-icon">Facebook</a>
-            <a href="https://www.facebook.com/thephotographyparlour" target="_blank" class="tw-icon">Twitter</a>
+            <a href="https://www.facebook.com/thephotographyparlour" target="_blank" class="fb-icon">Facebook</a>
+            <a href="https://twitter.com/ThePhotoParlour" target="_blank" class="tw-icon">Twitter</a>
         </nav>
 
         <span id="copyright" class="wrap">&copy; The Photography parlour 2013 &ndash; <?php echo date('Y'); ?></span>

@@ -8,7 +8,7 @@
 get_header('blog');
 
 ?>
-<article class="single-article aside-75">
+<article class="single-article aside-60">
 
 <?php if (have_posts()): the_post(); ?>
 
@@ -64,7 +64,7 @@ get_header('blog');
 
 flush();
 
-get_sidebar();
+get_template_part('sidebars/post');
 
 get_footer();
 

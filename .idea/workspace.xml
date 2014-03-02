@@ -23,28 +23,30 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="mentors.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/mentors.php">
+      <file leaf-file-name="order_confirm_store_owner.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/emails/order_confirm_store_owner.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="123" column="61" selection-start="3056" selection-end="3056" vertical-scroll-proportion="-6.0416665" vertical-offset="1640" max-vertical-offset="1950">
+            <state line="41" column="0" selection-start="1863" selection-end="1863" vertical-scroll-proportion="-25.625" vertical-offset="0" max-vertical-offset="960">
+              <folding>
+                <element signature="n#style#0;n#td#0;n#tr#1;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="checkout.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/checkout.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="591" column="0" selection-start="17363" selection-end="17363" vertical-scroll-proportion="0.33333334" vertical-offset="8757" max-vertical-offset="9255">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="form.php" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/mentor/form.php">
+      <file leaf-file-name="base.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/adapters/paypal/base.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="101" selection-start="731" selection-end="731" vertical-scroll-proportion="0.3962264" vertical-offset="120" max-vertical-offset="405">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mentor.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/mentor.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="136" column="0" selection-start="3826" selection-end="3826" vertical-scroll-proportion="-72.583336" vertical-offset="238" max-vertical-offset="3960">
+            <state line="121" column="0" selection-start="2795" selection-end="2795" vertical-scroll-proportion="-5.0" vertical-offset="1635" max-vertical-offset="2025">
               <folding />
             </state>
           </provider>
@@ -60,22 +62,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/classes/ip2location/locator.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/product_edit.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/product.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/product/about.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/mentor/about.php" />
-        <option value="$PROJECT_DIR$/.htaccess" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/assets/js/dashboard/product.js" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/product_form.php" />
-        <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/js/file_upload.js" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/default.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/site_hooks.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/dashboard.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/register.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/user.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/register.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/product/default/cart.php" />
         <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/factory/abstracts/base.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/mentor.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/mentors.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/mentor/form.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/cart/default.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/checkout.php" />
+        <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/classes/tpp_cacher.php" />
+        <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/classes/ip2location/locator.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/product.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/product.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/factory/abstracts/model_product.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/product_download.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/product/about.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/mentor_session/about.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/emails/order_confirm_store_owner.php" />
       </list>
     </option>
   </component>
@@ -86,9 +88,9 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="310" />
-    <option name="y" value="322" />
-    <option name="width" value="1440" />
+    <option name="x" value="24" />
+    <option name="y" value="22" />
+    <option name="width" value="1358" />
     <option name="height" value="790" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -145,6 +147,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -191,85 +194,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="themes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tpp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tpp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wp-content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="themes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tpp_take_2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tpp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tpp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wp-content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="themes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tpp_take_2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tpp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tpp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wp-content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="themes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tpp_take_2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
+              <option name="myItemId" value="tpp_cache" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -463,139 +388,12 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="site" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dashboard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mentor" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tpp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tpp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wp-content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="plugins" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tppstore" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="site" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tpp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tpp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wp-content" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="plugins" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tppstore" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="site" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tpp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tpp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wp-admin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tpp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tpp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wp-admin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tpp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tpp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wp-admin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="colors" />
+              <option name="myItemId" value="emails" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -604,23 +402,23 @@
     <property name="options.lastSelected" value="preferences.sourceCode.PHP" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../ecommerce" />
     <property name="FullScreen" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/wp-content/themes/tpp_take_2/classes/ip2location" />
-      <recent name="$PROJECT_DIR$/wp-content/themes/tpp_take_2/classes/geoip" />
-      <recent name="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/products" />
-      <recent name="$PROJECT_DIR$/wp-content/uploads/store/3" />
-      <recent name="$PROJECT_DIR$/wp-content/uploads/tpp_products/downloads/1" />
+      <recent name="$PROJECT_DIR$/wp-content/themes/tpp_take_2" />
+      <recent name="$PROJECT_DIR$/wp-content/themes/tpp_take_2/classes" />
+      <recent name="$PROJECT_DIR$/wp-content/plugins/tppstore/emails" />
+      <recent name="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/orders" />
+      <recent name="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/mentors" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/products" />
       <recent name="$PROJECT_DIR$/wp-content/themes/tpp_take_2/classes/ip2location" />
       <recent name="$PROJECT_DIR$/wp-content/plugins/tppstore/site/assets/js" />
       <recent name="$PROJECT_DIR$/wp-content/plugins/tppstore/site/assets/js/product" />
       <recent name="$PROJECT_DIR$/assets/images" />
-      <recent name="$PROJECT_DIR$/wp-content/plugins/tppstore/site/assets/js/dashboard" />
     </key>
   </component>
   <component name="RunManager">
@@ -686,7 +484,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="310" y="322" width="1440" height="790" extended-state="1" />
+    <frame x="24" y="22" width="1358" height="790" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -694,16 +492,16 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985073" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.6686567" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24892396" sideWeight="0.47313434" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.52686566" sideWeight="0.49928263" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33765244" sideWeight="0.58059704" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.419403" sideWeight="0.4984756" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.52686566" sideWeight="0.50071734" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.419403" sideWeight="0.5015244" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3283582" sideWeight="0.49928263" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.319403" sideWeight="0.49928263" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -717,14 +515,14 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3283582" sideWeight="0.49928263" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.52686566" sideWeight="0.49928263" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42089552" sideWeight="0.4985653" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.52686566" sideWeight="0.50071734" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985073" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.6686567" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24246772" sideWeight="0.67164177" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3005739" sideWeight="0.5791045" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -743,208 +541,191 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/product_images.php</url>
-          <line>799</line>
-          <option name="timeStamp" value="767" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/account.php</url>
-          <line>236</line>
-          <option name="timeStamp" value="1762" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/account.php</url>
-          <line>141</line>
-          <option name="timeStamp" value="1763" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/user.php</url>
-          <line>521</line>
+          <line>537</line>
           <option name="timeStamp" value="1793" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/store.php</url>
-          <line>158</line>
-          <option name="timeStamp" value="1830" />
+          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/messages.php</url>
+          <line>191</line>
+          <option name="timeStamp" value="2554" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/store.php</url>
-          <line>186</line>
-          <option name="timeStamp" value="1835" />
+          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/mentors.php</url>
+          <line>288</line>
+          <option name="timeStamp" value="2609" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/store.php</url>
-          <line>201</line>
-          <option name="timeStamp" value="1837" />
+          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/adapters/paypal/paypal.php</url>
+          <line>171</line>
+          <option name="timeStamp" value="2639" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/factory/abstracts/model_currency.php</url>
-          <line>37</line>
-          <option name="timeStamp" value="1879" />
+          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/adapters/discounts/discount.php</url>
+          <line>122</line>
+          <option name="timeStamp" value="2691" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/dashboard.php</url>
-          <line>407</line>
-          <option name="timeStamp" value="1929" />
+          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/libraries/file/image.php</url>
+          <line>234</line>
+          <option name="timeStamp" value="2744" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/products/latest_products.php</url>
-          <line>4</line>
-          <option name="timeStamp" value="1958" />
+          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/adapters/paypal/direct.php</url>
+          <line>246</line>
+          <option name="timeStamp" value="2793" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/product_images.php</url>
-          <line>384</line>
-          <option name="timeStamp" value="1966" />
+          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/adapters/paypal/direct.php</url>
+          <line>273</line>
+          <option name="timeStamp" value="2798" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/factory/abstracts/model_currency.php</url>
-          <line>102</line>
-          <option name="timeStamp" value="1986" />
+          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/adapters/paypal/paypal.php</url>
+          <line>192</line>
+          <option name="timeStamp" value="2812" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/factory/abstracts/model_currency.php</url>
-          <line>88</line>
-          <option name="timeStamp" value="1987" />
+          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/adapters/paypal/parallel.php</url>
+          <line>161</line>
+          <option name="timeStamp" value="2824" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/order.php</url>
-          <line>178</line>
-          <option name="timeStamp" value="1988" />
+          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/adapters/paypal/base.php</url>
+          <line>121</line>
+          <option name="timeStamp" value="2830" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/product_download.php</url>
-          <line>120</line>
-          <option name="timeStamp" value="1996" />
+          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/checkout.php</url>
+          <line>591</line>
+          <option name="timeStamp" value="2835" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/product_download.php</url>
-          <line>149</line>
-          <option name="timeStamp" value="1997" />
+          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/checkout.php</url>
+          <line>23</line>
+          <option name="timeStamp" value="2838" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/product_discounts.php</url>
-          <line>138</line>
-          <option name="timeStamp" value="2013" />
+          <url>file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/checkout.php</url>
+          <line>55</line>
+          <option name="timeStamp" value="2840" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="2040" />
+      <option name="time" value="2846" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/js/file_upload.js">
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/factory/abstracts/model_resource.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="602" column="33" selection-start="20260" selection-end="20271" vertical-scroll-proportion="2.0165017" vertical-offset="7808" max-vertical-offset="9555">
-          <folding>
-            <marker date="1392216894000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1392216894000" expanded="false" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/assets/js/dashboard/product.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="251" column="253" selection-start="8059" selection-end="8059" vertical-scroll-proportion="0.5214626" vertical-offset="3437" max-vertical-offset="11220">
+        <state line="26" column="0" selection-start="574" selection-end="574" vertical-scroll-proportion="0.3323442" vertical-offset="218" max-vertical-offset="660">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/product_images.php">
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/order_items.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="222" column="20" selection-start="6266" selection-end="6274" vertical-scroll-proportion="-1.6280992" vertical-offset="4315" max-vertical-offset="16005">
+        <state line="97" column="0" selection-start="3293" selection-end="3293" vertical-scroll-proportion="0.30864197" vertical-offset="1355" max-vertical-offset="1740" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/store.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="242" column="0" selection-start="6450" selection-end="6450" vertical-scroll-proportion="0.33333334" vertical-offset="3462" max-vertical-offset="13095">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/store/logs/28-02-2014/log.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-6.149533" vertical-offset="1974" max-vertical-offset="2295" />
+      </provider>
+      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/factory/abstracts/instantiable.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="0" selection-start="453" selection-end="453" vertical-scroll-proportion="0.51038575" vertical-offset="83" max-vertical-offset="420">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/classes/tpp_cacher.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="10" selection-start="172" selection-end="172" vertical-scroll-proportion="0.46296296" vertical-offset="0" max-vertical-offset="2490">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/classes/ip2location/locator.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="76" column="45" selection-start="1507" selection-end="1507" vertical-scroll-proportion="0.17804155" vertical-offset="1020" max-vertical-offset="2055" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/product.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="251" column="18" selection-start="7364" selection-end="7364" vertical-scroll-proportion="-0.09917355" vertical-offset="3765" max-vertical-offset="7185">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/factory/abstracts/model_product.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="296" column="9" selection-start="7844" selection-end="7844" vertical-scroll-proportion="0.75" vertical-offset="4137" max-vertical-offset="6120">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/product_download.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="35" selection-start="2032" selection-end="2032" vertical-scroll-proportion="0.75" vertical-offset="612" max-vertical-offset="2955">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/mentor_session/about.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="113" selection-start="2883" selection-end="2883" vertical-scroll-proportion="0.8264463" vertical-offset="235" max-vertical-offset="840">
+        <state line="17" column="53" selection-start="1386" selection-end="1386" vertical-scroll-proportion="0.20661157" vertical-offset="130" max-vertical-offset="840">
+          <folding>
+            <element signature="e#2358#2511#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/product/about.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="45" selection-start="2836" selection-end="2836" vertical-scroll-proportion="0.17789292" vertical-offset="512" max-vertical-offset="1395">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/products_list.php">
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/product.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="26" selection-start="293" selection-end="293" vertical-scroll-proportion="11.22" vertical-offset="846" max-vertical-offset="1425">
+        <state line="641" column="0" selection-start="21580" selection-end="21580" vertical-scroll-proportion="0.7927461" vertical-offset="9156" max-vertical-offset="12210">
           <folding>
             <element signature="e#6#68#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/default.php">
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/emails/order_confirm_store_owner.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="22" selection-start="596" selection-end="596" vertical-scroll-proportion="0.5533981" vertical-offset="33" max-vertical-offset="1230">
+        <state line="41" column="0" selection-start="1863" selection-end="1863" vertical-scroll-proportion="-25.625" vertical-offset="0" max-vertical-offset="960">
+          <folding>
+            <element signature="n#style#0;n#td#0;n#tr#1;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/adapters/paypal/base.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="121" column="0" selection-start="2795" selection-end="2795" vertical-scroll-proportion="-5.0" vertical-offset="1635" max-vertical-offset="2025">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/checkout.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6540">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/site_hooks.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="32" selection-start="487" selection-end="487" vertical-scroll-proportion="-10.625" vertical-offset="30" max-vertical-offset="2535">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/dashboard.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="62" selection-start="1319" selection-end="1319" vertical-scroll-proportion="-10.0" vertical-offset="135" max-vertical-offset="10020">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/factory/abstracts/base.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="33" selection-start="2338" selection-end="2338" vertical-scroll-proportion="0.394822" vertical-offset="1211" max-vertical-offset="4365">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/mentors.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="123" column="61" selection-start="3056" selection-end="3056" vertical-scroll-proportion="-6.0416665" vertical-offset="1640" max-vertical-offset="1950">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/product_edit.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="13" selection-start="82" selection-end="83" vertical-scroll-proportion="0.17857143" vertical-offset="0" max-vertical-offset="375">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/product_form.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="128" selection-start="375" selection-end="375" vertical-scroll-proportion="0.17857143" vertical-offset="0" max-vertical-offset="2505">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/mentor_session/form.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="569" selection-end="855" vertical-scroll-proportion="0.77380955" vertical-offset="0" max-vertical-offset="2535">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/mentor.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="136" column="0" selection-start="3826" selection-end="3826" vertical-scroll-proportion="-72.583336" vertical-offset="238" max-vertical-offset="3960">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/mentor/form.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="101" selection-start="731" selection-end="731" vertical-scroll-proportion="0.3962264" vertical-offset="120" max-vertical-offset="405">
+        <state line="591" column="0" selection-start="17363" selection-end="17363" vertical-scroll-proportion="0.33333334" vertical-offset="8757" max-vertical-offset="9255">
           <folding />
         </state>
       </provider>

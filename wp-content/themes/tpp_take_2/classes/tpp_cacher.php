@@ -8,7 +8,7 @@ class TppCacher extends TppStoreAbstractInstantiable {
 
     protected $cache_name = false;
 
-    protected function __construct()
+    public function __construct()
     {
         $this->path = WP_CONTENT_DIR . '/tpp_cache/';
     }
@@ -35,15 +35,32 @@ class TppCacher extends TppStoreAbstractInstantiable {
             return false;
         }
         if (true === $this->makeCacheDirectory()) {
-            if (file_exists($this->path . $this->cache_path . $this->cache_name) && filemtime($this->path . $this->cache_path . $this->cache_name) > time() - $ttl) {
-                $contents = file_get_contents($this->path . $this->cache_path . $this->cache_name);
-                return unserialize($contents);
+
+            if ($ttl > -1) {
+                if (file_exists($this->path . $this->cache_path . $this->cache_name) && filemtime($this->path . $this->cache_path . $this->cache_name) > time() - $ttl) {
+                    $contents = file_get_contents($this->path . $this->cache_path . $this->cache_name);
+                    return unserialize($contents);
+                } else {
+                    return false;
+                }
             } else {
-                return false;
+                if (file_exists($this->path . $this->cache_path . $this->cache_name)) {
+                    $contents = file_get_contents($this->path . $this->cache_path . $this->cache_name);
+                    return unserialize($contents);
+                } else {
+                    return false;
+                }
             }
+
+
         } else {
             return false;
         }
+    }
+
+    public function deleteCache()
+    {
+        $this->deleteRecursive();
     }
 
     public function deleteRecursive()

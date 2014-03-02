@@ -156,6 +156,44 @@
             li {
                 width:100%;
                 float:left;
+                &.cat {
+                    width:100%;
+                }
+                &:hover {
+                    height:auto;
+                    ul {
+                        border-top:1px dashed #FFFFFF;
+                        border-bottom:2px solid #FFFFFF;
+                        float:left;
+                        width:100%;
+                        li {
+                            float:left;
+                            width:100%;
+                            height:55px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .posts {
+        p {
+            display:none;
+        }
+        .author {
+
+            position:relative;
+            float:right;
+            width:130px;
+            left:0;
+            a {
+                float:left;
+                width:100%;
+            }
+
+            .align-right {
+                float:left;
             }
         }
     }

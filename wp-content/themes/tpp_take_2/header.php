@@ -1,14 +1,15 @@
 <?php get_template_part('common/head');flush(); ?>
+<?php get_template_part('menus/main_menu') ?>
 <?php if (!wp_is_mobile() || tpp_is_tablet()): ?>
     <?php if (is_home() && get_query_var('tpp_pagename') == ''): ?>
     <div class="wrap">
         <section class="header-slideshow" id="header_slideshow">
             <ul>
-                <li><a href="" class="img" style="background-image:url(/assets/images/homepage/homepage-banner-debs-ivelja.jpg)"></a></li>
-                <li><a href="" class="img" style="display:none;background-image:url(/assets/images/homepage/homepage-banner-ashlee.jpg)"></a></li>
-                <li><a href="" class="img" style="display:none;background-image:url(/assets/images/homepage/homepage-banner-dasha-caffrey.jpg)"></a></li>
-                <li><a href="" class="img" style="display:none;background-image:url(/assets/images/homepage/homepage-banner-rosie-parsons.jpg)"></a></li>
-
+                <li><a href="/?sf=1&s=debs+ivelja" class="img" style="background-image:url(/assets/images/homepage/homepage-banner-debs-ivelja.jpg)"></a></li>
+                <li><a href="/shop/category/marketing/" class="img" style="display:none;background-image:url(/assets/images/homepage/homepage-banner-marketing.jpg)"></a></li>
+                <li><a href="/shop/category/mentors/" class="img" style="display:none;background-image:url(/assets/images/homepage/homepage-banner-mentors.jpg)"></a></li>
+                <li><a href="/?sf=1&s=dasha+caffrey" class="img" style="display:none;background-image:url(/assets/images/homepage/homepage-banner-dasha-caffrey-3.jpg)"></a></li>
+                <li><a href="/?sf=1&s=taylor%20barnes" class="img" style="display:none;background-image:url(/assets/images/homepage/homepage-banner-ashlee.jpg)"></a></li>
             </ul>
         </section>
     </div>
@@ -28,6 +29,6 @@
     </div>
     <?php endif; ?>
 <?php endif; ?>
-<?php get_template_part('menus/main_menu') ?>
+<?php get_template_part('common/sponsors') ?>
     <div class="wrap">
         <section class="innerwrap"><?php flush();

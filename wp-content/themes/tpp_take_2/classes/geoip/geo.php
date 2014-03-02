@@ -12,7 +12,6 @@ class _geo extends TppStoreAbstractInstantiable {
 
     public function setCurrency()
     {
-        mail('parsolee@gmail.com', 'code', $this->code);
         switch ($this->code) {
             default:
                 $this->currency = 'USD';

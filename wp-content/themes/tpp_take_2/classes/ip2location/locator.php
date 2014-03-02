@@ -54,13 +54,26 @@ class geo extends geoBase {
         return $this->currency;
     }
 
-    public function convertCurrency($from_amount = 0.00, $currency_to = 'GBP')
+    public function getCurrencyHtml($code = false)
     {
 
-        if ($currency_to === $this->currency) {
-            return $from_amount;
+        if (false === $code) {
+            $code = $this->code;
         }
+        switch ($code) {
+            default:
+                return '&dollar;';
+                break;
+            case 'GB':
+                return '&pound;';
+                break;
+        }
+    }
 
+
+
+    public function getConversionRates($currency_to)
+    {
         if (empty($this->conversion_rates)) {
             TppCacher::getInstance()->setCacheName('currency-exchange');
             TppCacher::getInstance()->setCachePath('cart/' . strtolower($currency_to));
@@ -68,9 +81,14 @@ class geo extends geoBase {
             $conversion_rates = TppCacher::getInstance()->readCache();
 
             if (false !== $conversion_rates && !empty($conversion_rates)) {
-                foreach ($conversion_rates as $currency => $rate) {
-                    $this->conversion_rates[$currency] = $rate;
+
+                if (!empty($conversion_rates)) {
+                    foreach ($conversion_rates as $currency => $rate) {
+                        $this->conversion_rates[$currency] = $rate;
+                    }
+
                 }
+
             } else {
 
                 if (!class_exists('TppStoreAdapterPaypal')) {
@@ -88,6 +106,16 @@ class geo extends geoBase {
             }
 
         }
+    }
+
+    public function convertCurrency($from_amount = 0.00, $currency_to = 'GBP')
+    {
+
+        if ($currency_to === $this->currency) {
+            return $from_amount;
+        }
+
+        $this->getConversionRates($currency_to);
 
         if (empty($this->conversion_rates)) {
             return false;

@@ -78,10 +78,14 @@ jQuery(function($){
                 return false;
             }
 
+
+
             if (files.length == 0 || files[0].name == '') {
                 dropper.error(dropper.errors[0], e);
             } else {
-                dropper.upload(e.data.evt, 1, files);
+
+
+                dropper.upload(e.data.evt, 1, files, e);
             }
         }
 
@@ -137,7 +141,8 @@ jQuery(function($){
             dropper.sendXHRDeprecated(file, em);
         }
 
-        dropper.upload = function(e, files_count, files) {
+        dropper.upload = function(e, files_count, files, original_e) {
+
             if (!files) {
                 dropper.error(dropper.errors[0], e);
                 return false;
@@ -200,6 +205,7 @@ jQuery(function($){
                                 })(e);
 
                             reader.readAsBinaryString(dropper.files[i]);
+
                         }
 
 
@@ -268,7 +274,6 @@ jQuery(function($){
             xhr.sendAsBinary(builder);
 
 
-
             // xhr.sendAsBinary(builder);
             dropper.uploadStarted(index, file, em);
 
@@ -291,6 +296,7 @@ jQuery(function($){
             };
 
         }
+
 
         dropper.sendXHRDeprecated = function(file, em) {
             //safari
@@ -356,13 +362,24 @@ jQuery(function($){
             }
             var file = dropper.files[reader_e.target.index];
 
-
             var ua = navigator.userAgent.toLowerCase();
             if (ua.indexOf('safari') != -1) {
                 if(ua.indexOf('chrome') > -1) {
                     dropper.sendXHR(file, reader_e, em);
                 } else {
                     dropper.sendXHRDeprecated(file, em);
+
+//                    dropper.sendXHR(file, reader_e, em);
+/*
+                    var fullVersion = parseInt(ua.substring(ua.indexOf('version')+8));
+
+                    if (fullVersion > 6) {
+                        dropper.sendSafariSafe(file, em);
+                        //dropper.sendXHR(file, reader_e, em);
+                    } else {
+                        dropper.sendXHRDeprecated(file, em);
+                    }
+                    */
                 }
             } else {
                 dropper.sendXHR(file, reader_e, em);

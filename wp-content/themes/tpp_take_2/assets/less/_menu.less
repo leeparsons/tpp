@@ -1,32 +1,99 @@
 .main-menu {
 
-  float:left;
-  width:100%;
-  height:55px;
-  text-align:center;
-
-  ul {
-      background:@mainColour;
-
-      list-style-type:none;
-    margin:0 auto;
-    padding:0;
+    float:left;
+    width:100%;
     height:55px;
-    li {
-      line-height:45px;
+    text-align:center;
 
-      float:left;
-      width:16%;
-      height:55px;
-      a {
-        font-weight:600;
-        color:#FFFFFF;
-        padding:5px 2.5%;
-        display:block;
-        height:45px;
-      }
+    ul {
+        background:@mainColour;
+
+        list-style-type:none;
+        margin:0 auto;
+        padding:0;
+        height:55px;
+
+        ul {
+            display:none;
+            position:relative;
+            float:left;
+            top:0;
+            height:auto;
+            width:100%;
+            padding-top:20px;
+            z-index:3500;
+            li {
+                clear:left;
+                float:left;
+                width:100%;
+
+                a {
+                    float: left;
+                    height: auto;
+                    line-height: 23px;
+                    padding: 0 10px;
+                    vertical-align: middle;
+                    width: 100%;
+                }
+            }
+
+        }
+
+
+        li {
+            position:relative;
+            line-height:45px;
+
+            float:left;
+            width:16%;
+            height:55px;
+
+            /*
+            Overrides
+            */
+            &.business {
+                width:10%;
+            }
+
+            &.accessories {
+                width:11%;
+            }
+
+            &.e-learning {
+                width:11%;
+            }
+
+            &.actions-presets {
+                width:13%;
+            }
+
+            &.marketing {
+                width:12%;
+            }
+
+            &.mentors {
+                width:13%;
+            }
+
+            &.design-templates, &.workshops-and-events {
+                width:14%;
+            }
+
+            &:hover {
+                ul {
+                    display:block;
+                }
+            }
+
+            a {
+                font-weight:600;
+                color:#FFFFFF;
+                padding:5px 2.5%;
+                display:block;
+                height:45px;
+            }
+        }
     }
-  }
 }
 
 .main-menu-toggle {

@@ -1,23 +1,20 @@
-<?php
-
-    tpp_geo_locate();
-
-?><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" type="text/css" href="/assets/css/fonts.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/style.css?v=1">
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css?v=2">
     <?php if (wp_is_mobile() && !tpp_is_tablet()): ?>
-        <link rel="stylesheet" type="text/css" href="/assets/css/mobile.css">
+        <link rel="stylesheet" type="text/css" href="/assets/css/mobile.css?v=2">
     <?php elseif (tpp_is_ipad()): ?>
-        <link rel="stylesheet" type="text/css" href="/assets/css/ipad.css">
+        <link rel="stylesheet" type="text/css" href="/assets/css/ipad.css?v=2">
     <?php endif; ?>
     <?php wp_head(); ?>
     <!--[if gte IE 9]><style type="text/css">.gradient{filter: none;}</style><![endif]-->
     <title><?php wp_title(''); ?></title>
     <?php TppStoreHelperHtml::getInstance()->renderOgImages() ?>
     <meta name="description" content="<?php echo tpp_meta_description()?:get_bloginfo('description') ?>">
+    <?php TppStorehelperhtml::getInstance()->robots(); ?>
 </head>
 <body>
 <div class="wrap">

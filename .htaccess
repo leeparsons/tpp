@@ -1,5 +1,8 @@
+
 ErrorDocument 404 /404
 ErrorDocument 500 /500.php
+
+
 
 # BEGIN WordPress
 <IfModule mod_rewrite.c>
