@@ -471,6 +471,11 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
         ob_end_clean();
 
+        $url = $user->user_type == 'store_owner'?'dashboard':'myaccount';
+
+        $this->redirect('/shop/' . $url . '/purchase/' . $order->order_id);
+
+
         include TPP_STORE_PLUGIN_DIR . 'site/views/checkout/success.php';
 
         exit;

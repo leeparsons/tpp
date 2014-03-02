@@ -101,7 +101,7 @@ class TppStoreAdapterPaypalDirect extends TppStorePaypalBase {
             'PAYMENTACTION'								=>	'Sale',
             'PAYMENTREQUEST_0_AMT'						=>	$this->total,
             'PAYMENTREQUEST_0_ITEMAMT'					=>	$this->total,
-            'PAYMENTREQUEST_0_TAXAMT'					=>	'0.00',
+            'PAYMENTREQUEST_0_TAXAMT'					=>	0,
             'PAYMENTREQUEST_0_SHIPPINGAMT'				=>	'0.00',
             'PAYMENTREQUEST_0_HANDLINGAMT'				=>	'0.00',
             'PAYMENTREQUEST_0_INSURANCEAMT'				=>	'0.00',
@@ -225,7 +225,7 @@ class TppStoreAdapterPaypalDirect extends TppStorePaypalBase {
                 'PAYERID'					=>	filter_input(INPUT_GET, 'PayerID', FILTER_SANITIZE_STRING),
                 'PAYMENTREQUEST_0_AMT'				=>	$order->total,
                 'PAYMENTREQUEST_0_ITEMAMT'			=>	$order->total,
-                'PAYMENTREQUEST_0_TAXAMT'			=>	$order->tax,
+                'PAYMENTREQUEST_0_TAXAMT'			=>	0,
                 'PAYMENTREQUEST_0_SHIPPINGAMT'			=>	'0.00',
                 'PAYMENTREQUEST_0_HANDLINGAMT'			=>	'0.00',
                 'PAYMENTREQUEST_0_INSURANCEAMT'			=>	'0.00',
@@ -258,7 +258,7 @@ class TppStoreAdapterPaypalDirect extends TppStorePaypalBase {
                 'store_owner_payment'   =>  $order->total - $order->commission,
                 'receiver_email'        =>  urldecode($p_response->PAYMENTINFO_0_SELLERPAYPALACCOUNTID),
                 'payment_status'        =>  urldecode($p_response->PAYMENTINFO_0_PAYMENTSTATUS),
-                'payment_message'       =>  property_exists($p_response, 'PAYMENTINFO_0_PENDINGREASON')?urldecode($p_response->PAYMENTINFO_0_PENDINGREASON):'',
+                'payment_message'       =>  property_exists($p_response, 'PAYMENTINFO_0_PENDINGREASON')?urldecode($p_response->PAYMENTINFO_0_PENDINGREASON):(property_exists($p_response, 'message')?$p_response->message:''),
                 'fee'                   =>  $p_response->fee
             );
 

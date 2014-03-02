@@ -15,7 +15,7 @@ Abstract class TppStorePaypalBase {
     public $currency;
     protected  $commission = 0;
     protected  $commission_rate = 12.5;
-
+    public  $tax = 0;
     public $discount = 0;
 
     protected  $store_email = '';
