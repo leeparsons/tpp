@@ -124,12 +124,12 @@ class geo extends geoBase {
 
             if (isset($this->conversion_rates[$this->currency])) {
                 //assume we are converting to the currency_to ('gbp') from the current currency 'usd'
-                return $from_amount * $this->conversion_rates[$this->currency];
+                return $from_amount * (1.1 * $this->conversion_rates[$this->currency]);
             }
 
             return false;
         } else {
-            return $from_amount / $this->conversion_rates[$currency_to];
+            return $from_amount / (1.1 * $this->conversion_rates[$currency_to]);
         }
     }
 
