@@ -6,7 +6,7 @@
             <?php if ($x == $this->page): ?>
             <span><?php echo $x; ?></span>
             <?php else: ?>
-            <a href="<?php echo $this->base ?>/page/<?php echo $x . $this->query_string; ?>"><?php echo $x; ?></a>
+            <a href="<?php echo $this->base; ?>/page/<?php echo $x . '/' . $this->query_string; ?>"><?php echo $x; ?></a>
             <?php endif; ?>
         <?php endfor; ?>
     <?php endif; ?>

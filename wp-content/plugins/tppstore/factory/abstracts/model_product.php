@@ -287,7 +287,7 @@ class TppStoreAbstractModelBaseProduct extends TppStoreModelCurrency {
     }
 
 
-    public function getDownloadUrl($ecrypted = true, $product_edit = false)
+    public function getAdminDownloadUrl($encrypted = true)
     {
         if (is_null($this->_product_download_model->product_id)) {
             $this->_product_download_model->setData(array(
@@ -295,7 +295,18 @@ class TppStoreAbstractModelBaseProduct extends TppStoreModelCurrency {
                 'file'          =>  $this->product_type_text
             ));
         }
-        return $this->_product_download_model->getDownloadUrl($ecrypted, $product_edit);
+        return $this->_product_download_model->getDownloadUrlAdmin($encrypted);
+    }
+
+    public function getDownloadUrl($encrypted = true, $product_edit = false)
+    {
+        if (is_null($this->_product_download_model->product_id)) {
+            $this->_product_download_model->setData(array(
+                'product_id'    =>  $this->product_id,
+                'file'          =>  $this->product_type_text
+            ));
+        }
+        return $this->_product_download_model->getDownloadUrl($encrypted, $product_edit);
 
     }
 

@@ -507,7 +507,7 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
                 $product_images_continue = false;
             }
 
-            if (trim($this->product_type_text) == '') {
+            if (trim($this->product_type_text) == '' && $this->product_type == 1) {
                 $this->setOffline();
                 TppStoreMessages::getInstance()->addMessage('error', 'Please fill out the download options before you can make this product go live');
                 $product_discounts_continue = false;
@@ -559,9 +559,16 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
     public function clearCache()
     {
         $c = new TppCacher();
-        $c->setCacheName($this->product_id);
-        $c->setCachePath('product');
+        $c->setCachePath('product/' . $this->product_id . '/');
         $c->deleteCache();
+        $c->setCachePath('homepage/products/top/');
+        $c->deleteCache();
+        $c->setCachePath('homepage/categories/featured/');
+        $c->deleteCache();
+        if ($this->product_type == 4) {
+            $c->setCachePath('mentor/' . $this->getMentor()->mentor_id);
+            $c->deleteCache();
+        }
     }
 
     public function setOffline()

@@ -83,7 +83,7 @@ class TppStoreAdapterDiscount extends TppStoreAbstractBase {
                         if (intval($product->price_includes_tax) == 1) {
                             $discount += TppStoreAdapterDiscount::$discounts[$product->product_id] * $product->order_quantity * $price;
                         } else {
-                            $discount += (TppStoreAdapterDiscount::$discounts[$product->product_id] * $product->order_quantity * $price);// * (1 + ($product->tax_rate/100));
+                            $discount += (TppStoreAdapterDiscount::$discounts[$product->product_id] * $product->order_quantity * $price) * (1 + ($product->tax_rate/100));
                         }
 
                     }

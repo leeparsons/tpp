@@ -11,6 +11,16 @@ add_action('admin_menu', function() {
         array('TppStoreAdminControllerCategories', 'renderCategories')
     );
 
+    add_submenu_page('tpp-store', 'Products', 'Products', 'edit_pages', 'tpp-store-products',
+        array('TppStoreAdminControllerProducts', 'renderProducts')
+    );
+
+    add_submenu_page('tpp-store', NULL, NULL, 'edit_pages', 'tpp-store-product',
+        function() {
+            TppStoreAdminControllerProducts::getInstance()->renderProduct();
+        }
+    );
+
     add_submenu_page('tpp-store-category', 'Category', NULL, 'edit_pages', 'tpp-store-category',
         array(
             'TppStoreAdminControllerCategories',

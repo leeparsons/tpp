@@ -11,7 +11,7 @@ class TppStoreAdminControllerCategories extends TppStoreAbstractBase {
     {
 
 
-        wp_enqueue_style('tpp_categories', TPP_STORE_PLUGIN_URL . '/admin/assets/css/categories.css');
+        wp_enqueue_style('tpp_style', TPP_STORE_PLUGIN_URL . '/admin/assets/css/style.css');
 
         $categories = TppStoreModelCategories::getInstance();
         $categories->getCategories(array(

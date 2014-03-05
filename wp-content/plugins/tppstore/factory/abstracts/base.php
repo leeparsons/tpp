@@ -23,6 +23,8 @@ Abstract class TppStoreAbstractBase extends TppStoreAbstractInstantiable {
         return $this->_is_dashboard;
     }
 
+
+
     public static function checkRobot()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {

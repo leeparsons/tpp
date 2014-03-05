@@ -800,6 +800,14 @@ class TppStoreModelProductImages extends TppStoreAbstractModelResource {
             return false;
         }
 
+
+        $ids = implode(',', $this->image_ids);
+
+        if (trim($ids == '')) {
+            return false;
+        }
+
+
         global $wpdb;
 
         $rows = $wpdb->get_results(

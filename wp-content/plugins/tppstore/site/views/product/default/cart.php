@@ -10,9 +10,7 @@
         </div>
 
         <?php $product_options = $product->getOptions(); ?>
-        <!--        <fieldset>-->
-        <!--            <legend>Add to cart</legend>-->
-        <!--        </fieldset>-->
+
         <?php if (intval($product->unlimited) == 1 || $product->quantity_available > 0): ?>
             <div class="form-group">
                 <?php if (false !== $product_options): ?>

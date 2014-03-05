@@ -5,40 +5,63 @@
  * Time: 23:12
  */
 
+$cacher->setCacheName('image_array');
 
+$can_cache = (isset($preview) && $preview == 1);
 
-$images = $product->getImagesBySize('main');
+$can_cache = !$can_cache;
 
-if (count($images) > 0):
+if ($can_cache && false === ($_images = $cacher->readCache(-1))) {
 
-    $i = 0;
+    $_images = $product->getImagesBySize('main');
+
     $slide_images = array();
     $thumb_images = array();
 
     $og_images = array();
 
+    if (count($_images) > 0):
+
+        $i = 0;
 
 
-    foreach ($images as $image):
-        $og_images[$i] = get_site_url() . $image->getSrc('full');
 
-        if ($i == 0) {
-            $main_image = $og_images[$i];
-        }
-        if (wp_is_mobile() && $i > 0) {
-            continue;
-        }
-        $slide_images[] = '<img ' .  ($i>0?'class="vhidden"':'class="active"') . ' src="' . $og_images[$i] . '" alt="' . $image->alt . '">';
-        $thumb_images[] = '<img ' . ($i>0?'':'class="active"') . ' src="' . $image->getSrc('slideshow_thumb') . '" alt="slide thumbnail ' . $image->alt . '">';
-        $i++;
-    endforeach;
 
-    unset($image);
-    unset($i);
+        foreach ($_images as $image):
+            $og_images[$i] = get_site_url() . $image->getSrc('full');
 
-    TppStoreHelperHtml::getInstance()->addOgImages($og_images);
+            if ($i == 0) {
+                $main_image = $og_images[$i];
+            }
+            if (wp_is_mobile() && $i > 0) {
+                continue;
+            }
+            $slide_images[] = '<img ' .  ($i>0?'class="vhidden"':'class="active"') . ' src="' . $og_images[$i] . '" alt="' . $image->alt . '">';
+            $thumb_images[] = '<img ' . ($i>0?'':'class="active"') . ' src="' . $image->getSrc('slideshow_thumb') . '" alt="slide thumbnail ' . $image->alt . '">';
+            $i++;
+        endforeach;
 
-endif;
+        unset($image);
+        unset($i);
+
+    endif;
+
+    $_images = array(
+        'og_images'     =>  $og_images,
+        'slide_images'  =>  $slide_images,
+        'thumb_images'  =>  $thumb_images
+    );
+
+    $cacher->saveCache($_images);
+} else {
+    $og_images = $_images['og_images'];
+    $slide_images = $_images['slide_images'];
+    $thumb_images = $_images['thumb_images'];
+}
+
+unset($_images);
+
+TppStoreHelperHtml::getInstance()->addOgImages($og_images);
 
 get_header();
 
@@ -62,42 +85,23 @@ if (isset($preview) && $preview == 1) {
         <?php TppStoreMessages::getInstance()->render() ?>
     </div>
 
-<?php
+<?php if (count($slide_images) > 0): ?>
+    <div class="half-left">
 
+        <div class="product-images" id="product_images">
 
-if (count($images) > 0): ?>
-<div class="half-left">
-
-
-    <div class="product-images" id="product_images">
-
-        <?php
-
-
-
-        ?>
-
-        <?php foreach ($images as $image): ?>
-            <?php
-
-
-
-            $i++;
-
-            ?>
-        <?php endforeach; ?>
-
-        <div class="slides">
-            <?php echo implode('', $slide_images); ?>
+            <div class="slides">
+                <?php echo implode('', $slide_images); ?>
+            </div>
+            <?php if (count($slide_images) > 1): ?>
+                <nav class="slide-navigation">
+                    <?php echo implode('', $thumb_images); ?>
+                </nav>
+            <?php endif; ?>
         </div>
-        <?php if (count($slide_images) > 1): ?>
-        <nav class="slide-navigation">
-            <?php echo implode('', $thumb_images); ?>
-        </nav>
-        <?php endif; ?>
     </div>
-    </div>
-<?php endif; ?>
+<?php endif;?>
+
     <div class="half-right">
 
         <?php
@@ -158,26 +162,43 @@ if (count($images) > 0): ?>
 
     ?>
 </div>
+<?php
 
-<div class="half-right" id="store_profile">
+$cacher->setCacheName('card');
 
-    <?php
+if ($can_cache && false === ($card_html = $cacher->readCache(-1))) {
 
-    switch ($product->product_type) {
-        case '4':
-            include TPP_STORE_PLUGIN_DIR . 'site/views/product/mentor/mentor_card.php';
-            break;
+    ob_start();
 
-        case '5':
-            include TPP_STORE_PLUGIN_DIR . 'site/views/product/event/event_card.php';
-            break;
+?>
+    <div class="half-right" id="store_profile">
 
-        default:
-            include TPP_STORE_PLUGIN_DIR . 'site/views/product/default/store_card.php';
-            break;
-    }
+        <?php
 
+        switch ($product->product_type) {
+            case '4':
+                include TPP_STORE_PLUGIN_DIR . 'site/views/product/mentor/mentor_card.php';
+                break;
 
+            case '5':
+                include TPP_STORE_PLUGIN_DIR . 'site/views/product/event/event_card.php';
+                break;
+
+            default:
+                include TPP_STORE_PLUGIN_DIR . 'site/views/product/default/store_card.php';
+                break;
+        }
+
+        $card_html = ob_get_contents();
+
+    ob_end_clean();
+
+    $cacher->saveCache($card_html);
+
+}
+
+        echo $card_html;
+        unset($card_html);
 
 
     ?>
@@ -348,3 +369,5 @@ if (count($images) > 0): ?>
     var description = "<?php echo esc_attr(str_replace('<br>', ' ', nl2br($product->excerpt, false))) ?>";
     <?php wp_enqueue_script('product', TPP_STORE_PLUGIN_URL . '/site/assets/js/product-ck.js', array('jquery'), 2.5, true) ?></script>
 <?php get_footer();
+
+

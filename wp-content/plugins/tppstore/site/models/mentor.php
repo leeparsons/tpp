@@ -595,11 +595,19 @@ class TppStoreModelMentor extends TppStoreAbstractModelResource {
             }
         }
 
+        $this->clearCache();
 
         return $wpdb->result;
 
     }
 
+
+    private function clearCache()
+    {
+        $c = new TppCacher();
+        $c->setCachePath('mentor/' . $this->getMentor()->mentor_id);
+        $c->deleteCache();
+    }
 
     private function validate()
     {
@@ -709,6 +717,8 @@ class TppStoreModelMentor extends TppStoreAbstractModelResource {
             }
 
         }
+
+        $this->clearCache();
 
         return false;
 

@@ -260,8 +260,7 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
             ))->save();
 
 
-
-
+            $this->sendMail('parsolee@gmail.com', 'payment', 'order: ' . $order->order_id . ' , geo currency: ' . geo::getInstance()->getCurrency() . ', order currency: ' . $order->currency);
             $this->setCheckoutSessionData($order, $payment);
 
 

@@ -24,7 +24,7 @@
     </div>
 
     <div class="align-left">
-        <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+        <a href="https://twitter.com/share" data-href="<?php echo $product->getPermalink() ?>" class="twitter-share-button">Tweet</a>
     </div>
     <?php if ($shared === false): ?>
         <script src="//platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>

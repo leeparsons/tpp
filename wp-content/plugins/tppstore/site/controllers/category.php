@@ -145,8 +145,14 @@ class TppStoreControllerCategory extends TppStoreAbstractBase {
     public function renderCategoryMenu()
     {
 
+        if (wp_is_mobile() && !tpp_is_ipad()) {
+            $path = 'menu/mobile';
+        } else {
+            $path = 'menu/normal';
+        }
+
         TppCacher::getInstance()->setCacheName('category-menu');
-        TppCacher::getInstance()->setCachePath('menu');
+        TppCacher::getInstance()->setCachePath($path);
 
 
         if (false === ($menu = TppCacher::getInstance()->readCache(-1))) {

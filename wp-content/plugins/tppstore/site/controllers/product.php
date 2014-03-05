@@ -76,17 +76,17 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
 
                 $store = $this->getStoreModel()->getStoreBySlug($store_slug);
 
-                $product = $this->getProductModel()->getProductBySlug($product_slug);
-
                 if (intval($store->store_id) < 1) {
                     $this->_setWpQuery404();
                     include TPP_STORE_PLUGIN_DIR . 'site/views/404.php';
                 }
 
+
+                $product = $this->getProductModel()->getProductBySlug($product_slug, $store->store_id);
+
                 if ($product->product_type == 5) {
                     $product = $this->getEventModel()->setData($product)->loadEventData();
                 }
-
 
                 $this->renderProduct($product, $store);
 
@@ -101,23 +101,32 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
 
                 $product_id = get_query_var('product_id');
 
+                $decrypted_string = TppStoreLibraryEncryption::decrypt($args, true);
 
-                if (false === ($order = $this->getOrderModel()->setData(array(
-                    'product_id'    =>  $product_id,
-                ))->validatePurchaseByUser($user->user_id))) {
-                    $this->_setWpQuery403();
+                if (strpos($decrypted_string, 'admin_logged_in=true') === false) {
+                    if (false === ($order = $this->getOrderModel()->setData(array(
+                            'product_id'    =>  $product_id,
+                        ))->validatePurchaseByUser($user->user_id))) {
+                        $this->_setWpQuery403();
 
-                    $title = 'Oops!';
+                        $title = 'Oops!';
 
-                    $message = 'Looks like you are not authorised to access this resource.';
+                        $message = 'Looks like you are not authorised to access this resource.';
 
-                    include TPP_STORE_PLUGIN_DIR . 'site/views/404.php';
+                        include TPP_STORE_PLUGIN_DIR . 'site/views/404.php';
 
-                    exit;
+                        exit;
+
+                    }
+
+                    $download_file = $decrypted_string;
+
+                } else {
+
+                    $download_file = substr($decrypted_string, strlen('admin_logged_in=true&file='));
 
                 }
 
-                $download_file = TppStoreLibraryEncryption::decrypt($args, true);
 
                 //determine if this user has access to download this file?
 
@@ -234,24 +243,28 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
 
             $this->_setWpQueryOk();
 
-            $c = new TppCacher();
+            $cacher = new TppCacher();
 
-            $c->setCachePath('product');
-            $c->setCacheName($product->product_id);
+            $cur = geo::getInstance()->getCurrency();
 
-            if (false !== ($contents = $c->readCache(-1))) {
-                echo $contents;
+            if (wp_is_mobile() && !tpp_is_ipad()) {
+                $cache_path = 'product/' . $product->product_id . '/mobile/' . strtolower($cur);
             } else {
-                $this->pageTitle(array($product, $store));
-                $this::$_meta_description = $product->getDescription();
-                ob_start();
-                wp_enqueue_script('jquery');
-                include TPP_STORE_PLUGIN_DIR . 'site/views/product.php';
-                $contents = ob_get_contents();
-                ob_end_clean();
-                $c->saveCache($contents);
-                echo $contents;
+                $cache_path = 'product/' . $product->product_id . '/desktop/' . strtolower($cur);
             }
+
+            $cacher->setCachePath($cache_path);
+            unset($cur);
+            $cacher->setCacheName($product->product_id);
+
+
+
+            $this->pageTitle(array($product, $store));
+            $this::$_meta_description = $product->getDescription();
+            wp_enqueue_script('jquery');
+
+            include TPP_STORE_PLUGIN_DIR . 'site/views/product.php';
+
         }
 
         exit;

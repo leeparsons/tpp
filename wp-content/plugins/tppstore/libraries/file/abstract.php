@@ -129,6 +129,9 @@ Abstract class TppStoreLibraryAbstractFile {
 
     public function streamFile($file_name = 'download')
     {
+
+
+
         if (file_exists($this->_file)) {
 
             header('Content-Description: File Transfer');

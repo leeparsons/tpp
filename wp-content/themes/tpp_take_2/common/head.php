@@ -9,11 +9,37 @@
     <?php elseif (tpp_is_ipad()): ?>
         <link rel="stylesheet" type="text/css" href="/assets/css/ipad.css?v=2">
     <?php endif; ?>
-    <?php wp_head(); ?>
     <!--[if gte IE 9]><style type="text/css">.gradient{filter: none;}</style><![endif]-->
-    <title><?php wp_title(''); ?></title>
+    <title><?php
+
+        if (tpp_on_shop() === true) {
+            echo tpp_get_meta_title();
+        } else {
+            wp_title('');
+        }
+
+        ?></title>
     <?php TppStoreHelperHtml::getInstance()->renderOgImages() ?>
-    <meta name="description" content="<?php echo tpp_meta_description()?:get_bloginfo('description') ?>">
+    <?php if (tpp_on_shop() === true): ?>
+        <meta property="og:description" content="<?php echo tpp_get_meta_title() ?>">
+        <meta property="og:title" content="<?php echo tpp_meta_description() ?>">
+        <meta property="og:url" content="<?php echo get_site_url() . $_SERVER['REQUEST_URI'] ?>">
+    <?php else: ?>
+        <meta property="og:title" content="<?php echo wp_title('') ?>">
+        <meta property="og:description" content="<?php echo get_bloginfo('description')?>">
+    <?php endif; ?>
+    <meta property="fb:app_id" content="270470249767149">
+    <meta property="og:type" content="website" />
+    <meta name="description" content="<?php
+
+    if (tpp_on_shop() === true) {
+        echo tpp_meta_description();
+    } else {
+        echo get_bloginfo('description');
+    }
+
+    ?>">
+    <?php wp_head(); ?>
     <?php TppStorehelperhtml::getInstance()->robots(); ?>
 </head>
 <body>
@@ -21,7 +47,7 @@
     <header class="head">
 
         <hgroup class="head-title">
-            <?php if(is_home()): ?>
+            <?php if(is_home() && TppStoreControllerDashboard::getInstance()->isDashboard() === false): ?>
                 <h1><a href="/">The Photography Parlour</a></h1>
             <?php else: ?>
                 <a href="/">The Photography Parlour</a>

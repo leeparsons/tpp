@@ -28,33 +28,6 @@ register_nav_menu( 'footer_contact', 'Contact Us Footer Menu' );
 register_nav_menu( 'footer_pages', 'Pages Footer Menu' );
 register_nav_menu( 'blog', 'Blog Header Menu' );
 
-//function add_paypal_adaptive_class( $methods ) {
-//    $methods[] = 'WC_Paypal_Adaptive_Payments';
-//    return $methods;
-//}
-
-//function shorten_woo_title($title = '')
-//{
-//    global $post;
-//    global $woocommerce_loop;
-//
-//    if (!is_null($woocommerce_loop) && is_product_category() && $post->post_type == 'product') {
-//        if (strlen($title > 150)) {
-//            $title = substr($title, 0, 150);
-//        }
-//    }
-//
-//    return $title;
-//}
-
-
-//add_filter( 'woocommerce_payment_gateways', 'add_paypal_adaptive_class' );
-//add_filter('the_title', shorten_woo_title);
-
-//remove_action( 'woocommerce_sidebar', 'woocommerce_get_sidebar', 10);
-//add_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 20 );
-//remove_action( 'woocommerce_after_main_content', 'woocommerce_catalog_ordering', 20 );
-
 function tpp_is_tablet()
 {
     return false !== stripos($_SERVER['HTTP_USER_AGENT'], 'ipad');
@@ -144,6 +117,17 @@ function tpp_is_on_blog_page()
 
 }
 
+function tpp_on_shop()
+{
+    $url = $_SERVER['REQUEST_URI'];
+
+    if (substr($url, 0, 6) == '/shop/') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 
 include WP_CONTENT_DIR . '/themes/tpp_take_2/classes/tpp_cacher.php';
 
@@ -154,12 +138,19 @@ function tppSavePost($post_id)
 
     $cats = wp_get_post_categories($post_id);
 
-    $c = TppCacher::getInstance();
+    $c = new TppCacher();
 
     foreach ($cats as $cat_id) {
         $c->setCachePath('blog/category/' . $cat_id);
         $c->deleteRecursive();
     }
+
+    $c->setCachePath('blog/posts/' . $post_id);
+    $c->deleteRecursive();
+
+    $c->setCachePath('homepage/blog/');
+    $c->deleteCache();
+
     return true;
 }
 
@@ -171,3 +162,26 @@ function tppReadMore($more = '') {
 }
 
 add_filter('excerpt_more', 'tppReadMore');
+
+function tpp_limit_content($content = '', $len = 120, $more = '..')
+{
+    if (trim($content) == '') {
+        return $content;
+    }
+
+    $content = strip_tags($content);
+
+    $content_len = strlen($content);
+
+    if ($content_len > $len) {
+        $more_len = strlen($more);
+        if ($content_len + $more_len > $len) {
+            return substr(strip_tags($content), 0, $len - $more_len) . $more;
+        } else {
+            return substr(strip_tags($content), 0, $len) . $more;
+        }
+    } else {
+        return substr(strip_tags($content), 0, $len);
+    }
+
+}

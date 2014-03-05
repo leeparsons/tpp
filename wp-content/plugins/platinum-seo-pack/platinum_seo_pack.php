@@ -142,9 +142,6 @@ class Platinum_SEO_Pack {
 	}
 
 	function apply_seo_title() {
-
-
-
 		global $wp_query;
 		$post = $wp_query->get_queried_object();
 

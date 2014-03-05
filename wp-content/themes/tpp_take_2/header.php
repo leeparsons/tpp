@@ -5,15 +5,18 @@
     <div class="wrap">
         <section class="header-slideshow" id="header_slideshow">
             <ul>
-                <li><a href="/?sf=1&s=debs+ivelja" class="img" style="background-image:url(/assets/images/homepage/homepage-banner-debs-ivelja.jpg)"></a></li>
-                <li><a href="/shop/category/marketing/" class="img" style="display:none;background-image:url(/assets/images/homepage/homepage-banner-marketing.jpg)"></a></li>
-                <li><a href="/shop/category/mentors/" class="img" style="display:none;background-image:url(/assets/images/homepage/homepage-banner-mentors.jpg)"></a></li>
-                <li><a href="/?sf=1&s=dasha+caffrey" class="img" style="display:none;background-image:url(/assets/images/homepage/homepage-banner-dasha-caffrey-3.jpg)"></a></li>
-                <li><a href="/?sf=1&s=taylor%20barnes" class="img" style="display:none;background-image:url(/assets/images/homepage/homepage-banner-ashlee.jpg)"></a></li>
+                <li><a href="/shop/taylor-barnes-photography/product/illuminated-masterclass-in-fine-art-photography-and-styling/" class="img" style="background-image:url(/assets/images/homepage/homepage-illuminated-masterclass.jpg)"></a></li>
+                <li style="display:none"><a href="/?sf=1&s=debs+ivelja" class="img" style="background-image:url(/assets/images/homepage/homepage-banner-debs-ivelja.jpg)"></a></li>
+                <li style="display:none"><a href="/shop/category/marketing/" class="img" style="display:none;background-image:url(/assets/images/homepage/homepage-banner-marketing.jpg)"></a></li>
+                <li style="display:none"><a href="/shop/category/mentors/" class="img" style="display:none;background-image:url(/assets/images/homepage/homepage-banner-mentors.jpg)"></a></li>
+                <?php /*
+ <li><a href="/?sf=1&s=dasha+caffrey" class="img" style="display:none;background-image:url(/assets/images/homepage/homepage-banner-dasha-caffrey-3.jpg)"></a></li>
+ */ ?>
+                <li style="display:none"><a href="/?sf=1&s=taylor%20barnes" class="img" style="display:none;background-image:url(/assets/images/homepage/homepage-banner-ashlee.jpg)"></a></li>
             </ul>
         </section>
     </div>
-    <?php wp_enqueue_script('home_slides', '/assets/js/homeslideshow.min.js', array('jquery'), 1, true) ?>
+    <?php flush(); wp_enqueue_script('home_slides', '/assets/js/homeslideshow.min.js', array('jquery'), 1, true) ?>
     <div id="header_newsletter" class="wrap">
         <form action="http://thephotographyparlour.us3.list-manage.com/subscribe/post?u=c83dc78a82a2e856668eb3087&amp;id=3608e4a665" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" novalidate class="innerwrap newsletter">
             <!--p>Grab your free 8 step guide to starting a photography business!</p-->

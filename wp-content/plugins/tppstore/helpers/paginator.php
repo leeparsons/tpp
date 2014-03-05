@@ -76,6 +76,53 @@ class TppStoreHelperPaginator {
 
     }
 
+    private function cleanQueryString()
+    {
+        $query = explode('&', substr($this->query_string, 1));
+
+
+
+        if ( count($query) > 0 ) {
+            $this->query_string = '';
+            foreach ($query as $string) {
+                $tmp = explode('=', $string);
+
+                if ($tmp[0] == 'paged') {
+                    continue;
+                }
+
+                $this->query_string .= ($this->query_string == ''?'?':'&') . $tmp[0] . '=' . $tmp[1];
+            }
+        }
+
+
+
+    }
+
+    public function renderAdmin()
+    {
+
+        $this->page = filter_input(INPUT_GET, 'paged', FILTER_SANITIZE_NUMBER_INT);
+
+        if (intval($this->page) == 0) {
+            $this->page = 1;
+        }
+
+        $this->cleanQueryString();
+
+        $this->calculatePaginationParameters();
+
+        ob_start();
+
+        include TPP_STORE_PLUGIN_DIR . 'templates/paginator.php';
+
+        $contents = ob_get_contents();
+
+        ob_end_clean();
+
+        echo $contents;
+    }
+
     public function render()
     {
 

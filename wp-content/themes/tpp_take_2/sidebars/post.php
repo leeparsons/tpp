@@ -11,7 +11,14 @@
         <?php if ($q->have_posts()): ?>
             <?php while ($q->have_posts()): $q->the_post(); ?>
                 <a class="wrap" href="<?php the_permalink() ?>">
-                    <span class="strong"><?php echo get_the_post_thumbnail(get_the_ID(), 'store_related') ?><?php the_title() ?></span>
+                    <span class="strong"><?php echo get_the_post_thumbnail(get_the_ID(), 'store_related') ?><?php
+
+
+                        echo tpp_limit_content(get_the_title(), 90) ?><span><?php
+
+                        echo tpp_limit_content(get_the_excerpt(), 110);
+
+                        ?></span></span>
                 </a>
 
             <?php endwhile; ?>

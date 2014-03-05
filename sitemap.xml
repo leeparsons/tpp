@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="http://tpp.loc/wp-content/plugins/google-sitemap-generator/sitemap.xsl"?><!-- generator="wordpress/3.8.1" -->
 <!-- sitemap-generator-url="http://www.arnebrachhold.de" sitemap-generator-version="3.3" -->
-<!-- generated-on="March 1, 2014 4:31 pm" -->
+<!-- generated-on="March 4, 2014 1:07 pm" -->
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">	<url>
 		<loc>http://tpp.loc/</loc>
-		<lastmod>2014-03-01T16:30:58+00:00</lastmod>
+		<lastmod>2014-03-04T13:06:49+00:00</lastmod>
 		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+	<url>
+		<loc>http://tpp.loc/blog-3</loc>
+		<lastmod>2014-03-04T13:06:49+00:00</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+	<url>
+		<loc>http://tpp.loc/2011/08/review-of-little-rascals-workshop-at-aspire-photography-training-by-helen-mcnicholas/6119</loc>
+		<lastmod>2014-03-04T08:15:25+00:00</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>1.0</priority>
+	</url>
+	<url>
+		<loc>http://tpp.loc/2011/08/pro-interview-an-interview-with-mike-larson-by-vinita-salome/6153</loc>
+		<lastmod>2014-03-04T08:02:46+00:00</lastmod>
+		<changefreq>monthly</changefreq>
 		<priority>1.0</priority>
 	</url>
 	<url>
@@ -56,12 +74,6 @@
 		<priority>1.0</priority>
 	</url>
 	<url>
-		<loc>http://tpp.loc/2011/08/pro-interview-an-interview-with-mike-larson-by-vinita-salome/6153</loc>
-		<lastmod>2011-08-17T21:33:53+00:00</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>1.0</priority>
-	</url>
-	<url>
 		<loc>http://tpp.loc/2011/08/how-to-photograph-a-newborn-by-kelly-ewell/6252</loc>
 		<lastmod>2011-08-12T06:29:31+00:00</lastmod>
 		<changefreq>monthly</changefreq>
@@ -72,12 +84,6 @@
 		<lastmod>2011-08-01T12:33:04+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.6</priority>
-	</url>
-	<url>
-		<loc>http://tpp.loc/2011/08/review-of-little-rascals-workshop-at-aspire-photography-training-by-helen-mcnicholas/6119</loc>
-		<lastmod>2011-08-01T08:21:05+00:00</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>1.0</priority>
 	</url>
 	<url>
 		<loc>http://tpp.loc/2011/07/in-conversation-with-justin-and-mary-by-ria-mishaal/6073</loc>
@@ -298,12 +304,6 @@
 	<url>
 		<loc>http://tpp.loc/2011/02/pro-interview-kyle-hepp-by-eliza-claire/4317</loc>
 		<lastmod>2011-02-12T08:08:17+00:00</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>1.0</priority>
-	</url>
-	<url>
-		<loc>http://tpp.loc/2011/02/pro-interview-wedding-photography-branding-marketing-nordica-photography-kristy-field/4264</loc>
-		<lastmod>2011-02-09T07:21:20+00:00</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>1.0</priority>
 	</url>

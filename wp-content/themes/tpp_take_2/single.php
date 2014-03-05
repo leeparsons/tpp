@@ -15,7 +15,7 @@ get_header('blog');
     <?php
 
     TppCacher::getInstance()->setCacheName(get_the_ID());
-    TppCacher::getInstance()->setCachePath('blog/posts/');
+    TppCacher::getInstance()->setCachePath('blog/posts/' . get_the_ID() . '/');
     if (false === ($content = TppCacher::getInstance()->readCache())):
 
         ob_start();

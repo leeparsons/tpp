@@ -10,10 +10,6 @@ class TppStoreControllerMentors extends TppStoreAbstractBase {
 
     public function applyRewriteRules()
     {
-
-
-
-
         add_rewrite_rule('shop/mentor/([^/]+)?', 'index.php?tpp_pagename=tpp_mentor&args=$matches[1]', 'top');
 
         add_rewrite_rule('shop/mentor/([^/]+)/page/([^/]+)/?', 'index.php?tpp_pagename=tpp_mentor&args=$matches[1]&page=$matches[2]', 'top');
@@ -119,8 +115,6 @@ class TppStoreControllerMentors extends TppStoreAbstractBase {
 
         $mentor = $this->getMentorModel()->getMentorBySlug($mentor_slug);
 
-
-
         if (intval($mentor->mentor_id) == 0) {
             $this->_setWpQuery404();
             include TPP_STORE_PLUGIN_DIR . 'site/views/404.php';
@@ -130,21 +124,54 @@ class TppStoreControllerMentors extends TppStoreAbstractBase {
 
             $page = get_query_var('paged');
 
+            if (intval($page) <= 0) {
+                $page = 1;
+            }
+
             $this->pageTitle('Mentor - ');
 
             $this->pageTitle($mentor);
 
             $this->setPageDescription($mentor);
 
-            $mentors_model = $this->getMentorsModel()->setData(array(
-                'store_id'  =>  $mentor->store_id
-            ));
+            $cacher = new TppCacher();
+            $cur = geo::getInstance()->getCurrency();
 
-            $products = $mentors_model->getMentorSessionsByMentor($mentor->mentor_id, $page, 20, 1);
+            if (wp_is_mobile() && !tpp_is_tablet()) {
+                $cacher->setCachePath('mentor/' . $mentor->mentor_id . '/mobile/' . $cur . '/page_' . $page . '/');
+            } else {
+                $cacher->setCachePath('mentor/' . $mentor->mentor_id . '/desktop/' . $cur . '/page_' . $page . '/');
+            }
 
-            $total = $mentors_model->getMentorSessionCountByMentor($mentor->mentor_id, 1);
+            $cacher->setCacheName('mentor');
+            unset($cur);
 
-            include TPP_STORE_PLUGIN_DIR . 'site/views/mentor.php';
+            wp_enqueue_style('store', '/assets/css/store.css');
+
+            if (false === ($html = $cacher->readCache(-1))) {
+
+
+                $mentors_model = $this->getMentorsModel()->setData(array(
+                    'store_id'  =>  $mentor->store_id
+                ));
+
+                $products = $mentors_model->getMentorSessionsByMentor($mentor->mentor_id, $page, 20, 1);
+
+                $total = $mentors_model->getMentorSessionCountByMentor($mentor->mentor_id, 1);
+
+                ob_start();
+                include TPP_STORE_PLUGIN_DIR . 'site/views/mentor.php';
+                $html = ob_get_contents();
+                $cacher->saveCache($html);
+                ob_end_clean();
+
+            }
+
+            get_header();
+            echo $html;
+            get_footer();
+
+
         }
         exit;
 

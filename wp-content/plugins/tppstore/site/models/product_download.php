@@ -41,6 +41,35 @@ class TppStoreModelProductDownload extends TppStoreAbstractModelResource {
         return $this;
     }
 
+    public function getDownloadUrlAdmin($encrypted = true)
+    {
+        if ( false !== ($url = filter_var($this->file, FILTER_VALIDATE_URL))) {
+
+            return $url;
+
+        }
+
+
+        if (!file_exists($this->upload_path . '/' . $this->product_id . '/' . $this->file)) {
+
+            return 'File does not exist!';
+
+        } else {
+            if (false === $encrypted) {
+                $path =  substr($this->upload_path, strlen(WP_CONTENT_DIR . '/uploads')) . $this->product_id . '/' . $this->file;
+                return $path;
+            } else {
+
+                if (!class_exists('TppStoreLibraryEncryption')) {
+                    include TPP_STORE_PLUGIN_DIR . 'libraries/encryption.php';
+                }
+
+
+                return get_site_url(null, '/shop/download/' . $this->product_id . '/' . TppStoreLibraryEncryption::encrypt('admin_logged_in=true&file=' . $this->file));
+            }
+        }
+    }
+
     public function getDownloadUrl($encrypted = true, $product_edit = false)
     {
 
@@ -50,7 +79,7 @@ class TppStoreModelProductDownload extends TppStoreAbstractModelResource {
 
         }
 
-        if (!file_exists($this->upload_path . $this->file)) {
+        if (!file_exists($this->upload_path . '/' . $this->product_id . '/' . $this->file)) {
             if ($product_edit === false) {
                 return "javascript:alert('The store owner has not uploaded a file. They will email you directly with your download. If you don\'t hear from them within 24 hours, you can contact them using the button below, or via their store page.')";
             } else {

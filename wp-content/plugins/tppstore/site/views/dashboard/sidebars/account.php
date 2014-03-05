@@ -36,6 +36,10 @@
                     <?php endif; ?>
                 </li>
 
+                <li class="<?php echo $url == '/shop/myaccount/purchases/'?'active':'' ?>">
+                    <a class="primary" href="/shop/myaccount/purchases/">Purchases (<?php echo TppStoreControllerDashboard::getInstance()->getPurchaseCount($user); ?>)</a>
+                </li>
+
                 <li class="<?php echo $url == '/shop/myaccount/messages/'?'active':'' ?>">
                     <a class="primary" href="/shop/myaccount/messages/">Messages (<?php echo TppStoreControllerDashboard::getInstance()->getUnreadMessagesCount($user) ?> new)</a>
                 </li>

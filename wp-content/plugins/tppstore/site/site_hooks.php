@@ -75,22 +75,6 @@ function tpp_meta_description()
 
     $description = TppStoreAbstractBase::$_meta_description;
 
-    if (trim($description) == '') {
-        if (substr($_SERVER['REQUEST_URI'], 0, 5) !== '/shop/') {
-            global $wp_query;
-            $post = $wp_query->get_queried_object();
-
-            if (is_single() || is_page()) {
-
-                $description = $post->post_excerpt?:$post->post_content;
-
-            } elseif (is_author()) {
-                $description = get_the_author_meta('description', $post->ID);
-            }
-
-        }
-    }
-
     $description = trim(strip_tags(str_replace('"', '', stripcslashes($description))));
 
     // "internal whitespace trim"
@@ -105,6 +89,10 @@ function tpp_meta_description()
 }
 
 
+function tpp_get_meta_title()
+{
+    return TppStoreAbstractBase::$_meta_title?:'';
+}
 
 function tpp_meta_title($title, $sep)
 {
@@ -126,7 +114,7 @@ function tpp_geo_locate() {
 
 
             $test_ip = '31.185.167.16';//uk
-            $test_ip = '196.255.255.255';//us
+            //$test_ip = '196.255.255.255';//us
 
 
 //            include get_template_directory() . '/classes/geoip/geoip.inc';
@@ -163,6 +151,24 @@ function tpp_geo_locate() {
 
 
 }
+
+function tpp_rel_canonical()
+{
+    if ( tpp_on_shop() === true ) {
+
+        if (($pos = strpos($_SERVER['REQUEST_URI'], '?')) !== false) {
+            echo "<link rel='canonical' href='" . esc_url( get_site_url() . substr($_SERVER['REQUEST_URI'], 0, $pos)) . "' />\n";
+        } else {
+            echo "<link rel='canonical' href='" . esc_url( get_site_url() . $_SERVER['REQUEST_URI']) . "' />\n";
+        }
+
+    } else {
+        rel_canonical();
+    }
+
+}
+
+add_action( 'wp_head', 'tpp_rel_canonical' );
 
 add_action('init', 'tpp_geo_locate');
 

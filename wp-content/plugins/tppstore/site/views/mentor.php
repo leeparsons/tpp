@@ -4,7 +4,6 @@
  * Date: 15/02/2014
  * Time: 12:55
  */
-wp_enqueue_style('store', '/assets/css/store.css');
 
 
 require TPP_STORE_PLUGIN_DIR . 'helpers/paginator.php';
@@ -13,7 +12,7 @@ $paginator = new TppStoreHelperPaginator();
 
 $paginator->total_results = $total;
 
-get_header(); ?>
+?>
 
     <section class="innerwrap store">
 
@@ -64,7 +63,4 @@ get_header(); ?>
             include TPP_STORE_PLUGIN_DIR . 'site/views/products/store_list.php' ?>
         </section>
     </div>
-<?php endif; ?>
-
-
-<?php get_footer();
+<?php endif;

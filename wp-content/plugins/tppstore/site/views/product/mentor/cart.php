@@ -1,6 +1,9 @@
 <form class="cart-group" id="cart_form" method="post" action="/shop/cart/add">
-
     <div class="product-particulars">
+<?php
+
+
+?>
         <header>
             <h1>Mentor Session:<?php echo ucwords(strtolower($product->product_title)); ?></h1>
         </header>
@@ -16,9 +19,7 @@
         </div>
 
         <?php $product_options = $product->getOptions(); ?>
-        <!--        <fieldset>-->
-        <!--            <legend>Add to cart</legend>-->
-        <!--        </fieldset>-->
+
         <?php if (intval($product->unlimited) == 1 || $product->quantity_available > 0): ?>
             <div class="form-group">
                 <?php if (false !== $product_options): ?>
@@ -55,6 +56,10 @@
             </div>
         <?php endif; ?>
         <?php if (false === $sold_out): ?>
+
+<?php ?>
+
+
         <div class="form-group cart-buttons">
             <?php if($product->getDiscount()->isSocialDiscount()): ?>
                 <?php if (false !== $user):  ?>
