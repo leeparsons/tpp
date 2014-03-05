@@ -58,6 +58,7 @@ class TppStoreAdapterPaypalDirect extends TppStorePaypalBase {
 
         $message = '';
 
+
         foreach ($result as $tmpArr) {
 
             $tmp = explode('=', $tmpArr);
@@ -68,7 +69,9 @@ class TppStoreAdapterPaypalDirect extends TppStorePaypalBase {
             } elseif ($tmp[0] == 'L_SHORTMESSAGE0' || $tmp[0] == 'L_LONGMESSAGE0') {
                 $data->message .= ($data->message == ''?", ":'') . urldecode($tmp[1]);
             } elseif (stripos($tmp[0], 'message') === false && stripos($tmp[0], 'error') === false) {
-                $data->{$tmp[0]} = strtolower(urldecode($tmp[1]));
+                if (property_exists($data, $tmp[0])) {
+                    $data->{$tmp[0]} = strtolower(urldecode($tmp[1]));
+                }
             }
         }
 

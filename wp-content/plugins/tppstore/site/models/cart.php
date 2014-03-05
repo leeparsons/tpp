@@ -250,22 +250,41 @@ class TppStoreModelCart extends TppStoreAbstractModelBase {
                 $this->_cart['stores'][$store_id]['discount'] = TppStoreAdapterDiscount::getInstance()->getUserDiscountByStore($store_products['products']);
                 $this->_cart['stores'][$store_id]['total'] = 0;
 
+                $this->_cart['stores'][$store_id]['recalculated_total'] = 0;
+
                 foreach ($store_products['products'] as $product) {
 
                     $this->_cart['stores'][$store_id]['sub_total'] += $product->getPriceWithoutTax($product->order_quantity);
                     $this->_cart['stores'][$store_id]['tax'] += $product->getTax($product->order_quantity);
 
+
+
                     //the store total should be the net amount to pay
+                    /*test orders
                     $this->_cart['stores'][$store_id]['total'] =
                         $this->_cart['stores'][$store_id]['sub_total']
                         +
                         $this->_cart['stores'][$store_id]['tax']
                         -
                         $this->_cart['stores'][$store_id]['discount'];
-
+                    */
 
                     //discount should be on the discounted total
                     $this->_cart['stores'][$store_id]['products'][$product->product_id]->discount = TppStoreAdapterDiscount::getInstance()->getUserDiscountByProduct($product) * (1 + ($product->tax_rate/100));
+                    $this->_cart['stores'][$store_id]['products'][$product->product_id]->discount_with_tax = $this->_cart['stores'][$store_id]['products'][$product->product_id]->discount;
+                    $this->_cart['stores'][$store_id]['products'][$product->product_id]->discount_without_tax = TppStoreAdapterDiscount::getInstance()->getUserDiscountByProduct($product);
+
+                    $this->_cart['stores'][$store_id]['products'][$product->product_id]->tax_with_discount =
+                        ($this->_cart['stores'][$store_id]['products'][$product->product_id]->price - $this->_cart['stores'][$store_id]['products'][$product->product_id]->discount) *  ($this->_cart['stores'][$store_id]['products'][$product->product_id]->tax_rate / 100);
+                    $this->_cart['stores'][$store_id]['products'][$product->product_id]->tax_without_discount =
+                        ($this->_cart['stores'][$store_id]['products'][$product->product_id]->price) *
+                         ($this->_cart['stores'][$store_id]['products'][$product->product_id]->tax_rate / 100);
+
+
+                    $this->_cart['stores'][$store_id]['total'] +=
+                        $this->_cart['stores'][$store_id]['products'][$product->product_id]->getLineItemFormattedTotal(false, true);
+
+
 
 //                    if ($product->price_includes_tax == 1) {
 //                        $this->_cart['stores'][$store_id]['sub_total'] += $product->order_quantity * $product->price * (1-($product->tax_rate/100));
