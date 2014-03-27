@@ -23,7 +23,10 @@ class TppStoreModelP2c extends TppStoreAbstractModelResource {
         }
 
         $limit = '';
+        $start = 0;
+
         if (isset($params['start'])) {
+            $start = $params['start'];
             $limit = $params['start'];
         }
 
@@ -70,8 +73,22 @@ class TppStoreModelP2c extends TppStoreAbstractModelResource {
 
         global $wpdb;
 
+
+
+        $join = "LEFT JOIN shop_favourites AS f ON f.product_id = p.product_id AND f.position = 'category' AND f.related_parent_id = c.category_id";
+
+        if (intval($start) == 0) {
+
+            $order = "f.ordering ASC, ";
+        } else {
+            if (strlen($where) > 0) {
+                $where .= " AND ";
+            }
+            $where .= "f.product_id IS NULL";
+        }
+
         if (strlen($where) > 0) {
-             $where = " WHERE $where";
+            $where = " WHERE $where";
         }
 
         if ($with_main_image === true) {
@@ -93,8 +110,11 @@ class TppStoreModelP2c extends TppStoreAbstractModelResource {
                      AS i ON i.product_id = p.product_id
                     INNER JOIN " . $this->getTable() . " AS p2c ON p2c.product_id = p.product_id AND p2c.category_id = %d
                      LEFT JOIN " . TppStoreModelCategory::getInstance()->getTable() . " AS c ON c.category_id = p2c.category_id AND c.enabled = 1 " .
+                $join .
                     $where .
-                    " GROUP BY p.product_id " .
+                    " GROUP BY p.product_id
+                    ORDER BY $order created_on DESC
+                    " .
                     $limit,
                     $this->category_id
                 ),
@@ -109,7 +129,9 @@ class TppStoreModelP2c extends TppStoreAbstractModelResource {
                     LEFT JOIN " . TppStoreModelStore::getInstance()->getTable() . " AS s ON s.store_id = p.store_id AND s.enabled = 1
                     INNER JOIN " . $this->getTable() . " AS p2c ON p2c.product_id = p.product_id AND p2c.category_id = %d
                     LEFT JOIN " . TppStoreModelCategory::getInstance()->getTable() . " AS c ON c.category_id = p2c.category_id AND c.enabled = 1 " .
+                    $join .
                     $where .
+                    " ORDER BY $order created_on DESC " .
                     $limit,
                     $this->category_id
                 ),

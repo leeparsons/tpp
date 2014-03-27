@@ -4,17 +4,19 @@
     {
 ?><td><a href="<?php echo admin_url('admin.php?page=tpp-store-category&id=' . $category['category_id']) ?>"><?php echo $category['category_name']; ?></a></td>
 <td><?php echo $category['featured']; ?></td>
-<td><?php echo $category['product_count'] ?></td><?php
+<td><?php echo $category['product_count'] ?></td>
+<td><a href="<?php echo admin_url('admin.php?page=tpp-store-category-favourites&id=' . $category['category_id']) ?>">Favourite Products</a></td><?php
     }
 
 ?>
 <div class="wrap">
-<table>
+<table class="wp-list-table widefat fixed posts">
     <thead>
         <tr>
             <th>Title</th>
             <th>Featured</th>
             <th>Products in category</th>
+            <th>Manage Favourties</th>
         </tr>
     </thead>
     <tbody>

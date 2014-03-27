@@ -37,4 +37,16 @@ class TppStoreAdminControllerReports extends TppStoreAbstractBase {
         include TPP_STORE_PLUGIN_DIR . 'admin/views/reports/' . $report . '.php';
     }
 
+    public function renderBestSellers()
+    {
+
+        wp_enqueue_style('tpp_admin', TPP_STORE_PLUGIN_URL . '/admin/assets/css/style.css');
+        $incomes = new TppStoreAdminModelOrders();
+
+        $products = $incomes->getBestSellers();
+
+
+        include TPP_STORE_PLUGIN_DIR . 'admin/views/reports/best_sellers.php';
+    }
+
 }

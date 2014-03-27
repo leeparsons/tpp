@@ -37,6 +37,7 @@ $paginator->total_results = $total;
                 <li class="item-box<?php echo $i%4?'':' last' ?>">
                     <a href="<?php echo $product->getPermalink() ?>">
                         <?php echo $product->getProductImage()->getSrc($image_size, true) ?>
+                        <?php include TPP_STORE_PLUGIN_DIR . 'site/views/product/item_box/type_band.php'; ?>
                         <span class="strong"><?php echo $product->getShortTitle() ?></span>
                         <span class="price"><?php echo $product->getFormattedPrice(true) ?></span>
                     </a>

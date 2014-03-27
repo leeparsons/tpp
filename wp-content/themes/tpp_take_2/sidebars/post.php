@@ -1,11 +1,18 @@
 <section class="aside-40 sidebar post-aside">
+
+    <?php if (!isset($post)) {
+        global $post;
+    } ?>
+
+    <?php TppStoreControllerProduct::getInstance()->renderRelatedProductsSideBar($post); ?>
+
     <?php
 
     $q = new WP_Query(array(
         'post_status'   =>  'publish'
     ));
 
-?>
+    ?>
     <div class="widget posts-widget">
         <h4>Recent Articles</h4>
         <?php if ($q->have_posts()): ?>
@@ -16,16 +23,14 @@
 
                         echo tpp_limit_content(get_the_title(), 90) ?><span><?php
 
-                        echo tpp_limit_content(get_the_excerpt(), 110);
+                            echo tpp_limit_content(get_the_excerpt(), 110);
 
-                        ?></span></span>
+                            ?></span></span>
                 </a>
 
             <?php endwhile; ?>
         <?php endif; ?>
     </div>
-
-    <?php TppStoreControllerProduct::getInstance()->renderLatestProductsSideBar(); ?>
 
     <div class="widget">
         <h4>Blog Categories</h4>

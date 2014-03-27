@@ -50,8 +50,32 @@ get_header('shop-category'); ?>
 
         <!--<div class="aside-75">-->
         <div class="innerwrap">
-            <header>
-                <h1><?php echo $category->category_name ?> products</h1>
+            <header class="wrap">
+                <h1 class="align-left"><?php echo $category->category_name ?> products</h1>
+                <?php /*
+                <div class="cat-filters align-right">
+                    Filter Products:
+                    <ul>
+                        <li>
+                            Downloads
+                        </li>
+                        <li>
+                            Services
+                        </li>
+                        <li>
+                            Products
+                        </li>
+                    </ul>
+                    <?php $category->getChildren(); ?>
+                    <?php if (count($category->children) > 0): ?>
+                        <ul>
+                        <?php foreach ($category->children as $category): ?>
+                            <li><a href="" data-id="<?php echo $category['category_id'] ?>"><?php echo $category['category_name']; ?></a></li>
+                        <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
+                </div>
+                <?php */ ?>
             </header>
 
             <?php if (count($products) > 0): ?>

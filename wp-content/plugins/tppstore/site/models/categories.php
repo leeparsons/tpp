@@ -44,9 +44,18 @@ class TppStoreModelCategories extends TppStoreAbstractModelResource {
                 $join .= " LEFT JOIN " . $this->getClosureTable() . " AS cc ON cc.child_id = c.category_id ";
             }
 
+            if (isset($args['parent'])) {
+                $where .= " WHERE (cc.parent_id = " . $args['parent'] . ") ";
+            } else {
+                $where .= " WHERE (cc.parent_id IN (SELECT category_id FROM shop_product_categories WHERE enabled = 1)) ";
+            }
 
-            $where .= " WHERE (cc.parent_id IN (SELECT category_id FROM shop_product_categories WHERE enabled = 1)) ";
-            $where .= " AND c.enabled = 1 OR cc.parent_id = 0 ";
+            if (isset($args['parent'])) {
+                $where .= " AND c.enabled = 1 ";
+            } else {
+                $where .= " AND c.enabled = 1 OR cc.parent_id = 0 ";
+            }
+
             $order .= " ORDER BY cc.parent_id, cc.ordering, cc.child_id ";
 
 

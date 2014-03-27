@@ -138,6 +138,9 @@ get_header(); ?>
                     <form method="post" action="/shop/checkout/process" class="align-right">
                         <label>Checkout and purchase these products</label>
                         <input type="hidden" name="store" value="<?php echo $store_id ?>">
+                        <div class="form-group">
+                            <label for="agree_newsletter_<?php echo $store_id ?>"><input style="margin-left:10px;" type="checkbox" checked="checked" value="1" name="agree_newsletter" id="agree_newsletter_<?php echo $store_id ?>">Receive newsletters and regular updates/ promotions and offers from us </label>
+                        </div>
                         <input type="submit" value="Checkout &amp; Purchase" class="btn btn-primary">
                     </form>
                 </div>

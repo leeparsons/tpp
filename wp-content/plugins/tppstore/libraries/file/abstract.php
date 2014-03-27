@@ -71,7 +71,7 @@ Abstract class TppStoreLibraryAbstractFile {
             return false;
         }
 
-        if (false === ($pos = strpos($file, '.'))) {
+        if (false === ($pos = strrpos($file, '.'))) {
             return false;
         }
 

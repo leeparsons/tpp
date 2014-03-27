@@ -44,7 +44,7 @@ jQuery(function($){
                     $(f).unbind('change');
 
                 }
-                $(f).live('change', {evt:e}, dropper.selectFiles);
+                $(f).on('change', {evt:e}, dropper.selectFiles);
 
                 f.click();
 
@@ -297,9 +297,44 @@ jQuery(function($){
 
         }
 
+       dropper.sendSafariSafe = function(file, em) {
+           //future safari only
+           var fd = new FormData();
+           fd.append(dropper.paramname, file);
+           console.log(fd, dropper.paramname);
+
+
+           var xhr = new XMLHttpRequest();
+           xhr.upload.addEventListener("progress", dropper.progress, false);
+           xhr.open("POST", dropper.url);
+           xhr.send(fd);
+
+
+           dropper.uploadStarted(0, file, em);
+
+           xhr.onload = function(e) {
+
+               var data = JSON.parse(xhr.responseText);
+
+
+               if ((data && !data.error || data.error === false ) && xhr.responseText) {
+
+                   var result = dropper.uploadFinished(em, file, jQuery.parseJSON(xhr.responseText));
+                   //only allowing 1 file per box!
+                   //dropper.files_done++;
+                   //if (result === false) dropper.stop_loop = true;
+               } else if (data && data.error && data.error === true) {
+                   dropper.uploadFinished(em, file, data);
+                   //alert('There was an error uploading your image. Please try uploading it again.');
+               }
+           };
+
+       }
 
         dropper.sendXHRDeprecated = function(file, em) {
             //safari
+
+
 
             var xhr2 = {};
 
@@ -363,12 +398,26 @@ jQuery(function($){
             var file = dropper.files[reader_e.target.index];
 
             var ua = navigator.userAgent.toLowerCase();
-            if (ua.indexOf('safari') != -1) {
+            if (ua.indexOf('safari') > -1) {
                 if(ua.indexOf('chrome') > -1) {
                     dropper.sendXHR(file, reader_e, em);
                 } else {
-                    dropper.sendXHRDeprecated(file, em);
 
+                    var verOffset = window.navigator.userAgent.indexOf("Version");
+
+                    var fullVersion = 0;
+
+                    if (verOffset > -1) {
+                        fullVersion = parseInt(window.navigator.userAgent.substring(verOffset+8));
+                    }
+
+
+                    if (fullVersion >= 7) {
+                        dropper.sendSafariSafe(file, em);
+                    } else {
+
+                    dropper.sendXHRDeprecated(file, em);
+                    }
 //                    dropper.sendXHR(file, reader_e, em);
 /*
                     var fullVersion = parseInt(ua.substring(ua.indexOf('version')+8));

@@ -1,5 +1,4 @@
 <form class="cart-group" id="cart_form" method="post" action="/shop/cart/add">
-
     <div class="product-particulars">
         <header>
             <h1><?php echo ucwords(strtolower($product->product_title)); ?></h1>
@@ -47,30 +46,30 @@
             </div>
         <?php endif; ?>
         <?php if (false === $sold_out): ?>
-        <?php
+            <?php
 
-        if ($product->product_type == 1 && trim($product->product_type_text) == '') {
-            $add_to_cart_text = 'Pre Order (add to cart)';
-        } else {
-            $add_to_cart_text = 'add to cart';
-        }
+            if ($product->product_type == 1 && trim($product->product_type_text) == '') {
+                $add_to_cart_text = 'Pre Order (add to cart)';
+            } else {
+                $add_to_cart_text = 'add to cart';
+            }
 
 
-        ?>
-        <div class="form-group cart-buttons">
-            <?php if($product->getDiscount()->isSocialDiscount()): ?>
-                <?php if (false !== $user):  ?>
-                    <a href="#" id="fb_share" class="btn btn-primary align-left wrap">Share on Facebook to get a 5% discount!</a>
-                    <a class="hidden" id="f_click" href="#"></a>
+            ?>
+            <div class="form-group cart-buttons">
+                <?php if($product->getDiscount()->isSocialDiscount()): ?>
+                    <?php if (false !== $user):  ?>
+                        <a href="#" id="fb_share" class="btn btn-primary align-left wrap">Share on Facebook to get a 5% discount!</a>
+                        <a class="hidden" id="f_click" href="#"></a>
+                    <?php else: ?>
+                        <a class="btn btn-primary align-left wrap" href="/shop/store_login/?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']) ?>">Login to get a discount</a>
+                    <?php endif; ?>
+                    <input type="submit" value="<?php echo $add_to_cart_text ?>" class="align-right btn-primary btn-cart btn form-control">
                 <?php else: ?>
-                    <a class="btn btn-primary align-left wrap" href="/shop/store_login/?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']) ?>">Login to get a discount</a>
+                    <input type="submit" value="<?php echo $add_to_cart_text ?>" class="btn-primary btn-cart btn form-control">
                 <?php endif; ?>
-                <input type="submit" value="<?php echo $add_to_cart_text ?>" class="align-right btn-primary btn-cart btn form-control">
-            <?php else: ?>
-                <input type="submit" value="<?php echo $add_to_cart_text ?>" class="btn-primary btn-cart btn form-control">
-            <?php endif; ?>
-        </div>
+            </div>
+            <?php unset($add_to_cart_text); ?>
+        <?php endif; ?>
     </div>
-    <?php unset($add_to_cart_text); ?>
-    <?php endif; ?>
 </form>

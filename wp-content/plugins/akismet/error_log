@@ -1,0 +1,1 @@
+[01-Jun-2013 13:30:15 UTC] PHP Fatal error:  Call to undefined function add_action() in /home/wwwtpp/public_html/wp-content/plugins/akismet/legacy.php on line 356

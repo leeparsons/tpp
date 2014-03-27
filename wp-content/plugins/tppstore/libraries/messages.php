@@ -82,6 +82,56 @@ class TppStoreMessages {
     }
 
 
+    public function renderAdmin()
+    {
+        $html = array();
+
+        if ($this->getTotal() > 0) {
+
+            $messages_array = $this->errors->errors;
+
+            foreach ($messages_array as $type => $messages) {
+                if ($type == 'message') {
+                    $class = 'updated ';
+                } else {
+                    $class = 'error';
+                }
+
+                if (is_array($messages)) {
+
+
+                    foreach ($messages as $id => $message) {
+                        if (is_array($message)) {
+
+                            foreach ($message as $m_id => $v) {
+
+
+
+                                $html[] = array('<div id="message" class="' . $class . '">');
+                                $html[] = '<div class="' . $class . '" id="' . $class . '-' . $id . '">' . $v . '</div>';
+                                $html[] = '</div>';
+
+                            }
+                        } else {
+                            $html[] = '<div class="' . $class . '" id="error-' . $id . '">' .  $message . '</div>';
+                        }
+                    }
+
+                } else {
+                    $html[] = '<div class="' . $class . '">' . $messages . '</div>';
+                }
+
+            }
+
+
+        }
+
+
+        echo implode('', $html);
+
+
+    }
+
     public function render($echo = true, $error_key = false)
     {
 

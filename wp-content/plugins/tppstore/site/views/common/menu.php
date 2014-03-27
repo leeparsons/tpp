@@ -1,9 +1,9 @@
 <nav class="menu-btns">
-    <?php if (tpp_is_blog() || tpp_is_on_blog_page()): ?>
+<!--    --><?php //if (tpp_is_blog() || tpp_is_on_blog_page()): ?>
         <a href="/shop" class="btn sell btn-primary">Shop</a>
-    <?php else: ?>
+<!--    --><?php //else: ?>
         <a href="/blog" class="blog btn btn-primary">Blog</a>
-    <?php endif; ?>
+<!--    --><?php //endif; ?>
     <?php if (false === $user): ?>
 <!--        <a href="/shop/store_register" class="signup-btn">Sign Up</a>-->
         <a href="/shop/store_login" class="login-btn btn-primary btn">Login</a>

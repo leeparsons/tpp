@@ -26,6 +26,8 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
 
         add_rewrite_rule('shop/dashboard/product/new/?', 'index.php?tpp_pagename=tpp_dashboard&path=new_product', 'top');
 
+        add_rewrite_rule('shop/dashboard/product/upload_file/?', 'index.php?tpp_pagename=tpp_product_upload_file&path=product', 'top');
+
         add_rewrite_rule('shop/dashboard/product/upload/?', 'index.php?tpp_pagename=tpp_product_upload&path=product', 'top');
 
         add_rewrite_rule('shop/dashboard/mentor-sessions/([^/]+)/?', 'index.php?tpp_pagename=tpp_dashboard&path=mentor_sessions&mentor_id=$matches[1]', 'top');
@@ -101,6 +103,13 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
 
                 $this->_setWpQueryOk();
                 TppStoreControllerProduct::getInstance()->uploadImage();
+                break;
+
+            case 'tpp_product_upload_file':
+
+                $this->_setWpQueryOk();
+                TppStoreControllerProduct::getInstance()->uploadFile();
+
                 break;
 
             case 'tpp_store_upload':
@@ -182,7 +191,7 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
 
             case 'Apple Safari':
                 //if (TppStoreBrowserLibrary::getInstance()->getBrowserVersion() < 6 || TppStoreBrowserLibrary::getInstance()->getBrowserVersion() >= 7) {
-                    TppStoreMessages::getInstance()->addMessage('error', array("We've detected you are using a browser that does not support advanced features of this dashboard. Please use the latest versions of either <b>Firefox</b>, or <b>Google Chrome</b> to experience the full power of your dashboard!<br><br>Continuing to use your dashboard in this browser/version will result in un expected reults!!<br><br>Things that will not work:<br><strong>Image Uploads</strong><script>alert('Warning: image uploads do not work in the latest version of Safari (7). We are working with Apple to fix this. In the mean time please use either google chrome or firefox.')</script>"));
+                    TppStoreMessages::getInstance()->addMessage('error', array("We have released an update for Safari image uploads. Please clear your browser cache to make sure you have the latest version of the website.<script>alert('FYI: we have released a fix for image uploads for Safari. Please try it out and let us know if you find any glitches! You may need to clear your browser cache to see the improvements.')</script>"));
                 //}
                 break;
 
@@ -213,7 +222,8 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
 
 
 
-        wp_enqueue_style('dashboard', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/dashboard.css');
+        wp_enqueue_style('dashboard', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/dashboard.css', array(), '1');
+
 
         if (false === ($store = TppStoreControllerStore::getInstance()->loadStoreFromSession()) ) {
             //try and load it from the database
@@ -491,6 +501,18 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
                                 $product->setData(array(
                                     'enabled'   =>  0
                                 ));
+                            } else {
+                                TppStoreMessages::getInstance()->saveToSession();
+
+                                if ($product->product_type < 4) {
+                                    $this->redirectToDashboard('product/edit/' . $product->product_id);
+                                } elseif ($product->product_type == 4) {
+                                    $this->redirectToDashboard('mentor_session/edit/' . $product->product_id);
+                                } else {
+                                    $this->redirectToDashboard('event/edit/' . $product->product_id);
+                                }
+
+
                             }
                         }
 //                        } elseif ($preview == 1) {
@@ -508,6 +530,9 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
                     if (empty($_POST)) {
                         $product->deleteTemporaryImages();
                     }
+
+                    TppStoreControllerProduct::getInstance()->setProductUploadDirectoryFromSession($product->product_id);
+
 
                     switch ($part) {
                         case 'new_product':
@@ -751,7 +776,7 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
                 wp_enqueue_script('jquery', 'jquery', array('jquery'), 1, true);
                 wp_enqueue_script('file_uploads_engine', '/assets/js/jquery.filedrop.js', array('jquery'), '1', true);
                 wp_enqueue_script('file_uploads', '/assets/js/file_upload.js', array('jquery'), '1', true);
-                wp_enqueue_style('uploads', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/upload.css');
+                wp_enqueue_style('uploads', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/upload.css', array(), '1');
                 wp_enqueue_script('store_js', TPP_STORE_PLUGIN_URL . '/site/assets/js/dashboard/store-ck.js', array('jquery'), 1, true);
 
                 include TPP_STORE_PLUGIN_DIR . 'site/views/dashboard/store.php';

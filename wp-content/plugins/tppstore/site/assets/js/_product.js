@@ -241,8 +241,7 @@ return;
             frm.appendChild(gr3);
             email_form.appendChild(frm);
 
-            $('#email_send_form').live('submit', function(e) {
-
+            $('#email_send_form').submit(function(e) {
                 e.preventDefault();
                 $('#email_errors').hide().html('');
                 var errors = [];

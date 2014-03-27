@@ -140,8 +140,7 @@ class TppStoreModelCartItem extends TppStoreAbstractModelBaseProduct {
             }
         }
 
-        $price = $this->format($this->order_quantity * $price);
-
+        $price = $this->order_quantity * $this->format( $price);
 
         if (true === $with_currency) {
             return $this->getFormattedCurrency() . $price;

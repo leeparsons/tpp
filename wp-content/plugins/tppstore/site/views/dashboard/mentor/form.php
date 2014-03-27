@@ -2,8 +2,9 @@
 
 get_header();
 wp_enqueue_script('file_uploads_engine', '/assets/js/jquery.filedrop.js', array('jquery'), '1', true) ?>
-<?php wp_enqueue_script('file_uploads', '/assets/js/file_upload-ck.js', array('jquery'), '1', true) ?>
-<?php wp_enqueue_style('uploads', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/upload.css'); ?>
+<?php wp_enqueue_script('file_uploads', '/assets/js/file_upload-ck.js', array('jquery'), '1.2', true) ?>
+<?php wp_enqueue_style('uploads', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/upload.css', array(), '1'); ?>
+
 <form method="post" enctype="multipart/form-data" id="mentor_form">
 
     <input type="hidden" id="upload_destination" value="/shop/dashboard/mentor/upload/">

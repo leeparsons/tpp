@@ -1,15 +1,16 @@
-.social-buttons {
-    padding-top: 20px;
-    margin-top:20px;
-    float:left;
-    width:100%;
-    border-top:1px solid @secondaryColourDarker;
+.header-social-buttons {
+    position:absolute;
+    top:85px;
+    min-width:390px;
+    right:0;
+}
 
+.social-buttons, .header-social-buttons {
     .twitter-follow-button {
         margin-right:10px;
     }
 
-    .fb-like, .fb-share-button {
+    .fb-like, .fb-share-button, .rss-icon {
         margin-right:10px;
     }
 
@@ -24,6 +25,31 @@
     div, iframe {
         float:left !important;
     }
+
+    #___plusone_0 {
+        margin-top:3px !important;
+    }
+}
+
+.social-buttons {
+    padding-top: 20px;
+    margin-top:20px;
+    float:left;
+    width:100%;
+    border-top:1px solid @secondaryColourDarker;
+
+
+}
+
+
+.rss-icon {
+    height:20px;
+    width:20px;
+    margin-top:3px;
+    background:url(../images/rss.png) no-repeat 0 0;
+    overflow:hidden;
+    text-indent: 40px;
+    float:left;
 }
 
 article.product {
@@ -44,7 +70,7 @@ article.product {
             background:url(../images/email-share.jpg) no-repeat 0 0;
             overflow:hidden;
             text-indent:40px;
-            font-size:11px;
+            font-size:14px;
         }
     }
 }

@@ -34,6 +34,30 @@ get_header('blog');
 
     </div>
 
+    <div class="post-share">
+        <div class="social-buttons">
+            <h3>Share this</h3>
+            <div class="align-left">
+                <div class="fb-share-button" data-href="<?php the_permalink() ?>" data-type="button_count"></div>
+            </div>
+            <div class="align-left">
+                <script type="IN/Share" data-url="<?php the_permalink() ?>" data-counter="right"></script>
+            </div>
+
+            <div class="align-left">
+                <a href="https://twitter.com/share" data-href="<?php the_permalink() ?>" class="twitter-share-button">Tweet</a>
+            </div>
+            <?php if ($shared === false): ?>
+                <script src="//platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+            <?php endif; ?>
+            <div class="align-left">
+                <div class="g-plusone" data-href="<?php the_permalink() ?>"></div>
+            </div>
+
+            <a href="#reply-title"><?php comments_number( 'Be the first to comment!', '1 comment > add a comment', '% comments > add a comment'); ?></a>
+        </div>
+    </div>
+
     <div class="entry-content">
         <?php the_content(); ?>
     </div>
@@ -52,6 +76,29 @@ get_header('blog');
         echo $content;
 
         ?>
+    <div class="post-share">
+        <div class="social-buttons">
+            <h3>Share this</h3>
+            <div class="align-left">
+                <div class="fb-share-button" data-href="<?php the_permalink() ?>" data-type="button_count"></div>
+            </div>
+            <div class="align-left">
+                <script type="IN/Share" data-url="<?php the_permalink() ?>" data-counter="right"></script>
+            </div>
+
+            <div class="align-left">
+                <a href="https://twitter.com/share" data-href="<?php the_permalink() ?>" class="twitter-share-button">Tweet</a>
+            </div>
+            <?php if ($shared === false): ?>
+                <script src="//platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+            <?php endif; ?>
+            <div class="align-left">
+                <div class="g-plusone" data-href="<?php the_permalink() ?>"></div>
+            </div>
+        </div>
+    </div>
+
+    <?php get_template_part('post/related_products') ?>
         <div class="comments">
         <?php comments_template() ?>
     </div>

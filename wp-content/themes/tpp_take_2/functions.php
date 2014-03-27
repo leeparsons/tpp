@@ -3,12 +3,20 @@
 //require_once get_template_directory() . '/paypal_adaptive/default.php';
 if (is_main_site()) {
     include_once get_template_directory() . '/classes/contact_us.php';
-
+    include_once get_template_directory() . '/classes/bitly.php';
     if (isset($_POST['action']) && $_POST['action'] == 'contact_submission') {
         TppContactUs::getInstance()->actionPost();
     }
-
 }
+
+include get_template_directory() . '/classes/blog_product_relations.php';
+
+if (false === TppStoreControllerUser::getInstance()->loadUserFromSession() && !is_user_logged_in()) {
+    include get_template_directory() . '/classes/comments/antispam.php';
+    add_action('init', TppAntiSpam::init(), 10);
+}
+
+
 
 add_theme_support( 'menus' );
 
@@ -27,6 +35,11 @@ register_nav_menu( 'footer_contact', 'Contact Us Footer Menu' );
 
 register_nav_menu( 'footer_pages', 'Pages Footer Menu' );
 register_nav_menu( 'blog', 'Blog Header Menu' );
+
+
+if ( is_admin() ) {
+    TppBlogProductRelations::getInstance()->registerAdminHooks();
+}
 
 function tpp_is_tablet()
 {
@@ -154,6 +167,30 @@ function tppSavePost($post_id)
     return true;
 }
 
+function tppAfterComment($comment_id)
+{
+    $comment = get_comment($comment_id);
+    if ($comment->comment_approved == 1) {
+        tppAfterCommentApproved($comment);
+    }
+
+}
+
+function tppAfterCommentApproved($comment)
+{
+    //clean post cache!
+    $c = new TppCacher();
+
+    $c->setCachePath('blog/posts/' . $comment->comment_post_ID);
+    $c->deleteRecursive();
+
+
+}
+
+add_action('comment_unapproved_to_approved', 'tppAfterCommentApproved', 10, 3);
+
+add_action('comment_post', 'tppAfterComment', 10, 3);
+
 add_action( 'save_post', 'tppSavePost' );
 
 function tppReadMore($more = '') {
@@ -185,3 +222,17 @@ function tpp_limit_content($content = '', $len = 120, $more = '..')
     }
 
 }
+
+add_filter( 'wp_default_scripts', 'remove_jquery_migrate' );
+
+function remove_jquery_migrate( &$scripts)
+{
+    if(!is_admin())
+    {
+        $scripts->remove( 'jquery');
+        $scripts->add( 'jquery', false, array( 'jquery-core' ) );
+    }
+}
+
+add_filter( 'comments_array', 'array_reverse' );
+

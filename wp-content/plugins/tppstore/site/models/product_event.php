@@ -49,9 +49,9 @@ class TppStoreModelEvent extends TppStoreModelProduct {
         $this->setStrTimes();
 
         if ($this->end > 0 && $this->end != $this->start) {
-            return date('dS F, Y', $this->start) . ' - ' . date('dS F, Y', $this->end);
+            return date('jS F, Y', $this->start) . ' - ' . date('jS F, Y', $this->end);
         } else {
-            return date('dS F, Y', $this->start);
+            return date('jS F, Y', $this->start);
         }
     }
 

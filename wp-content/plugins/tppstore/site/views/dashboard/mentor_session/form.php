@@ -1,8 +1,8 @@
 <?php wp_enqueue_script('jquery-ui-sortable'); ?>
 <?php wp_enqueue_script('file_uploads_engine', '/assets/js/jquery.filedrop.js', array('jquery'), '1', true) ?>
-<?php wp_enqueue_script('file_uploads', '/assets/js/file_upload-ck.js', array('jquery'), '1', true) ?>
-<?php wp_enqueue_style('uploads', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/upload.css'); ?>
-<?php wp_enqueue_script('tpp_product_dashboard', TPP_STORE_PLUGIN_URL . '/site/assets/js/dashboard/product-ck.js', array('jquery'), 3.5, true); ?>
+<?php wp_enqueue_script('file_uploads', '/assets/js/file_upload-ck.js', array('jquery'), '1.2', true) ?>
+<?php wp_enqueue_style('uploads', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/upload.css', array(), '1'); ?>
+<?php wp_enqueue_script('tpp_product_dashboard', TPP_STORE_PLUGIN_URL . '/site/assets/js/dashboard/product-ck.js', array('jquery'), 3.6, true); ?>
 <script>var currency = '<?php echo $store->getFormattedCurrency() ?>';</script>
 <form method="post" enctype="multipart/form-data" id="product_form">
 

@@ -612,3 +612,98 @@ table.deleted {
         }
     }
 }
+
+#product_form {
+
+    #withus, #elsewhere {
+        margin-bottom:25px;
+    }
+
+    #download_group {
+        float:left;
+        margin-bottom:40px;
+        h3 {
+            border-bottom:1px solid #e5e5e5;
+        }
+    }
+
+    .upload-file-wrap {
+        position:relative;
+        width:250px;
+        height:250px;
+        display: block;
+        margin:auto auto 20px;
+
+        .upload-icon {
+            background-position:center center;
+            background-repeat: no-repeat;
+        }
+
+        .zip {
+            background-image:url(../../images/dashboard/zip.png);
+        }
+
+        .psd {
+            background-image:url(../../images/dashboard/psd.png);
+        }
+
+        .doc, .docx {
+            background-image:url(../../images/dashboard/doc.png);
+        }
+
+        .pdf {
+            background-image:url(../../images/dashboard/pdf.png);
+        }
+
+        .jpg {
+            background-image:url(../../images/dashboard/jpg.png);
+        }
+
+        .generic {
+            background-image:url(../../images/dashboard/generic.png);
+        }
+
+        .handle {
+            top:3px;
+            left:3px;
+            right:3px;
+        }
+    }
+
+    .handle {
+        background:@secondaryColourDarker;
+        color:#FFFFFF;
+        position: absolute;
+        top:0;
+        height:25px;
+        line-height: 25px;
+        text-indent: 5px;
+        left:0;
+        right:0;
+    }
+
+    #upload_file {
+        width:250px;
+        height:250px;
+        margin:auto;
+        display:block;
+        border:3px dashed @mainColour;
+    }
+    #progress_bar {
+        display:none;
+        position: relative;
+        border:1px solid @mainColour;
+        width:250px;
+        height:30px;
+        background:#ffffff;
+        margin:10px auto 20px;
+        #bar {
+            position: absolute;
+            width:0;
+            left:0;
+            top:0;
+            bottom:0;
+            background:@mainColourDarker;
+        }
+    }
+}

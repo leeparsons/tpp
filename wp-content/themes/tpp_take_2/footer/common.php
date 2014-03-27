@@ -31,6 +31,7 @@
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
     })();
 </script>
+
 <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -40,7 +41,8 @@
     ga('create', 'UA-15329337-1', 'thephotographyparlour.com');
     ga('send', 'pageview');
 
-</script><?php
+</script>
+<?php
 
 if (isset($_COOKIE['accept_cookies'])):
     ?><script>var expiration_date = new Date();var cookie_string = '';expiration_date.setFullYear(expiration_date.getFullYear() + 1);cookie_string = "accept_cookies=true; path=/; expires=" + expiration_date.toGMTString();document.cookie = cookie_string;</script><?php

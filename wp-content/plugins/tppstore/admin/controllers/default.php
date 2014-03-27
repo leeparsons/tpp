@@ -13,4 +13,9 @@ class TppStoreAdminControllerDefault {
         include TPP_STORE_PLUGIN_DIR . 'admin/views/dashboard.php';
     }
 
+    public function renderProductsMenu()
+    {
+        include TPP_STORE_PLUGIN_DIR . 'admin/views/menu/products.php';
+    }
+
 }

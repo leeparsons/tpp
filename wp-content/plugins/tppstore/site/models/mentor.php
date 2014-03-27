@@ -605,7 +605,7 @@ class TppStoreModelMentor extends TppStoreAbstractModelResource {
     private function clearCache()
     {
         $c = new TppCacher();
-        $c->setCachePath('mentor/' . $this->getMentor()->mentor_id);
+        $c->setCachePath('mentor/' . $this->mentor_id);
         $c->deleteCache();
     }
 

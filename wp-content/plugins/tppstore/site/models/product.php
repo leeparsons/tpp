@@ -337,6 +337,13 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
 
 
         if (intval($this->product_id) <= 0) {
+
+            if (intval($this->enabled) == 1) {
+                $this->published_date = date('Y-m-d h:i:s');
+            } else {
+                $this->published_date = null;
+            }
+
             $wpdb->insert(
                 $this->getTable(),
                 array(
@@ -352,8 +359,8 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
                     'product_type'          =>  $this->product_type,
                     'product_type_text'     =>  $this->product_type_text,
                     'unlimited'             =>  $this->unlimited,
-                    'price_includes_tax'    =>  $this->price_includes_tax
-
+                    'price_includes_tax'    =>  $this->price_includes_tax,
+                    'published_date'        =>  $this->published_date
                 ),
                 array(
                     '%s',
@@ -368,6 +375,7 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
                     '%d',
                     '%s',
                     '%d',
+                    '%s',
                     '%s'
                 )
             );
@@ -380,6 +388,14 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
             }
 
         } else {
+
+
+            if (intval($this->enabled) == 1 && trim($this->published_date) == '' || $this->published_date == '0000-00-00 00:00:00') {
+                $this->published_date = date('Y-m-d h:i:s');
+            } elseif (intval($this->enabled) == 0) {
+                $this->published_date = null;
+            }
+
             $wpdb->update(
                 $this->getTable(),
                 array(
@@ -395,7 +411,8 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
                     'product_type'          =>  $this->product_type,
                     'product_type_text'     =>  $this->product_type_text,
                     'unlimited'             =>  $this->unlimited,
-                    'price_includes_tax'    =>  $this->price_includes_tax
+                    'price_includes_tax'    =>  $this->price_includes_tax,
+                    'published_date'        =>  $this->published_date
                 ),
                 array(
                     'product_id'    =>  $this->product_id
@@ -413,6 +430,7 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
                     '%d',
                     '%s',
                     '%d',
+                    '%s',
                     '%s'
                 ),
                 array(
@@ -432,12 +450,56 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
 
         $product_download_continue = true;
 
-        if ($this->product_type == 1 && isset($_FILES['download']) && $_FILES['download']['name'] !== '') {
-            $product_download_continue = $this->_product_download_model->setData(
-                array(
-                    'product_id'  =>  $this->product_id,
-                    'upload_file'   =>  $_FILES['download']
-                ))->save();
+//        if ($this->product_type == 1 && isset($_FILES['download']) && $_FILES['download']['name'] !== '') {
+//            $product_download_continue = $this->_product_download_model->setData(
+//                array(
+//                    'product_id'  =>  $this->product_id,
+//                    'upload_file'   =>  $_FILES['download']
+//                ))->save();
+//        }
+
+        if ($this->product_type == 1 || $this->product_type == 4) {
+
+
+            if ( true === $this->_product_download_model->readFromPost()) {
+                $product_download_continue = $this->_product_download_model->setData(
+                    array(
+                        'product_id'        =>  $this->product_id
+                    )
+                )->save($this->product_type == 1);
+
+                if (true === $product_download_continue) {
+                    $this->product_type_text = $this->_product_download_model->getPlainLink();
+                    $wpdb->update(
+                        $this->getTable(),
+                        array(
+                            'product_type_text' =>  $this->product_type_text
+                        ),
+                        array(
+                            'product_id'        =>  $this->product_id
+                        ),
+                        array(
+                            "%s"
+                        ),
+                        array(
+                            "%d"
+                        )
+                    );
+                }
+
+            } else {
+                $product_download_continue = false;
+            }
+
+//              setData(
+//                array(
+//                    'product_id'        =>  $this->product_id,
+//                    'upload_file'       =>  $path,
+//                    'download_override' =>  trim($path) != '',
+//                    'file'              =>  TppStoreControllerProduct::getInstance()->getProductUploadFileFromSession()
+//                ))->save();
+
+
         }
 
         //need to be able to save categories
@@ -514,10 +576,6 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
             }
         }
 
-
-
-
-
         $product_mentor_continue = true;
 
         if ($this->product_type == 4) {
@@ -562,6 +620,8 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
         $c->setCachePath('product/' . $this->product_id . '/');
         $c->deleteCache();
         $c->setCachePath('homepage/products/top/');
+        $c->deleteCache();
+        $c->setCachePath('latest/products/');
         $c->deleteCache();
         $c->setCachePath('homepage/categories/featured/');
         $c->deleteCache();
@@ -697,30 +757,43 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
             case 1:
                 //download
 
-                if ('' != ($download = filter_input(INPUT_POST, 'download_elsewhere', FILTER_SANITIZE_STRING))) {
+                $type = filter_input(INPUT_POST, 'download_location', FILTER_SANITIZE_NUMBER_INT);
 
-                    $this->product_type_text = $download;
+                switch ($type)
+                {
+                    case '2':
 
-                    if (!$e = preg_match('_^(?:(?:https?|http|ftp)://)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\x{00a1}-\x{ffff}0-9]+-?)*[a-z\x{00a1}-\x{ffff}0-9]+)(?:\.(?:[a-z\x{00a1}-\x{ffff}0-9]+-?)*[a-z\x{00a1}-\x{ffff}0-9]+)*(?:\.(?:[a-z\x{00a1}-\x{ffff}]{2,})))(?::\d{2,5})?(?:/[^\s]*)?$_iuS', $download)) {
+                        //hosted with us
+                        $file = TppStoreControllerProduct::getInstance()->getProductUploadFileFromSession();
 
-                        if (intval($this->enabled) == 1) {
-                            $this->setOffline();
-                            TppStoreMessages::getInstance()->addMessage('error', 'The url you provided for the download: ' . $download . ' is not a valid url. Please fix this before your product can go live.');
-                        } else {
-                            TppStoreMessages::getInstance()->addMessage('error', 'The url you provided for the download: ' . $download . ' is not a valid url. The download will probably not work.');
+                        $path = TppStoreControllerProduct::getInstance()->getProductUploadDirectoryFromSession() . $file;
+
+                        if (!file_exists($path) && ('' == (filter_input(INPUT_POST, 'original_download', FILTER_SANITIZE_STRING)))) {
+                            TppStoreMessages::getInstance()->addMessage('error', 'Please select a file for download.');
                         }
-                    }
+                        break;
 
-                } elseif (isset($_FILES['download']) && $_FILES['download']['name'] !== '' && (!is_null($this->product_type_text) && $this->product_type_text != '')) {
-                    //determine if this file can be uploaded?
-                    if (true === $this->_product_download_model->setData(array('upload_file'   =>  $_FILES['download']))->canUpload(false)) {
-                        $this->product_type_text = $this->_product_download_model->upload_file['name'];
-                        //don't stop on the file upload, so don't raise an error on this point!
-                    }
-                } else {
-                    TppStoreMessages::getInstance()->addMessage('error', 'Please complete your download options for this product.');
+                    default:
+                        //hosted else where
+
+                        if ('' != ($download = filter_input(INPUT_POST, 'download_elsewhere', FILTER_SANITIZE_STRING))) {
+
+                            $this->product_type_text = $download;
+
+                            if (!$e = preg_match('_^(?:(?:https?|http|ftp)://)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\x{00a1}-\x{ffff}0-9]+-?)*[a-z\x{00a1}-\x{ffff}0-9]+)(?:\.(?:[a-z\x{00a1}-\x{ffff}0-9]+-?)*[a-z\x{00a1}-\x{ffff}0-9]+)*(?:\.(?:[a-z\x{00a1}-\x{ffff}]{2,})))(?::\d{2,5})?(?:/[^\s]*)?$_iuS', $download)) {
+
+                                if (intval($this->enabled) == 1) {
+                                    $this->setOffline();
+                                    TppStoreMessages::getInstance()->addMessage('error', 'The url you provided for the download: ' . $download . ' is not a valid url. Please fix this before your product can go live.');
+                                } else {
+                                    TppStoreMessages::getInstance()->addMessage('error', 'The url you provided for the download: ' . $download . ' is not a valid url. The download will probably not work.');
+                                }
+                            }
+
+                        }
+                        break;
+
                 }
-
 
                 break;
             case 4:

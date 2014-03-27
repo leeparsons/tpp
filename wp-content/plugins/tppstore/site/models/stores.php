@@ -19,7 +19,7 @@ class TppStoreModelStores extends TppStoreAbstractModelResource {
         if (intval($store_id) > 0) {
             //save teh store id in object cache!
             if (!isset(self::$_stores[$store_id])) {
-                self::$_stores[$store_id] = TppStoreModelStore::getInstance();
+                self::$_stores[$store_id] = new TppStoreModelStore();
                 self::$_stores[$store_id]->setData(array(
                     'store_id'  =>  $store_id
                 ))->getStoreByID();

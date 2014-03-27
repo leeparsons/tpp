@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="/assets/css/fonts.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/style.css?v=2">
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css?v=2.5">
     <?php if (wp_is_mobile() && !tpp_is_tablet()): ?>
-        <link rel="stylesheet" type="text/css" href="/assets/css/mobile.css?v=2">
+        <link rel="stylesheet" type="text/css" href="/assets/css/mobile.css?v=2.1">
     <?php elseif (tpp_is_ipad()): ?>
-        <link rel="stylesheet" type="text/css" href="/assets/css/ipad.css?v=2">
+        <link rel="stylesheet" type="text/css" href="/assets/css/ipad.css?v=2.1">
     <?php endif; ?>
     <!--[if gte IE 9]><style type="text/css">.gradient{filter: none;}</style><![endif]-->
     <title><?php
@@ -64,5 +63,15 @@
             <button type="submit" id="search_button">Search</button>
         </form>
         <?php TppStoreControllerUser::getInstance()->renderMenuButtons(); ?>
+        <?php if (!wp_is_mobile()): ?>
+        <div class="header-social-buttons">
+            <div class="wrap">
+            <a class="rss-icon" href="<?php bloginfo('rss2_url'); ?>" target="_blank">Rss</a>
+            <div class="fb-like" data-href="https://www.facebook.com/thephotographyparlour" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
+            &nbsp;&nbsp;<a href="https://twitter.com/photoparlour" class="twitter-follow-button" data-show-count="false">Follow @photoparlour</a>
+                <div class="g-plusone" data-size="medium" data-href="http://www.thephotographyparlour.com"></div>
+            </div>
+        </div>
+        <?php endif; ?>
     </header>
 </div><?php flush();

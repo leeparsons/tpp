@@ -22,11 +22,12 @@ include TPP_STORE_PLUGIN_DIR . 'site/views/dashboard/header.php'; ?>
             <table class="dashboard-list">
                 <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Store</th>
-                        <th>Type</th>
+                        <th>Item</th>
+                        <?php /* <th>Type</th> */ ?>
                         <th>Cost</th>
+                        <?php if ($order->discount > 0): ?>
                         <th>Discount</th>
+                        <?php endif; ?>
                         <th>Quantity</th>
                         <th>Extra Information</th>
                     </tr>
@@ -41,32 +42,39 @@ include TPP_STORE_PLUGIN_DIR . 'site/views/dashboard/header.php'; ?>
 
                 ?>
                 <tr>
-                    <td style="width:30%"><span><?php echo $product->product_title ?></span></td>
-                    <td><span>
-
-                        <?php
-
-                        //echo $products[$product->product_id]->getStore()->store_name
-
-                        echo $product->getStore()->store_name
-
-                        ?></span>
+                    <td style="width:43%">
+                        <span><?php echo $product->product_title ?></span>
+                        <strong><?php
+                            echo $product->getStore()->store_name
+                            ?></strong>
+                        <?php if ($product->product_type == 1): ?>
+                            <br><br>
+                        <a class="btn btn-go" style="width:50%" href="<?php echo $product->getDownloadUrl() ?>">Click to Download</a>
+                            <br><br>
+                        <?php endif; ?>
                     </td>
-                    <td><span><?php
+
+                    <?php /* <td><span><?php
 
                         //echo $products[$product->product_id]->getProductType()
                         echo $product->getProductType()
 
                         ?></span></td>
+                    */ ?>
                     <td><span><?php
 
                             echo $product->getFormattedPrice(true, false);
 
                         ?></span></td>
-
+                    <?php if ($order->discount > 0): ?>
                     <td><span><?php echo $product->getFormattedCurrency(true, $order->currency, false) . $product->formatAmount($product->discount) ?></span></td>
+                    <?php endif; ?>
                     <td><span><?php echo $product->order_quantity ?></span></td>
-                    <td style="width:10%"><span><?php if ($product->product_type == 1): ?><a class="btn btn-primary" href="<?php echo $product->getDownloadUrl() ?>">Download</a><?php else: ?>N/A<?php endif; ?></span></td>
+                    <td style="width:10%"><span><?php if ($product->product_type != 1):
+
+                                echo $product->product_type_text;
+
+                            else: ?>N/A<?php endif; ?></span></td>
                 </tr>
 
 

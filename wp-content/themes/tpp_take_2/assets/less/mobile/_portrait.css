@@ -1,1 +1,1 @@
-@media only screen and (min-device-width:200px) and (orientation:portrait){article.product .product-images{min-height:100px}article.product .product-images .slides{min-height:100px}article.product .product-images .slides img{width:100%;height:auto;position:relative;float:left}}
+@media only screen and (min-device-width:200px) and (orientation:portrait){.head{height:425px}article.product .product-images{min-height:100px}article.product .product-images .slides{min-height:100px}article.product .product-images .slides img{width:100%;height:auto;position:relative;float:left}}

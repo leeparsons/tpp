@@ -113,7 +113,7 @@ class TppStoreModelCategory extends TppStoreAbstractModelBase {
 
     }
 
-    public function getCategoryBySlug($slug = '', $level = 1)
+    public function getCategoryBySlug($slug = '', $level = 1, $parent_slug = '')
     {
         $slug = trim($slug);
 
@@ -123,19 +123,40 @@ class TppStoreModelCategory extends TppStoreAbstractModelBase {
 
         global $wpdb;
 
-        $wpdb->get_results(
-            $wpdb->prepare(
-                "SELECT c.* FROM " . $this->getTable() . " AS c
+        if (trim($parent_slug) != '' && $level > 1) {
+            $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT c.* FROM " . $this->getTable() . " AS c
+                LEFT JOIN " . $this->getClosureTable() . " AS p2c ON p2c.child_id = c.category_id
+                LEFT JOIN " . $this->getTable() . " AS c2 ON c2.category_id = p2c.parent_id
+                WHERE c.category_slug = %s AND level = %d
+                AND c2.category_slug = %s
+                ",
+                    array(
+                        $slug,
+                        $level,
+                        $parent_slug
+                    )
+                ),
+                OBJECT_K
+            );
+
+        } else {
+            $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT c.* FROM " . $this->getTable() . " AS c
                 LEFT JOIN " . $this->getClosureTable() . " AS p2c ON p2c.child_id = c.category_id
                 WHERE category_slug = %s AND level = %d
                 ",
-                array(
-                    $slug,
-                    $level
-                )
-            ),
-            OBJECT_K
-        );
+                    array(
+                        $slug,
+                        $level
+                    )
+                ),
+                OBJECT_K
+            );
+        }
+
 
         if ($wpdb->num_rows == 1) {
 
@@ -157,7 +178,7 @@ class TppStoreModelCategory extends TppStoreAbstractModelBase {
         }
         $cats = TppStoreModelCategories::getInstance();
         $cats->getCategories(array(
-            //'parent'        =>  $this->category_id,
+            'parent'        =>  $this->category_id,
             'product_count' =>  $product_count,
             'heirarchical'  =>  $heirarchical
         ));

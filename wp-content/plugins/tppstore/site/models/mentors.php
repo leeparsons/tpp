@@ -48,7 +48,7 @@ class TppStoreModelMentors extends TppStoreAbstractModelResource {
         global $wpdb;
 
         $sql = $wpdb->prepare(
-            "SELECT p.*, i.path, i.src, i.alt, i.filename, i.extension, i.size_alias, s.currency FROM " . TppStoreModelProducts::getInstance()->getTable() . " AS p
+            "SELECT p.*, i.path, i.src, i.alt, i.filename, i.extension, i.size_alias, s.currency, s.store_slug, s.store_name FROM " . TppStoreModelProducts::getInstance()->getTable() . " AS p
                      LEFT JOIN " . TppStoreModelStore::getInstance()->getTable() . " AS s ON s.store_id = p.store_id
                      LEFT JOIN (SELECT product_id, path, src, alt, filename, extension, size_alias FROM shop_product_images ORDER BY ordering ASC) AS i ON p.product_id = i.product_id
                      LEFT JOIN " . TppStoreModelMentor2product::getInstance()->getTable() . " AS p2m ON p2m.product_id = p.product_id
@@ -91,7 +91,8 @@ class TppStoreModelMentors extends TppStoreAbstractModelResource {
                     $mentors[$row->product_id]->getStore()->setData(
                         array(
                             'store_id'      =>  $row->store_id,
-                            'store_name'    =>  $row->store_name
+                            'store_name'    =>  $row->store_name,
+                            'store_slug'    =>  $row->store_slug
                         )
                     );
 

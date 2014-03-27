@@ -17,6 +17,7 @@
 
 <input type="hidden" name="product_type" id="product_type" value="4">
 
+<?php /*
 <div class="form-group product-type-group" id="download_group">
     <label>Upload file for download</label>
     <pre>This is optional, and could be information about your session or otherwise. This will be sent out to people who purchase a session with you.</pre>
@@ -33,7 +34,16 @@
         <?php endif; ?>
 
 </div>
+*/ ?>
+<?php
 
+$product->product_type = 4;
+
+$download_text = "This is optional, and could be information about your session or otherwise. This will be sent out to people who purchase a session with you.";
+
+include TPP_STORE_PLUGIN_DIR . 'site/views/dashboard/product/download.php';
+
+?>
 
 
 <div class="form-group" >

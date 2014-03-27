@@ -89,7 +89,7 @@ class TppStoreControllerAccount extends TppStoreAbstractBase {
                 break;
 
             case 'tpp_messages':
-                wp_enqueue_style('dashboard', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/dashboard.css');
+                wp_enqueue_style('dashboard', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/dashboard.css', array(), '1');
 
 
                 TppStoreControllerMessages::getInstance()->renderMessageList();
@@ -97,7 +97,7 @@ class TppStoreControllerAccount extends TppStoreAbstractBase {
                 break;
 
             case 'tpp_message':
-                wp_enqueue_style('dashboard', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/dashboard.css');
+                wp_enqueue_style('dashboard', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/dashboard.css', array(), '1');
 
                 TppStoreControllerMessages::getInstance()->renderMessage();
                 exit;
@@ -288,7 +288,7 @@ class TppStoreControllerAccount extends TppStoreAbstractBase {
 
     private function enqueueAccountResources()
     {
-        wp_enqueue_style('tpp-dashboard', '/wp-content/plugins/tppstore/site/assets/css/dashboard/dashboard.css');
+        wp_enqueue_style('dashboard', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/dashboard.css', array(), '1');
     }
 
     public function renderProfileEdit()
@@ -317,8 +317,8 @@ class TppStoreControllerAccount extends TppStoreAbstractBase {
 
         wp_enqueue_script('jquery', 'jquery', array('jquery'), '1', true);
         wp_enqueue_script('file_uploads_engine', '/assets/js/jquery.filedrop.js', array('jquery'), '1', true);
-        wp_enqueue_script('file_uploads', '/assets/js/file_upload-ck.js', array('jquery'), '1', true);
-        wp_enqueue_style('uploads', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/upload.css');
+        wp_enqueue_script('file_uploads', '/assets/js/file_upload-ck.js', array('jquery'), '1.2', true);
+        wp_enqueue_style('uploads', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/upload.css', array(), '1');
 
 
 

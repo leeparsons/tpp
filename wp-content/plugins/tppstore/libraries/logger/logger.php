@@ -6,6 +6,10 @@
  */
 
 
+if (!class_exists('TppStoreControllerUser')) {
+    include TPP_STORE_PLUGIN_DIR . 'site/controllers/user.php';
+}
+
 class TppStoreLibraryLogger extends TppStoreAbstractInstantiable {
 
     private $_directory = null;

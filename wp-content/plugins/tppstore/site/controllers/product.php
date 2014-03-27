@@ -95,16 +95,25 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
 
             case 'tpp_download':
 
-                if (false === ($user = TppStoreControllerUser::getInstance()->loadUserFromSession())) {
-                    $this->redirectToLogin();
-                }
-
                 $product_id = get_query_var('product_id');
 
                 $decrypted_string = TppStoreLibraryEncryption::decrypt($args, true);
 
                 if (strpos($decrypted_string, 'admin_logged_in=true') === false) {
-                    if (false === ($order = $this->getOrderModel()->setData(array(
+
+                    if (false === ($user = TppStoreControllerUser::getInstance()->loadUserFromSession())) {
+                        $this->redirectToLogin();
+                    }
+
+
+
+                    if ($user->user_id != $this->getProductModel()->setData(array(
+                            'product_id'    =>  $product_id
+                        ))->getProductById()->getStore(true)->user_id
+
+                        &&
+
+                        false === ($order = $this->getOrderModel()->setData(array(
                             'product_id'    =>  $product_id,
                         ))->validatePurchaseByUser($user->user_id))) {
                         $this->_setWpQuery403();
@@ -290,7 +299,7 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
 
             $this->_setWpQueryOk();
 
-            include TPP_STORE_PLUGIN_DIR . 'site/views/store_products.php';
+            include TPP_STORE_PLUGIN_DIR . 'site/views/store.php';
         } else {
             $this->_setWpQuery404();
             include TPP_STORE_PLUGIN_DIR . 'site/views/404.php';
@@ -301,7 +310,7 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
 
     protected function renderShopFront()
     {
-        include TPP_STORE_PLUGIN_DIR . 'site/views/store_front.php';
+        include TPP_STORE_PLUGIN_DIR . 'site/views/store.php';
         exit;
     }
 
@@ -374,16 +383,63 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
     public function getTopProducts()
     {
 
-        return $this->getProductsModel()->getTopProducts();
+        return $this->getAdminFavouritesModel()->setData(array(
+            'position'  =>  'homepage'
+        ))->getDirectFavouriteProducts();
+
+        //return $this->getProductsModel()->getTopProducts();
 
     }
 
 
-    public function renderLatestProductsSideBar()
+    public function renderRelatedProductsSideBar($post)
     {
-        $products = $this->getProductsModel()->getLatestProducts();
+
+        $tags = array();
+
+        if (is_object($post) && $post instanceof WP_Post) {
+            $tags = wp_get_post_tags($post->ID, array(
+                'fields' => 'names'
+            ));
+
+        }
+
+        $products = $this->getProductsModel()->getProductsByTags($tags);
 
         if (count($products) > 0) {
+            $title = 'Products you might like';
+            include TPP_STORE_PLUGIN_DIR . 'site/views/products/latest_products.php';
+        } else {
+            $this->renderLatestProductsSideBar();
+        }
+
+    }
+
+    public function renderFavourites($position = '', $related_parent_id = 0, $limit = 5)
+    {
+        $products = $this->getAdminFavouritesModel()->setData(array(
+            'related_parent_id' =>  $related_parent_id,
+            'position'          =>  $position
+        ))->getDirectFavouriteProducts($limit);
+
+
+        if (count($products) > 0) {
+            include TPP_STORE_PLUGIN_DIR . 'site/views/favourites/' . $position . '.php';
+        }
+
+    }
+
+    public function getLatestProducts($limit = 4)
+    {
+        return $this->getProductsModel()->getLatestProducts($limit);
+    }
+
+    public function renderLatestProductsSideBar()
+    {
+        $products = $this->getLatestProducts(5);
+
+        if (count($products) > 0) {
+            $title = 'Latest Products';
             include TPP_STORE_PLUGIN_DIR . 'site/views/products/latest_products.php';
         }
 
@@ -487,5 +543,100 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
 
 
     }
+
+
+    public function uploadFile()
+    {
+
+        if (isset($_FILES['upload_file'])) {
+            if ($_FILES['upload_file']['error'] > 0) {
+                $this->_exitStatus('failed', true);
+            }
+
+            $file = new TppStoreLibraryFile();
+            $file->setFile($_FILES['upload_file']['name']);
+            switch ($file->getExtension()) {
+                case 'php':
+                case 'js':
+                case 'asp':
+                case 'aspx':
+                case 'exe':
+                    $this->_exitStatus('failed', true, 'extension not allowed: ' . $file->getExtension());
+                    break;
+                default:
+
+                    break;
+            }
+
+            $file->setUploadedFile($_FILES['upload_file']);
+
+            $dir = new TppStoreDirectoryLibrary();
+            $dir->createDirectory($this->getProductUploadDirectoryFromSession());
+
+            if (false === $file->moveUploadedFile($this->getProductUploadDirectoryFromSession(), $_FILES['upload_file']['name'])) {
+                $this->_exitStatus('failed', true, 'move file');
+            }
+
+            $this->setProductUploadFileSession($file->getUploadedName());
+            $this->_exitStatus('success', false, $file->getUploadedName());
+
+        } else {
+            $this->_exitStatus('failed', true, 'no file');
+        }
+
+
+    }
+
+
+    public function getProductUploadDirectoryFromSession()
+    {
+        if (isset($_SESSION['tpp_product_upload_path'])) {
+            return $_SESSION['tpp_product_upload_path'];
+        }
+        return false;
+    }
+
+    public function setProductUploadDirectoryFromSession($product_id = 0)
+    {
+
+        if (intval($product_id) > 0) {
+            $path = 'new/' . $product_id .'/';
+        } else {
+            $path = 'new/' . uniqid() . '/';
+        }
+
+        $_SESSION['tpp_product_upload_path'] = WP_CONTENT_DIR . '/uploads/tpp_products/' . $path;
+
+    }
+
+    public function deleteProductUploadDirectoryFromSession()
+    {
+        if (isset($_SESSION['tpp_product_upload_path'])) {
+
+            $dir = new TppStoreDirectoryLibrary();
+            $dir->setDirectory($_SESSION['tpp_product_upload_path']);
+            $dir->deleteDirectory();
+
+            $_SESSION['tpp_product_upload_path'] = null;
+            unset($_SESSION['tpp_product_upload_path']);
+        }
+
+        if (isset($_SESSION['tpp_product_upload_file'])) {
+            $_SESSION['tpp_product_upload_file'] = null;
+            unset($_SESSION['tpp_product_upload_file']);
+        }
+
+    }
+
+    public function getProductUploadFileFromSession()
+    {
+        return $_SESSION['tpp_product_upload_file'];
+    }
+
+    public function setProductUploadFileSession($file = '')
+    {
+        $_SESSION['tpp_product_upload_file'] = $file;
+    }
+
 
 }

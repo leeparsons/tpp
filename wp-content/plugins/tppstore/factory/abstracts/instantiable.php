@@ -22,5 +22,15 @@ if (!class_exists('TppStoreAbstractInstantiable')) {
             return self::$_instance[md5($class)];
         }
 
+
+
+        protected function startSession()
+        {
+            ob_start();
+            if (!session_id()) {
+                session_start();
+            }
+            ob_end_clean();
+        }
     }
 }

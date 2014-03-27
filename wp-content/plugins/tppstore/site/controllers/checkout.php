@@ -137,6 +137,17 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
 
 
+        if (filter_input(INPUT_POST, 'agree_newsletter', FILTER_SANITIZE_NUMBER_INT) == 1) {
+            $signup = $this->getEmailSignupModel();
+
+            $signup->setData(array(
+                'email'         =>  $user->email,
+                'source'        =>  'checkout',
+                'user_id'       =>  $user->user_id,
+                'first_name'    =>  $user->first_name,
+                'last_name'     =>  $user->last_name
+            ))->save();
+        }
 /*
         include TPP_STORE_PLUGIN_DIR . 'adapters/paypal/paypal.php';
 
@@ -151,7 +162,16 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
         $this->gateway->setOrder($this->store->store_id);
 
-        $data = $this->gateway->process();
+        if ($this->gateway->getTotal() > 0) {
+            $data = $this->gateway->process();
+        } else {
+            $data = array(
+                'status'    =>  'complete',
+                'message'   =>  'free checkout',
+                'redirect'  =>  'free_checkout'
+            );
+        }
+
 
         //determine if order status and complete eth actions as neccessary
 
@@ -222,7 +242,15 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
             exit;
         }
 
-        if (false === $data['redirect']) {
+        if ($data['redirect'] == 'free_checkout') {
+
+            $this->sendMail('parsolee@gmail.com', 'payment', 'order: ' . $order->order_id . ' , geo currency: ' . geo::getInstance()->getCurrency() . ', order currency: ' . $order->currency . ', Amount: ' . $order->total . ', commission: ' . $order->commission);
+            $this->setCheckoutSessionData($order, $payment);
+
+
+            $this->confirmPayment();
+
+        } elseif (false === $data['redirect']) {
 
 //            $order->setData(array(
 //                'status'    =>  'failed'
@@ -242,9 +270,10 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
             //exit;
 
 
+
+
+
         } else {
-
-
 //            $order->setData(array(
 //                'status'    =>  'pending'
 //            ))->save();
@@ -260,7 +289,7 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
             ))->save();
 
 
-            $this->sendMail('parsolee@gmail.com', 'payment', 'order: ' . $order->order_id . ' , geo currency: ' . geo::getInstance()->getCurrency() . ', order currency: ' . $order->currency);
+            $this->sendMail('parsolee@gmail.com', 'payment', 'order: ' . $order->order_id . ' , geo currency: ' . geo::getInstance()->getCurrency() . ', order currency: ' . $order->currency . ', Amount: ' . $order->total . ', commission: ' . $order->commission);
             $this->setCheckoutSessionData($order, $payment);
 
 
@@ -317,7 +346,14 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
         $this->gateway->setOrder($order->store_id);
 
-        $payment_data = $this->gateway->confirmPayment();
+        if ($this->gateway->getTotal() > 0) {
+            $payment_data = $this->gateway->confirmPayment();
+        } else {
+            $payment_data = new stdClass();
+            $payment_data->status = 'success';
+            $payment_data->gateway_data = null;
+            $payment_data->payment_message = 'free checkout';
+        }
 
 
 
@@ -345,16 +381,18 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
         }
 
+        if ($this->gateway->getTotal() > 0) {
 
-        //update the order to say it is complete!
-         //update the order data!
-        $order->setData(array(
-                'status'        =>  'complete',
-                'message'       =>  'received back from gateway, payment complete - see payment message for more information'
-                //'commission'    =>  $payment_data->store_owner_payment->receiver->amount
-                //commission already accounted for
-            )
-        )->save();
+            //update the order to say it is complete!
+             //update the order data!
+            $order->setData(array(
+                    'status'        =>  'complete',
+                    'message'       =>  'received back from gateway, payment complete - see payment message for more information'
+                    //'commission'    =>  $payment_data->store_owner_payment->receiver->amount
+                    //commission already accounted for
+                )
+            )->save();
+        }
 
         $payment->setData(array(
             'gateway_data'  =>  serialize($payment_data),
@@ -368,7 +406,6 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
         TppStoreModelCart::getInstance()->removeStore($order->store_id);
         $this->deleteCheckoutDataSession();
 
-        //send confirmation email
 
         $user = $this->getUserModel()->setData(array(
             'user_id'   =>  $order->user_id
@@ -382,15 +419,7 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
             'store_id'  =>  $order->store_id
         ))->getStoreByID();
 
-        ob_start();
 
-        include TPP_STORE_PLUGIN_DIR . 'emails/order_confirm_customer.php';
-
-        $body = ob_get_contents();
-
-        $this->sendMail($user->email, 'Your order was successful', $body);
-
-        ob_end_clean();
 
         //delete the store from the cart
 
@@ -399,6 +428,8 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
         $product_ids = array();
 
         $product_quantity_warn = array();
+
+        $email_product_groups = array();
 
         if (is_array($order_items) && !empty($order_items)) {
             foreach ($order_items as $product) {
@@ -417,6 +448,11 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
                 $_product->updateQuantity();
 
                 $product_ids[] = $_product->product_id;
+
+                if (!isset($email_product_groups[$_product->product_type])) {
+                    $email_product_groups[$_product->product_type] = array();
+                }
+                $email_product_groups[$_product->product_type][] = $product;
             }
 
         }
@@ -427,9 +463,56 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
             'product_ids'   =>  $product_ids
         ))->incrementUses();
 
-        $store = $this->getStoreModel()->setData(array(
-            'store_id'  =>  $order->store_id
-        ))->getStoreByID();
+
+
+        foreach ($email_product_groups as $type => $products) {
+            //send confirmation emails
+            ob_start();
+
+            switch ($type) {
+                case '1':
+                    //download
+                    include TPP_STORE_PLUGIN_DIR . 'emails/order/confirm_customer_download.php';
+
+                    $subject = 'Instant Download';
+
+                    break;
+                case '2':
+                    //service
+                case '3':
+                    //product
+                    include TPP_STORE_PLUGIN_DIR . 'emails/order/confirm_customer_product.php';
+
+                $subject = 'Purchase';
+
+                    break;
+
+                case '5':
+                    //event
+                    include TPP_STORE_PLUGIN_DIR . 'emails/order/confirm_customer_event.php';
+
+                    $subject = 'Event / Workshop';
+
+                    break;
+
+                case '4':
+                    //mentor session
+                    include TPP_STORE_PLUGIN_DIR . 'emails/order/confirm_customer_mentor_session.php';
+                    $subject = 'Mentor Session';
+
+                    break;
+            }
+
+            $body = ob_get_contents();
+
+            $this->sendMail($user->email, 'Your order was successful: ' . $subject, $body);
+
+            ob_end_clean();
+
+        }
+
+        unset($email_product_groups);
+        unset($products);
 
 
         //send confirmation to store owner
@@ -441,9 +524,10 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
         $store->getUser();
 
+        ob_end_clean();
+
         $this->sendMail($store->getUser()->email,  $user->first_name . ' has placed an order on your store', $body);
 
-        ob_end_clean();
 
         //send email for quantity notifications
         if (!empty($product_quantity_warn)) {
@@ -475,7 +559,7 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
         $this->redirect('/shop/' . $url . '/purchase/' . $order->order_id);
 
 
-        include TPP_STORE_PLUGIN_DIR . 'site/views/checkout/success.php';
+       // include TPP_STORE_PLUGIN_DIR . 'site/views/checkout/success.php';
 
         exit;
     }

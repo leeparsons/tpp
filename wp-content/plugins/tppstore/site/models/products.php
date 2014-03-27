@@ -195,6 +195,8 @@ class TppStoreModelProducts extends TppStoreAbstractModelResource {
     }
 
 
+
+
     public function getTopProducts($size = 'thumb')
     {
         global $wpdb;
@@ -230,7 +232,7 @@ class TppStoreModelProducts extends TppStoreAbstractModelResource {
                     )
                 );
 
-                $return[$row->product_id]->getSTore()->setData(array(
+                $return[$row->product_id]->getStore()->setData(array(
                     'store_id'      =>  $row->store_id,
                     'store_slug'    =>  $row->store_slug,
                     'store_name'    =>  $row->store_name
@@ -241,19 +243,68 @@ class TppStoreModelProducts extends TppStoreAbstractModelResource {
         return $return;
     }
 
-    public function getLatestProducts($limit = 5)
+    public function getProductsByTags($tags = array(), $limit = 5)
+    {
+        if (empty($tags)) {
+            return $this->getLatestProducts($limit);
+        }
+
+        global $wpdb;
+
+        $sql = array();
+
+        foreach ($tags as $tag) {
+            $escaped_tag = esc_sql($tag);
+            $sql[] = "(product_title LIKE '%" . $escaped_tag . "%' OR product_description LIKE '%" . $escaped_tag . "%')";
+        }
+
+        $sql = implode(' OR ', $sql);
+
+        $sql = "SELECT p.*, i.path, i.src, i.alt, i.filename, i.extension, i.image_id, i.size_alias, s.currency FROM " . $this->getTable() . " AS p
+                INNER JOIN " . TppStoreModelStore::getInstance()->getTable() . " AS s ON s.store_id = p.store_id AND s.enabled = 1
+                INNER JOIN (SELECT src, product_id, image_id, path, alt, filename, extension, size_alias FROM shop_product_images GROUP BY product_id ORDER BY ordering ASC) AS i USING(product_id)
+                WHERE p.enabled = 1
+                AND $sql
+                GROUP BY p.product_id
+                ORDER BY p.created_on DESC LIMIT 5";
+        $wpdb->query($sql);
+
+
+        $return = array();
+        if ($wpdb->num_rows > 0) {
+            foreach ($wpdb->last_result as $row) {
+                $return[$row->product_id] = new TppStoreModelProduct();
+                $return[$row->product_id]->setData($row);
+                $return[$row->product_id]->getProductImage()->setData(
+                    array(
+                        'src'           =>  $row->src,
+                        'product_id'    =>  $row->product_id,
+                        'alt'           =>  $row->alt,
+                        'filename'      =>  $row->filename,
+                        'extension'     =>  $row->extension,
+                        'size_alias'    =>  $row->size_alias,
+                        'path'          =>  $row->path
+                    )
+                );
+            }
+        }
+
+        return $return;
+    }
+
+    public function getLatestProducts($limit = 4)
     {
 
         global $wpdb;
 
 
         $rows = $wpdb->get_results(
-            "SELECT p.*, i.path, i.src, i.alt, i.filename, i.extension, i.image_id, i.size_alias, s.currency FROM " . $this->getTable() . " AS p
+            "SELECT p.*, i.path, i.src, i.alt, i.filename, i.extension, i.image_id, i.size_alias, s.store_name, s.store_slug, s.currency FROM " . $this->getTable() . " AS p
                 INNER JOIN " . TppStoreModelStore::getInstance()->getTable() . " AS s ON s.store_id = p.store_id AND s.enabled = 1
                 INNER JOIN (SELECT src, product_id, image_id, path, alt, filename, extension, size_alias FROM shop_product_images GROUP BY product_id ORDER BY ordering ASC) AS i USING(product_id)
                 WHERE p.enabled = 1
                 GROUP BY p.product_id
-                ORDER BY p.created_on DESC LIMIT 5"
+                ORDER BY p.published_date DESC LIMIT $limit"
         );
 
         $return = array();
@@ -272,6 +323,12 @@ class TppStoreModelProducts extends TppStoreAbstractModelResource {
                         'path'          =>  $row->path
                     )
                 );
+
+                $return[$row->product_id]->getStore()->setData(array(
+                    'store_id'      =>  $row->store_id,
+                    'store_slug'    =>  $row->store_slug,
+                    'store_name'    =>  $row->store_name
+                ));
             }
         }
 
@@ -398,7 +455,7 @@ class TppStoreModelProducts extends TppStoreAbstractModelResource {
             $rows = $wpdb->query(
                 $wpdb->prepare(
                     "SELECT p.*, i.path, i.src, i.alt, i.filename, i.extension, i.size_alias, s.currency, s.store_name, s.store_slug FROM " . $this->getTable() . " AS p
-                INNER JOIN " . TppStoreModelStore::getInstance()->getTable() . " AS s ON s.store_id = p.store_id AND s.enabled = 1
+                INNER JOIN " . TppStoreModelStore::getInstance()->getTable() . " AS s ON s.store_id = p.store_id
                 INNER JOIN (SELECT product_id, path, src, alt, filename, extension, size_alias FROM shop_product_images ORDER BY ordering ASC) AS i USING(product_id)
                 LEFT JOIN " . TppStoreModelMentor2product::getInstance()->getTable() . " AS p2m ON p2m.product_id = p.product_id
                 LEFT JOIN " . TppStoreModelMentor::getInstance()->getTable() . " AS m ON m.mentor_id = p2m.mentor_id
@@ -409,6 +466,7 @@ class TppStoreModelProducts extends TppStoreAbstractModelResource {
                 OR m.mentor_name LIKE '%%%s%%'
                 OR s.store_name LIKE '%%%s%%'
                 )
+                AND s.enabled = 1
                 AND p.enabled = 1
                 GROUP BY p.product_id
                 LIMIT $start, 20
@@ -432,7 +490,7 @@ class TppStoreModelProducts extends TppStoreAbstractModelResource {
             $c = $wpdb->get_var(
                 $wpdb->prepare(
                     "SELECT COUNT(p.product_id) AS c FROM " . $this->getTable() . " AS p
-                    LEFT JOIN " . TppStoreModelStore::getInstance()->getTable() . " AS s ON s.store_id = p.store_id AND s.enabled = 1
+                    LEFT JOIN " . TppStoreModelStore::getInstance()->getTable() . " AS s ON s.store_id = p.store_id
                 LEFT JOIN " . TppStoreModelMentor2product::getInstance()->getTable() . " AS p2m ON p2m.product_id = p.product_id
                 LEFT JOIN " . TppStoreModelMentor::getInstance()->getTable() . " AS m ON m.mentor_id = p2m.mentor_id
 
@@ -442,7 +500,7 @@ class TppStoreModelProducts extends TppStoreAbstractModelResource {
                 OR m.mentor_name LIKE '%%%s%%'
                 OR s.store_name LIKE '%%%s%%'
                 )
-                
+                AND s.enabled = 1
                 AND p.enabled = 1
                 ",
                     array(
@@ -491,10 +549,22 @@ class TppStoreModelProducts extends TppStoreAbstractModelResource {
     public function getProducts($page = 1, $count = false)
     {
 
+        $where = "";
+
+        if ('' != ($s = filter_input(INPUT_GET, 's', FILTER_SANITIZE_STRING))) {
+            $s = esc_sql($s);
+
+            $where = " WHERE product_title LIKE '%" . $s . "%' ";
+
+        } else {
+            $s = false;
+        }
+
         if ($count === true) {
             global $wpdb;
+
             $c = $wpdb->get_var(
-                "SELECT COUNT(product_id) AS c FROM " . $this->getTable()
+                "SELECT COUNT(product_id) AS c FROM " . $this->getTable() . "  " . $where
             );
             return $c;
         }
@@ -509,7 +579,7 @@ class TppStoreModelProducts extends TppStoreAbstractModelResource {
 
         $wpdb->query(
             "SELECT * FROM " . $this->getTable() . "
-
+            $where
             ORDER BY product_title
             LIMIT $start,20
 
@@ -528,5 +598,7 @@ class TppStoreModelProducts extends TppStoreAbstractModelResource {
         return $return;
 
     }
+
+
 
 }

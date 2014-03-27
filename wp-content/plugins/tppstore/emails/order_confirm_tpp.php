@@ -24,7 +24,7 @@
         <tr>
             <td style="text-align: left"><p><?php echo $product->product_title ?></p></td>
             <td style="text-align: left"><p><?php echo $product->getFormattedCurrency(true, $order->currency, false) .  $product->getFormattedPrice(false, false) ?></p></td>
-            <td style="text-align: left"><p><?php echo $product->getFormattedCurrency(true, $order->currency, false) . $product->formatAmount($product->discount, false, false) ?></p></td>
+            <td style="text-align: left"><p><?php echo $product->getFormattedCurrency(true, $order->currency, false) . $product->formatAmount($product->discount, false) ?></p></td>
             <td style="text-align: left"><p><?php echo $product->order_quantity ?></p></td>
             <td style="text-align: left"><p><?php echo $product->getFormattedCurrency(true, $order->currency, false) . $product->formatAmount($product->line_total, false, false) ?></p></td>
         </tr>

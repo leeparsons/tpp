@@ -5,6 +5,7 @@
  *
  * @package WordPress
  */
+//exit(md5(1 . AUTH_KEY . AUTH_SALT));
 
 /**
  * Tells WordPress to load the WordPress theme and output it.

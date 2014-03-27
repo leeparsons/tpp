@@ -271,14 +271,14 @@ class TppStoreModelCart extends TppStoreAbstractModelBase {
 
                     //discount should be on the discounted total
                     $this->_cart['stores'][$store_id]['products'][$product->product_id]->discount = TppStoreAdapterDiscount::getInstance()->getUserDiscountByProduct($product) * (1 + ($product->tax_rate/100));
-                    $this->_cart['stores'][$store_id]['products'][$product->product_id]->discount_with_tax = $this->_cart['stores'][$store_id]['products'][$product->product_id]->discount;
-                    $this->_cart['stores'][$store_id]['products'][$product->product_id]->discount_without_tax = TppStoreAdapterDiscount::getInstance()->getUserDiscountByProduct($product);
+//                    $this->_cart['stores'][$store_id]['products'][$product->product_id]->discount_with_tax = $this->_cart['stores'][$store_id]['products'][$product->product_id]->discount;
+//                    $this->_cart['stores'][$store_id]['products'][$product->product_id]->discount_without_tax = TppStoreAdapterDiscount::getInstance()->getUserDiscountByProduct($product);
 
-                    $this->_cart['stores'][$store_id]['products'][$product->product_id]->tax_with_discount =
-                        ($this->_cart['stores'][$store_id]['products'][$product->product_id]->price - $this->_cart['stores'][$store_id]['products'][$product->product_id]->discount) *  ($this->_cart['stores'][$store_id]['products'][$product->product_id]->tax_rate / 100);
-                    $this->_cart['stores'][$store_id]['products'][$product->product_id]->tax_without_discount =
-                        ($this->_cart['stores'][$store_id]['products'][$product->product_id]->price) *
-                         ($this->_cart['stores'][$store_id]['products'][$product->product_id]->tax_rate / 100);
+//                    $this->_cart['stores'][$store_id]['products'][$product->product_id]->tax_with_discount =
+//                        ($this->_cart['stores'][$store_id]['products'][$product->product_id]->price - $this->_cart['stores'][$store_id]['products'][$product->product_id]->discount) *  ($this->_cart['stores'][$store_id]['products'][$product->product_id]->tax_rate / 100);
+//                    $this->_cart['stores'][$store_id]['products'][$product->product_id]->tax_without_discount =
+//                        ($this->_cart['stores'][$store_id]['products'][$product->product_id]->price) *
+//                         ($this->_cart['stores'][$store_id]['products'][$product->product_id]->tax_rate / 100);
 
 
                     $this->_cart['stores'][$store_id]['total'] +=

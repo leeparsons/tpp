@@ -337,6 +337,7 @@ class TppStoreModelUser extends TppStoreAbstractModelBase
         global $wpdb;
 
 
+
         $row = $wpdb->get_row(
             $wpdb->prepare(
                 "SELECT * FROM " . $this->getTable() . " WHERE email = %s AND password = %s",

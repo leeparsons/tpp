@@ -5,7 +5,7 @@
  * Time: 12:13
  */
  
-class TppStoreAdminControllerCategories extends TppStoreAbstractBase {
+class TppStoreAdminControllerCategories extends TppStoreAbstractAdminBase {
 
     public static function renderCategories()
     {
@@ -98,6 +98,50 @@ class TppStoreAdminControllerCategories extends TppStoreAbstractBase {
 
         self::getInstance()->redirect($_POST['_wp_http_referer']);
 
+    }
+
+    public function saveFavouriteProducts()
+    {
+        $nonce = filter_input(INPUT_POST, 'category_nonce', FILTER_SANITIZE_STRING);
+
+        if (!wp_verify_nonce($nonce, 'save_category')) {
+            throw new Exception('You are not authorised to make this change to a category');
+        }
+
+        $categories = $this->getAdminCategoriesModel();
+
+        if (true === $categories->readFromPost()) {
+            if (true === $categories->save()) {
+                TppStoreMessages::getInstance()->addMessage('message', 'Saved');
+            } else {
+                TppStoreMessages::getInstance()->addMessage('error', 'Not Saved');
+            }
+        } else {
+            TppStoreMessages::getInstance()->addMessage('error', 'Not Saved');
+        }
+
+
+        TppStoreMessages::getInstance()->saveToSession();
+        $this->redirect($_POST['_wp_http_referer']);
+
+    }
+
+    public function renderCategoryFavourites()
+    {
+        $categories = $this->getAdminCategoriesModel();
+
+        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+
+
+        $categories->setData(array(
+            'category_id'   =>  $id
+        ));
+
+        $products = $categories->getFavouriteProducts();
+
+        wp_enqueue_script('jquery-ui-sortable');
+
+        include TPP_STORE_PLUGIN_DIR . 'admin/views/categories/favourite_products.php';
     }
 
 }

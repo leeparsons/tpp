@@ -38,6 +38,8 @@ class TppStoreControllerCategory extends TppStoreAbstractBase {
 
         if ($slug !== '') {
 
+
+            $parent_slug = '';
             $tmp = explode('/', $slug);
 
             $level = count($tmp);
@@ -49,6 +51,9 @@ class TppStoreControllerCategory extends TppStoreAbstractBase {
             }
 
             if (false !== strpos($slug, '/')) {
+
+                $parent_slug = substr($slug, 0, strrpos($slug, '/'));
+
                 $slug = substr($slug, strrpos($slug, '/') + 1);
             }
 
@@ -61,7 +66,7 @@ class TppStoreControllerCategory extends TppStoreAbstractBase {
 
 
 
-                    $this->renderCategoryPage($slug, $level);
+                    $this->renderCategoryPage($slug, $level, $parent_slug);
                     break;
 
                 default:
@@ -89,12 +94,14 @@ class TppStoreControllerCategory extends TppStoreAbstractBase {
     }
 
 
-    private function renderCategoryPage($slug = '', $level = 1)
+    private function renderCategoryPage($slug = '', $level = 1, $parent_slug = '')
     {
 
         $category = $this->getCategoryModel();
 
-        $category->getCategoryBySlug($slug, $level);
+
+
+        $category->getCategoryBySlug($slug, $level, $parent_slug);
 
         if (intval($category->category_id) <= 0) {
 
@@ -111,11 +118,9 @@ class TppStoreControllerCategory extends TppStoreAbstractBase {
                 $page = 1;
             }
 
-            if (intval($page) > 0) {
-                $limit = intval($page)*20;
-            } else {
-                $limit = 20;
-            }
+
+            $limit = 20;
+
 
 
             $products = $category->getProducts(true, array(

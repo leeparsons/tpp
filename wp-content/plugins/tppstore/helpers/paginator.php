@@ -114,7 +114,7 @@ class TppStoreHelperPaginator {
 
         ob_start();
 
-        include TPP_STORE_PLUGIN_DIR . 'templates/paginator.php';
+        include TPP_STORE_PLUGIN_DIR . 'templates/paginator_admin.php';
 
         $contents = ob_get_contents();
 

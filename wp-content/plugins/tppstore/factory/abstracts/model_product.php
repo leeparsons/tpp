@@ -22,6 +22,7 @@ class TppStoreAbstractModelBaseProduct extends TppStoreModelCurrency {
     public $product_type_text = null;
     public $unlimited = null;
     public $price_includes_tax = null;
+    public $published_date = null;
 
     protected $_product_download_model = null;
     protected $_p2c_model = null;
@@ -94,6 +95,57 @@ class TppStoreAbstractModelBaseProduct extends TppStoreModelCurrency {
 //        }
 //    }
 
+    public function getTypeStringSlug()
+    {
+        switch (intval($this->product_type)) {
+            case 1:
+                return 'download';
+                break;
+
+            case 2:
+                return 'service';
+                break;
+
+            case 4:
+                return 'mentor-session';
+                break;
+
+            case 5:
+                return 'event-workshop';
+                break;
+
+            default:
+                //case 3
+                return 'product';
+                break;
+        }
+    }
+
+    public function getTypeString()
+    {
+        switch (intval($this->product_type)) {
+            case 1:
+                return 'download';
+                break;
+
+            case 2:
+                return 'service';
+                break;
+
+            case 4:
+                return 'mentor session';
+                break;
+
+            case 5:
+                return 'event/ workshop';
+                break;
+
+            default:
+                //case 3
+                return 'product';
+                break;
+        }
+    }
 
     public function getMentor()
     {
@@ -241,12 +293,17 @@ class TppStoreAbstractModelBaseProduct extends TppStoreModelCurrency {
         }
     }
 
-    public function getPermalink()
+    public function getPermalink($auto_load = false)
     {
         if (intval($this->product_id) > 0) {
 
-            //get store from object cache
-            $store = TppStoreModelStores::getInstance($this->store_id);
+
+            if (intval($this->getStore()->store_id) == 0) {
+                //get store from object cache
+                $store = TppStoreModelStores::getInstance($this->store_id);
+            } else {
+                $store = $this->getStore($auto_load);
+            }
 
             $url = get_bloginfo('url');
 
@@ -309,6 +366,18 @@ class TppStoreAbstractModelBaseProduct extends TppStoreModelCurrency {
         return $this->_product_download_model->getDownloadUrl($encrypted, $product_edit);
 
     }
+
+    public function downloadExists()
+    {
+        if (is_null($this->_product_download_model->product_id)) {
+            $this->_product_download_model->setData(array(
+                'product_id'    =>  $this->product_id,
+                'file'          =>  $this->product_type_text
+            ));
+        }
+        return $this->_product_download_model->downloadExists();
+    }
+
 
     public function getProductById($enabled = 'all', $type = 0)
     {

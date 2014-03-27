@@ -41,7 +41,7 @@
     height:250px;
     width:100px;
     margin:auto;
-    background:url(../../../../../../themes/tpp_take_2/assets/images/upload-icon.png) no-repeat center center;
+    background:url(../../../../../../themes/tpp_take_2/assets/images/upload-icon.png) no-repeat center 10px;
 }
 
 #product_form {
@@ -84,7 +84,7 @@
     height:250px;
     width:250px;
     .handle {
-        cursor:default;
+        display:none;
     }
     width:250px;
     .drop-wrap {
@@ -96,6 +96,7 @@
         img {
             max-height:250px;
             max-width:250px;
+            margin:auto;
         }
     }
 }
@@ -112,6 +113,7 @@
 #dropbox {
 
     .delete-icon {
+        z-index: 200;
         position:absolute;
         right:0;
         top:0;
@@ -134,9 +136,9 @@
     }
 }
 #dropbox .preview img {
-    margin:auto;
+    margin:20px auto 10px;
 	max-width: 90%;
-	max-height:100px;
+	max-height:80px;
 	border:3px solid #fff;
 	display: block;
 	box-shadow:0 0 2px #000;

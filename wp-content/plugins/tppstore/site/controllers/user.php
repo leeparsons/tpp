@@ -14,13 +14,13 @@ class TppStoreControllerUser extends TppStoreAbstractBase {
     {
 
 
-        add_rewrite_rule('shop/store_login/fb', 'index.php?pagename=tpp_login_fb&args=$matches[1]', 'top');
+        add_rewrite_rule('shop/store_login/fb', 'index.php?tpp_pagename=tpp_login_fb&args=$matches[1]', 'top');
 
 
-        add_rewrite_rule('shop/store_login/?', 'index.php?pagename=tpp_login&args=$matches[1]', 'top');
-        add_rewrite_rule('shop/store_logout/?', 'index.php?pagename=tpp_logout&args=$matches[1]', 'top');
+        add_rewrite_rule('shop/store_login/?', 'index.php?tpp_pagename=tpp_login&args=$matches[1]', 'top');
+        add_rewrite_rule('shop/store_logout/?', 'index.php?tpp_pagename=tpp_logout&args=$matches[1]', 'top');
 
-        add_rewrite_rule('shop/password_reset/?', 'index.php?pagename=tpp_password_reset', 'top');
+        add_rewrite_rule('shop/password_reset/?', 'index.php?tpp_pagename=tpp_password_reset', 'top');
 
 
 
@@ -38,7 +38,7 @@ class TppStoreControllerUser extends TppStoreAbstractBase {
     public function templateRedirect()
     {
 
-        $pagename = get_query_var('name');
+        $pagename = get_query_var('tpp_pagename');
         $args = get_query_var('args');
 
         switch (strtolower($pagename)) {
@@ -110,8 +110,6 @@ class TppStoreControllerUser extends TppStoreAbstractBase {
 
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-                $redirect = filter_input(INPUT_POST, 'redirect', FILTER_SANITIZE_STRING);
-
                 $user = $this->getUserModel();
 
                 $user->setData(array(
@@ -168,11 +166,7 @@ class TppStoreControllerUser extends TppStoreAbstractBase {
      */
     public function loadUserFromSession()
     {
-        if (!session_id()) {
-            ob_start();
-            session_start();
-            ob_end_clean();
-        }
+        $this->startSession();
 
         if (empty($_SESSION['tpp_store_user'])) {
             return false;

@@ -108,9 +108,12 @@ Abstract class TppStorePaypalBase {
 
         $this->commission_rate = $store->commission;
 
+$this->discount = 0;
+        foreach ($cart['stores'][$store_id]['products'] as $product) {
+            $this->discount +=  $product->formatAmount($product->order_quantity * $product->discount, false);
+        }
 
-
-        $this->discount = $cart['stores'][$store_id]['discount'];
+        //$this->discount = $cart['stores'][$store_id]['discount'];
 
         $this->tax = $cart['stores'][$store_id]['tax'];
 

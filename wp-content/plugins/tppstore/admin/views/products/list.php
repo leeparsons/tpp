@@ -12,12 +12,24 @@ $paginator = new TppStoreHelperPaginator();
 
 $paginator->total_results = $total;
 
-
+?>
+    <div class="wrap">
+        <form method="get" action="<?php echo admin_url('admin.php?page=tpp-store-products') ?>">
+            <input type="hidden" name="page" value="tpp-store-products">
+            <label>Search Products:&nbsp;&nbsp;</label> <input type="text" name="s" value="<?php echo filter_input(INPUT_GET, 's', FILTER_SANITIZE_STRING) ?>">
+            <input type="submit" value="Search" class="button-primary">
+        </form>
+    </div>
+<?php
 if (count($products) > 0): ?>
+
+
 
     <div class="wrap">
     <?php echo $paginator->renderAdmin(); ?>
     </div>
+
+
     <table class="wp-list-table">
         <thead>
         <tr>
@@ -82,4 +94,6 @@ if (count($products) > 0): ?>
         <?php endforeach; ?>
         </tbody>
     </table>
+<?php else: ?>
+    <p>No Products to show</p>
 <?php endif; ?>

@@ -100,7 +100,7 @@ class TppStoreControllerMessages extends TppStoreAbstractBase {
         }
 
         if (trim($response) == '') {
-            wp_enqueue_style('dashboard', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/dashboard.css');
+            wp_enqueue_style('dashboard', TPP_STORE_PLUGIN_URL . '/site/assets/css/dashboard/dashboard.css', array(), '1');
             TppStoreMessages::getInstance()->addMessage('error', 'You are not authorised to complete this action');
             include TPP_STORE_PLUGIN_DIR . 'site/views/account/messages/default.php';
             exit;

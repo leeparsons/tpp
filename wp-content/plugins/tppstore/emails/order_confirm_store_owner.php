@@ -21,8 +21,8 @@
         <tr>
             <th style="text-align: left"><p style="color:#777777;">Item</p></th>
             <th style="text-align: left"><p style="color:#777777;">Price</p></th>
-            <th style="text-align: left"><p style="color:#777777;">Discount</p></th>
             <th style="text-align: left"><p style="color:#777777;">Quantity</p></th>
+            <th style="text-align: left"><p style="color:#777777;">Discount</p></th>
             <th style="text-align: left"><p style="color:#777777;">Tax</p></th>
             <th style="text-align: left"><p style="color:#777777;">Line Total</p></th>
         </tr>
@@ -35,15 +35,23 @@
             ?>
         <tr>
             <th style="text-align: left"><p style="color:#777777;"><a href="<?php echo $product->getPermalink(true) ?>"><?php echo $product->product_title ?></a></p></th>
-            <th style="text-align: left"><p style="color:#777777;"><?php echo $cur .  $product->getFormattedPriceWithoutTax(false, false) ?></p></th>
-            <th style="text-align: left"><p style="color:#777777;"><?php echo $cur . $product->formatAmount($product->discount, false, false) ?></p></th>
+            <th style="text-align: left"><p style="color:#777777;"><?php echo $cur .  $product->getFormattedPrice(false, false) ?></p></th>
             <th style="text-align: left"><p style="color:#777777;"><?php echo $product->order_quantity ?></p></th>
-            <th style="text-align: left"><p style="color:#777777;"><?php echo $product->getFormattedTax() ?></p></th>
+            <th style="text-align: left"><p style="color:#777777;"><?php echo $cur . $product->formatAmount($product->discount, false) ?></p></th>
+            <th style="text-align: left"><p style="color:#777777;"><?php echo $cur . $product->getFormattedTax() ?></p></th>
             <th style="text-align: left"><p style="color:#777777;"><?php echo $cur . $product->formatAmount($product->line_total, false, false) ?></p></th>
         </tr>
         <?php endforeach; ?>
+        <tr>
+            <td style="text-align: right;"><p style="color:#777777">Total Tax: <?php echo $cur . $order->tax ?></p></td>
+        </tr>
+        <tr>
+        <td style="text-align: right;"><p style="color:#777777">Total Amount: <?php echo $cur . $order->total ?></p></td>
+    </tr>
     </tbody>
 </table>
+
+
 
 <table>
     <thead>

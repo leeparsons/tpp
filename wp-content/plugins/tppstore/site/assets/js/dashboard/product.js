@@ -893,4 +893,18 @@ jQuery(function($) {
     }
 
 
+        $('[name="download_location"]').on('change', function() {
+            if ($(this).is(':checked')) {
+                var v = $(this).val();
+                if (v == 1) {
+                    $('#withus').hide();
+                    $('#elsewhere').show();
+                } else {
+                    $('#withus').show();
+                    $('#elsewhere').hide();
+                }
+            }
+        });
+
+
     });

@@ -9,7 +9,6 @@ if (!class_exists('TppStoreAbstractInstantiable')) {
     include TPP_STORE_PLUGIN_DIR . 'factory/abstracts/instantiable.php';
 }
 
-
 Abstract class TppStoreAbstractBase extends TppStoreAbstractInstantiable {
 
     public static $_meta_description= '';
@@ -112,6 +111,11 @@ Abstract class TppStoreAbstractBase extends TppStoreAbstractInstantiable {
     public function getProductImagesModel()
     {
         return new TppStoreModelProductImages();
+    }
+
+    public function getEmailSignupModel()
+    {
+        return new TppStoreModelEmailSignup();
     }
 
     public function getProductModel()
@@ -266,9 +270,23 @@ Abstract class TppStoreAbstractBase extends TppStoreAbstractInstantiable {
     {
 
         if (stripos($name, 'get') !== false && stripos($name, 'model') !== false) {
-            $model = 'TppStoreModel' . substr(substr($name, 3), 0, stripos($name, 'model') - 3);
+            $part = substr(substr($name, 3), 0, stripos($name, 'model') - 3);
+            $model = 'TppStoreModel' . $part;
             if (class_exists($model)) {
                 return new $model($arguments);
+            } else {
+                //TODO: try to locate this file?
+
+                if (substr($part, 0, 5) == 'Admin') {
+                    //locate this file in the admin!
+
+                    $file = strtolower(substr($part, 5));
+
+                    if (file_exists(TPP_STORE_PLUGIN_DIR . 'admin/models/' . $file . '.php')) {
+                        include TPP_STORE_PLUGIN_DIR . 'admin/models/' . $file . '.php';
+                        return new $model($arguments);
+                    }
+                }
             }
         }
 
@@ -360,7 +378,10 @@ Abstract class TppStoreAbstractBase extends TppStoreAbstractInstantiable {
 
     protected function sendMail($to, $subject, $message)
     {
-        if (getenv('ENVIRONMENT') == 'local') {
+
+
+
+        if (getenv('ENVIRONMENT') == 'local' || strtolower($_SERVER['HTTP_HOST']) == 'dev.thephotographyparlour.com') {
             $to = 'parsolee@gmail.com';
 
         }

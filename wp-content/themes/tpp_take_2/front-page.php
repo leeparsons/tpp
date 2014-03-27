@@ -6,37 +6,86 @@
 get_header();
 
 
-    $cacher = new TppCacher();
-    $cacher->setCachePath('homepage/products/top/' . strtolower(geo::getInstance()->getCurrency()));
-    $cacher->setCacheName('top_products');
+$cacher = new TppCacher();
 
-    if (false === ($html = $cacher->readCache(-1))): ?>
-        <?php
-        ob_start();
-        $products = TppStoreControllerProduct::getInstance()->getTopProducts(); ?>
-        <?php if (count($products) > 0): ?>
-            <header id="highlighted-products">
-                <h2 class="featured">Our Top Picks</h2>
-            </header>
-            <section class="wrap">
-            <ul class="item-list">
-                <?php $i = 1; ?>
-                <?php foreach ($products as $product): ?>
-                    <li class="item-box<?php echo $i%4?'':' last' ?>">
-                        <a href="<?php echo $product->getPermalink() ?>">
-                            <?php echo $product->getProductImage()->getSrc('thumb', true) ?>
-                            <span class="strong"><?php echo $product->getShortTitle() ?></span>
-                            <span class="price"><?php echo $product->getFormattedPrice(true) ?></span>
-                        </a>
-                        <a class="store-tag" href="<?php echo $product->getStore()->getPermalink(); ?>"><?php echo $product->getStore()->store_name ?></a>
-                        <?php $i++; ?>
-                    </li>
-                <?php endforeach; flush(); ?>
-            </ul>
-        <?php endif; ?>
+$cacher->setCachePath('latest/products/' . strtolower(geo::getInstance()->getCurrency()));
+$cacher->setCacheName('products');
+
+if (false === ($html = $cacher->readCache(-1))) {
+    ob_start();
+
+    $products = TppStoreControllerProduct::getInstance()->getLatestProducts();
+
+    if (count($products) > 0): ?>
+
+
+        <header id="highlighted-products">
+            <h2 class="featured">Recently Listed Items</h2>
+        </header>
+        <section class="wrap">
+        <ul class="item-list">
+            <?php $i = 1; ?>
+            <?php foreach ($products as $product): ?>
+                <li class="item-box<?php echo $i%4?'':' last' ?>">
+                    <a href="<?php echo $product->getPermalink() ?>">
+                        <?php echo $product->getProductImage()->getSrc('thumb', true) ?>
+                        <?php include TPP_STORE_PLUGIN_DIR . 'site/views/product/item_box/type_band.php'; ?>
+                        <span class="strong"><?php echo $product->getShortTitle() ?></span>
+                        <span class="price"><?php echo $product->getFormattedPrice(true) ?></span>
+                    </a>
+                    <a class="store-tag" href="<?php echo $product->getStore()->getPermalink(); ?>"><?php echo $product->getStore()->store_name ?></a>
+                    <?php $i++; ?>
+                </li>
+            <?php endforeach; flush(); ?>
+        </ul>
+    <?php endif;
+
+    unset($products);
+    unset($product);
+
+    $html = ob_get_contents();
+
+    $cacher->saveCache($html);
+
+    ob_end_clean();
+}
+echo $html;
+
+unset($html);
+
+flush();
+
+$cacher->setCachePath('favourites/homepage/' . strtolower(geo::getInstance()->getCurrency()));
+$cacher->setCacheName('top_products');
+
+if (false === ($html = $cacher->readCache(-1))): ?>
     <?php
-        unset($products);
-        unset($product);
+    ob_start();
+    $products = TppStoreControllerProduct::getInstance()->getTopProducts(); ?>
+    <?php if (count($products) > 0): ?>
+    <header id="highlighted-products">
+        <h2 class="featured">Our Top Picks</h2>
+    </header>
+    <section class="wrap">
+    <ul class="item-list">
+        <?php $i = 1; ?>
+        <?php foreach ($products as $product): ?>
+            <li class="item-box<?php echo $i%4?'':' last' ?>">
+                <a href="<?php echo $product->getPermalink() ?>">
+                    <?php echo $product->getProductImage()->getSrc('thumb', true) ?>
+                    <?php include TPP_STORE_PLUGIN_DIR . 'site/views/product/item_box/type_band.php'; ?>
+                    <span class="strong"><?php echo $product->getShortTitle() ?></span>
+                    <span class="price"><?php echo $product->getFormattedPrice(true) ?></span>
+                </a>
+                <a class="store-tag" href="<?php echo $product->getStore()->getPermalink(); ?>"><?php echo $product->getStore()->store_name ?></a>
+                <?php $i++; ?>
+            </li>
+        <?php endforeach; flush(); ?>
+    </ul>
+    <?php endif; ?>
+    <?php
+    unset($products);
+    unset($product);
 
     $html = ob_get_contents();
 
@@ -45,61 +94,61 @@ get_header();
     ob_end_clean();
 
 
-    endif;
+endif;
 
-    echo $html;
+echo $html;
 
-    unset($html);
+unset($html);
 
 flush();
 
-    $cacher->setCachePath('homepage/categories/featured/');
-    $cacher->setCacheName('categories');
+$cacher->setCachePath('homepage/categories/featured/');
+$cacher->setCacheName('categories');
 
-    if (false === ($html = $cacher->readCache(-1))):
+if (false === ($html = $cacher->readCache(-1))):
 
-        ob_start();
+    ob_start();
 
 
-        $categories = TppStoreControllerCategory::getInstance()->getFeaturedCategories();
+    $categories = TppStoreControllerCategory::getInstance()->getFeaturedCategories();
 
-        if (count($categories) > 0): ?>
+    if (count($categories) > 0): ?>
         </section>
         </div>
 
         <div class="wrap wrapspacer wrap-grey">
-    <header>
-        <h2 class="featured">Featured Categories</h2>
-    </header>
-    <ul id="featured_categories" class="item-list">
-        <?php $i = 1; ?>
-        <?php foreach ($categories as $category): ?>
-            <li class="item-box<?php echo $i%4?'':' last' ?>">
-                <a href="<?php echo $category->getPermalink(); ?>">
-                    <img src="<?php echo $category->getImageSrc() ?>" alt="<?php echo $category-category_name ?>">
-                    <strong><?php echo $category->category_name; ?></strong>
-                    <span><?php echo $category->product_count ?> product<?php echo $category->product_count == 1?'':'s' ?></span>
-                </a>
-            </li>
-            <?php $i++ ?>
-        <?php endforeach; ?>
-    </ul>
+            <header>
+                <h2 class="featured">Featured Categories</h2>
+            </header>
+            <ul id="featured_categories" class="item-list">
+                <?php $i = 1; ?>
+                <?php foreach ($categories as $category): ?>
+                    <li class="item-box<?php echo $i%4?'':' last' ?>">
+                        <a href="<?php echo $category->getPermalink(); ?>">
+                            <img src="<?php echo $category->getImageSrc() ?>" alt="<?php echo $category-category_name ?>">
+                            <strong><?php echo $category->category_name; ?></strong>
+                            <span><?php echo $category->product_count ?> product<?php echo $category->product_count == 1?'':'s' ?></span>
+                        </a>
+                    </li>
+                    <?php $i++ ?>
+                <?php endforeach; ?>
+            </ul>
             </section>
         </div>
-<?php
-            endif;
-        unset($categories);
+    <?php
+    endif;
+    unset($categories);
 
-        unset($category);
+    unset($category);
     $html = ob_get_contents();
 
-        $cacher->saveCache($html);
+    $cacher->saveCache($html);
 
     ob_end_clean();
 
 
 
-    endif; //end cache
+endif; //end cache
 
 echo $html;
 

@@ -313,8 +313,10 @@ function FlashOptions() {
 
 
 function HDFLV_head() {
-	global $site_url;
-	echo '<script type="text/javascript" src="' . $site_url . '/wp-content/plugins/'.dirname( plugin_basename(__FILE__) ).'/swfobject.js"></script>' . "\n";
+    if (!is_home() && is_single() && !tpp_on_shop()) {
+        global $site_url;
+        echo '<script type="text/javascript" src="' . $site_url . '/wp-content/plugins/'.dirname( plugin_basename(__FILE__) ).'/swfobject.js"></script>' . "\n";
+    }
 }
 
 add_action('wp_head', 'HDFLV_head');

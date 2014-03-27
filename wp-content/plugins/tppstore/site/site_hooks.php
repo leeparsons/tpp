@@ -42,7 +42,7 @@ add_action('init', function() {
 
     add_rewrite_rule('shop/exchange-rates/?', 'index.php?tpp_pagename=tpp-generate-exchange-rates', 'top');
 
-    //uncomment this every time something news is added in
+    //uncomment this every time something new is added in
     flush_rewrite_rules(true);
 
 
@@ -109,7 +109,7 @@ include get_template_directory() . '/classes/ip2location/locator.php';
 
 function tpp_geo_locate() {
 
-    $testing = getenv('ENVIRONMENT') == 'local';
+    $testing = getenv('ENVIRONMENT') == 'local' || strtolower($_SERVER['HTTP_HOST']) == 'dev.thephotographyparlour.com';
         if (geo::getInstance()->code === false) {
 
 

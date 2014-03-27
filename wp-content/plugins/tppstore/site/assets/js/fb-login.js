@@ -23,7 +23,7 @@ var fbLogin = {
 
         fbLogin.getInitLoginStatus();
 
-        jQuery('.fb-login-button-a, .btn-facebook').live('click', function(e) {
+        jQuery('.fb-login-button-a, .btn-facebook').click(function(e) {
                 e.preventDefault();
                 fbLogin.discover = false;
                 fbLogin.getFBLoginStatus(true, false);
