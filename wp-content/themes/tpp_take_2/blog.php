@@ -3,9 +3,7 @@
  * Template Name: blog
  */
 
-get_header('shop-category');
-
-
+get_header('blog');
 
 query_posts(array(
     'posts_per_page'    =>  10,

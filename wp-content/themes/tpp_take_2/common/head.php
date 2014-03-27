@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="/assets/css/style.css?v=2.5">
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css?v=2.6">
     <?php if (wp_is_mobile() && !tpp_is_tablet()): ?>
         <link rel="stylesheet" type="text/css" href="/assets/css/mobile.css?v=2.1">
     <?php elseif (tpp_is_ipad()): ?>
@@ -43,6 +43,7 @@
 </head>
 <body>
 <div class="wrap">
+    <?php get_template_part('common/top_bar') ?>
     <header class="head">
 
         <hgroup class="head-title">
