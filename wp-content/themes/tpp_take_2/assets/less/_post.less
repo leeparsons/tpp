@@ -1,8 +1,8 @@
 @import url("//fonts.googleapis.com/css?family=Oswald:400,300,700");
 
-body {
+//body {
 //    font-family:"Helvetica Neue", Helvetica, Arial;
-}
+//}
 .blog-top {
     background: #454545;
     height:50px;
@@ -11,6 +11,7 @@ body {
         height:50px;
     }
     ul {
+        padding: 0;
         margin:0;
         list-style-type: none;
         height:50px;
@@ -22,6 +23,9 @@ body {
     }
     li {
         margin-right:10px;
+        &:last-child {
+            margin-right:0;
+        }
         span {
             height:50px;
             border-right:1px solid #a8a8a8;
