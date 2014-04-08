@@ -451,7 +451,9 @@ class TppStoreModelOrder extends TppStoreModelCurrency {
         }
 
         if (!is_null($this->exchange_rates)) {
-            $this->serializeExchangeRates();
+            //$this->serializeExchangeRates();
+        } else {
+            $this->exchange_rates = 1;
         }
 
         return !$error;

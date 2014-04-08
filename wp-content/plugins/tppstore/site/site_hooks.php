@@ -114,7 +114,7 @@ function tpp_geo_locate() {
 
 
             $test_ip = '31.185.167.16';//uk
-            //$test_ip = '196.255.255.255';//us
+            $test_ip = '196.255.255.255';//us
 
 
 //            include get_template_directory() . '/classes/geoip/geoip.inc';

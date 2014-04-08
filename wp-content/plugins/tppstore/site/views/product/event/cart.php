@@ -19,7 +19,7 @@
             <a href="<?php echo $store->getPermalink() ?>"><span>hosted by: <span class="author"><?php echo $store->store_name ?></span></span></a>
         </div>
 
-        <?php if (intval($product->unlimited) == 1 || $product->quantity_available > 0): ?>
+        <?php if (intval($product->unlimited) == 1 || $product->quantity_available > 0 && false !== filter_var($store->paypal_email, FILTER_VALIDATE_EMAIL)): ?>
             <div class="form-group">
                 <p><strong><?php echo $product->getFormattedPrice(true) ?></strong></p>
             </div>

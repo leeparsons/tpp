@@ -1,5 +1,7 @@
 @media(max-width:700px) {
 
+
+
     .head {
         height:470px;
         padding:20px 0 0 0;
@@ -96,7 +98,6 @@
     }
 
 
-
 //    .main-menu-toggle {
 //        background:@mainColour;
 //        height:55px;
@@ -145,9 +146,22 @@
 
 
 
+    .main-menu-toggle {
+        background:@mainColour;
+        height:55px;
+        float:left;
+        width:100%;
+        display:block;
+        color:#FFFFFF;
+        padding-left:20px;
+        line-height:55px;
+        cursor:pointer;
+    }
+
     .main-menu {
         background:@mainColour;
-        height:auto;
+        height:0;
+        overflow:hidden;
         width:100%;
         float:left;
         transition:height 0.25s swing 0.25s;

@@ -9,7 +9,7 @@
     (function(d, t) {
         var g = d.createElement(t),
             s = d.getElementsByTagName(t)[0];
-        g.src = '/assets/js/script.min.js';
+        g.src = '/assets/js/script.min.js?v=0.2';
         g.async = true;
         g.defer = 'defer';
         s.parentNode.insertBefore(g, s);

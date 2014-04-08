@@ -543,61 +543,7 @@ class TppStoreModelProducts extends TppStoreAbstractModelResource {
     }
 
 
-    /*
-     * Used in the admin area only
-     */
-    public function getProducts($page = 1, $count = false)
-    {
 
-        $where = "";
-
-        if ('' != ($s = filter_input(INPUT_GET, 's', FILTER_SANITIZE_STRING))) {
-            $s = esc_sql($s);
-
-            $where = " WHERE product_title LIKE '%" . $s . "%' ";
-
-        } else {
-            $s = false;
-        }
-
-        if ($count === true) {
-            global $wpdb;
-
-            $c = $wpdb->get_var(
-                "SELECT COUNT(product_id) AS c FROM " . $this->getTable() . "  " . $where
-            );
-            return $c;
-        }
-
-        if (intval($page) < 1) {
-            $page = 1;
-        }
-
-        $start = ($page - 1) * 20;
-
-        global $wpdb;
-
-        $wpdb->query(
-            "SELECT * FROM " . $this->getTable() . "
-            $where
-            ORDER BY product_title
-            LIMIT $start,20
-
-            "
-        );
-
-        $return = array();
-
-        if ($wpdb->num_rows > 0) {
-            foreach ($wpdb->last_result as $row) {
-                $return[$row->product_id] = new TppStoreModelProduct();
-                $return[$row->product_id]->setData($row);
-            }
-        }
-
-        return $return;
-
-    }
 
 
 

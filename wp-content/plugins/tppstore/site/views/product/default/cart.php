@@ -10,7 +10,7 @@
 
         <?php $product_options = $product->getOptions(); ?>
 
-        <?php if (intval($product->unlimited) == 1 || $product->quantity_available > 0): ?>
+        <?php if ((intval($product->unlimited) == 1 || $product->quantity_available > 0) && false !== filter_var($store->paypal_email, FILTER_VALIDATE_EMAIL)): ?>
             <div class="form-group">
                 <?php if (false !== $product_options): ?>
                     <select name="product_option">

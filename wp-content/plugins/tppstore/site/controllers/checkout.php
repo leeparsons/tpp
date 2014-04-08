@@ -32,8 +32,8 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
         }
 
 
-//        include TPP_STORE_PLUGIN_DIR . 'adapters/paypal/paypal.php';
-//        $this->gateway = new TppStoreAdapterPaypal();
+       // include TPP_STORE_PLUGIN_DIR . 'adapters/paypal/paypal.php';
+       // $this->gateway = new TppStoreAdapterPaypal();
     }
 
     public function applyRewriteRules()
@@ -191,8 +191,19 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
             $gateway2->generateExchangeRates();
             $conversion_rates = TppCacher::getInstance()->readCache();
+
+            if (is_serialized($conversion_rates)) {
+                $conversion_rates = unserialize($conversion_rates);
+            }
+
+            if (is_array($conversion_rates) && isset($conversion_rates[$this->gateway->currency])) {
+                $conversion_rates = $conversion_rates[$this->gateway->currency];
+            } else {
+                $conversion_rates = 1;
+            }
+
         } else {
-            $conversion_rates = NULL;
+            $conversion_rates = 1;
         }
 
         $order = TppStoreModelOrder::getInstance()->setData(array(

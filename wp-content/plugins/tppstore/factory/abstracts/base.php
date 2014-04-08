@@ -245,9 +245,7 @@ Abstract class TppStoreAbstractBase extends TppStoreAbstractInstantiable {
     public function redirect($path = '/', $add_trailing_slash = true)
     {
 
-
-
-        if ($add_trailing_slash === true && $path !== '' && strpos($path, '?') !== false) {
+        if ($add_trailing_slash === true && $path !== '' && strpos($path, '?') === false) {
             if (substr($path, -1) !== '/') {
                 $path .= '/';
             }
@@ -283,7 +281,7 @@ Abstract class TppStoreAbstractBase extends TppStoreAbstractInstantiable {
                     $file = strtolower(substr($part, 5));
 
                     if (file_exists(TPP_STORE_PLUGIN_DIR . 'admin/models/' . $file . '.php')) {
-                        include TPP_STORE_PLUGIN_DIR . 'admin/models/' . $file . '.php';
+                        include_once TPP_STORE_PLUGIN_DIR . 'admin/models/' . $file . '.php';
                         return new $model($arguments);
                     }
                 }

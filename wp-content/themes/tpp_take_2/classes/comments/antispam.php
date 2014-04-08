@@ -10,8 +10,8 @@ class TppAntiSpam extends TppStoreAbstractInstantiable {
 
     public static function init()
     {
-        add_filter('preprocess_comment', function() {
-            TppAntiSpam::getInstance()->preCommentPost();
+        add_filter('preprocess_comment', function($comment) {
+            TppAntiSpam::getInstance()->preCommentPost($comment);
             }, 1);
 
         add_action( 'comment_form_after_fields', function() {
@@ -44,6 +44,7 @@ class TppAntiSpam extends TppStoreAbstractInstantiable {
     public function preCommentPost($comment)
     {
 
+
         // skip the captcha if user is logged in and the settings allow
         if (is_user_logged_in()) {
             // skip the CAPTCHA display if the minimum capability is met
@@ -69,7 +70,7 @@ class TppAntiSpam extends TppStoreAbstractInstantiable {
             wp_die( "<strong>Sorry please fill out the captcha answer</strong>" );
         }
 
-        return($comment);
+        return $comment;
 
 
     }

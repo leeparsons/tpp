@@ -3,18 +3,18 @@
 <?php if (!wp_is_mobile() || tpp_is_tablet()): ?>
     <?php if (is_home() && get_query_var('tpp_pagename') == ''): ?>
     <div class="wrap">
-        <section class="header-slideshow" id="header_slideshow">
-            <ul>
-                <li><a href="/shop/taylor-barnes-photography/product/illuminated-masterclass-in-fine-art-photography-and-styling/" class="img" style="background-image:url(/assets/images/homepage/homepage-illuminated-masterclass.jpg)"></a></li>
-                <li style="display:none"><a href="/?sf=1&s=debs+ivelja" class="img" style="background-image:url(/assets/images/homepage/homepage-banner-debs-ivelja.jpg)"></a></li>
-                <li style="display:none"><a href="/shop/category/marketing/" class="img" style="display:none;background-image:url(/assets/images/homepage/homepage-banner-marketing.jpg)"></a></li>
-                <li style="display:none"><a href="/shop/category/mentors/" class="img" style="display:none;background-image:url(/assets/images/homepage/homepage-banner-mentors.jpg)"></a></li>
-                <?php /*
- <li><a href="/?sf=1&s=dasha+caffrey" class="img" style="display:none;background-image:url(/assets/images/homepage/homepage-banner-dasha-caffrey-3.jpg)"></a></li>
- */ ?>
-                <li style="display:none"><a href="/?sf=1&s=taylor%20barnes" class="img" style="display:none;background-image:url(/assets/images/homepage/homepage-banner-ashlee.jpg)"></a></li>
-            </ul>
-        </section>
+        <?php
+
+
+        if (!class_exists('TppStoreBannerHelper')) {
+            include TPP_STORE_PLUGIN_DIR . 'helpers/banners.php';
+        }
+        $banner_helper = new TppStoreBannersHelper();
+        $banner_helper->renderBanners();
+        unset($banner_helper);
+
+
+        ?>
     </div>
     <?php flush(); wp_enqueue_script('home_slides', '/assets/js/homeslideshow.min.js', array('jquery'), 1, true) ?>
     <div id="header_newsletter" class="wrap">

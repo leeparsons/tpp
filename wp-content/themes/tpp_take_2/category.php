@@ -17,7 +17,7 @@ if (false === ($content = TppCacher::getInstance()->readCache())):
     ob_start();
 
 if (have_posts()): ?>
-    <section class="aside-75 posts">
+    <section class="aside-60 posts">
         <?php while (have_posts()): the_post(); ?>
             <article class="post align-left">
                 <header><h3><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h3></header>

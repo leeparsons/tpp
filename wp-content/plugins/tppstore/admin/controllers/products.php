@@ -7,16 +7,16 @@
 
 class TppStoreAdminControllerProducts extends TppStoreAbstractAdminBase {
 
-    public static function renderProducts()
+    public function renderProducts()
     {
         wp_enqueue_style('tpp_style', TPP_STORE_PLUGIN_URL . '/admin/assets/css/style.css');
 
         $page = filter_input(INPUT_GET, 'paged', FILTER_SANITIZE_NUMBER_INT);
 
 
-        $products = self::getProductsModel()->getProducts($page);
+        $products = $this->getAdminProductsModel()->getProducts($page);
 
-        $total = self::getProductsModel()->getProducts(null, true);
+        $total = $this->getAdminProductsModel()->getProducts(null, true);
 
         include TPP_STORE_PLUGIN_DIR . 'admin/views/products/list.php';
     }

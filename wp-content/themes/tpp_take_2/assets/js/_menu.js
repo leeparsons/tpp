@@ -27,3 +27,19 @@ window.onload = function() {
     tppMenu.init();
 }
 
+window.onresize = function() {
+
+    if (document.getElementById('main_menu')) {
+        if (window.innerWidth * 1 > 700) {
+            tppMenu.open = true;
+            document.getElementById('main_menu').style.height = '55px';
+            document.getElementById('menu_toggle').style.display = 'none';
+        } else {
+            tppMenu.open = false;
+            document.getElementById('menu_toggle').style.display = 'block';
+            document.getElementById('menu_toggle').innerHTML = 'Expand menu';
+            document.getElementById('main_menu').style.height = '0px';
+        }
+    }
+}
+

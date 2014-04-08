@@ -12,12 +12,16 @@ add_action('admin_menu', function() {
     );
 
     add_submenu_page('tpp-store', 'Products', 'Products', 'edit_pages', 'tpp-store-products-menu',
-        array('TppStoreAdminControllerDefault', 'renderProductsMenu')
+        function() {
+            TppStoreAdminControllerDefault::getInstance()->renderProductsMenu();
+        }
     );
 
 
     add_submenu_page(NULL, NULL, NULL, 'edit_pages', 'tpp-store-products',
-        array('TppStoreAdminControllerProducts', 'renderProducts')
+        function() {
+            TppStoreAdminControllerProducts::getInstance()->renderProducts();
+        }
     );
 
     add_submenu_page(NULL, NULL, NULL, 'edit_pages', 'tpp-store-product',
@@ -67,6 +71,12 @@ add_action('admin_menu', function() {
         )
     );
 
+    add_submenu_page(NULL, NULL, NULL, 'edit_pages', 'tpp-store-loyalty-report',
+        function () {
+            TppStoreAdminControllerReports::getInstance()->renderLoyaltyReport();
+        }
+    );
+
     add_submenu_page('tpp-store-reports', 'Report', 'Report', 'edit_pages', 'tpp-store-report',
         array(
             'TppStoreAdminControllerReports',
@@ -75,10 +85,22 @@ add_action('admin_menu', function() {
     );
 
     add_submenu_page('tpp-store-best-sellers', 'Report', 'Report', 'edit_pages', 'tpp-store-best-sellers',
-        array(
-            'TppStoreAdminControllerReports',
-            'renderBestSellers'
-        )
+        function () {
+            TppStoreAdminControllerReports::getInstance()->renderBestSellers();
+        }
+    );
+
+
+    add_submenu_page(NULL, NULL, NULL, 'edit_pages', 'tpp-store-banners',
+        function() {
+            TppStoreAdminControllerDefault::getInstance()->renderBannerList();
+        }
+    );
+
+    add_submenu_page(NULL, NULL, NULL, 'edit_pages', 'tpp-store-banner',
+        function() {
+            TppStoreAdminControllerDefault::getInstance()->renderBannerForm();
+        }
     );
 });
 
@@ -92,6 +114,18 @@ add_action('admin_action_tpp_save_application', array(
         'TppStoreAdminControllerStore',
         'saveTppApplication',
     )
+);
+
+add_action('admin_action_tpp_save_banner', function() {
+        TppStoreAdminControllerDefault::getInstance()->saveBanner();
+    }
+);
+
+
+add_action(
+    'wp_ajax_tpp_save_banner_ordering', function() {
+        TppStoreAdminControllerDefault::getInstance()->saveBannerOrdering();
+    }
 );
 
 add_action(

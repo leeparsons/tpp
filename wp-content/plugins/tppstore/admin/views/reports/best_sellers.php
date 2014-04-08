@@ -64,6 +64,13 @@ if (count($products) > 0): ?>
                 <td>
                     <?php
 
+                   echo '&pound; ' . number_format($product->commission, 2);
+
+                    ?>
+                </td>
+                <td><?php echo '&pound; ' . number_format($product->total, 2) ?></td>
+                <td><?php
+
                     switch ($product->currency) {
                         case 'GBP':
                             $currency = '&pound;';
@@ -74,18 +81,6 @@ if (count($products) > 0): ?>
                     }
 
 
-
-
-
-                   echo $currency . ' ' . number_format($product->commission, 2);
-
-
-
-
-                    ?> <?php  ?>
-                </td>
-                <td><?php echo $currency . ' ' . number_format($product->total, 2) ?></td>
-                <td><?php
 
                     echo $currency . ' ' . number_format($product->alternate_currency_total, 2);
 
