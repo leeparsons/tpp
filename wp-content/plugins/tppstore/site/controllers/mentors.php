@@ -146,7 +146,7 @@ class TppStoreControllerMentors extends TppStoreAbstractBase {
             $cacher->setCacheName('mentor');
             unset($cur);
 
-            wp_enqueue_style('store', '/assets/css/store.css');
+            wp_enqueue_style('store', '/assets/css/store.css?v=1');
 
             if (false === ($html = $cacher->readCache(-1))) {
 
