@@ -19,7 +19,7 @@ if (false === ($html = $cacher->readCache(-1))) {
     if (count($products) > 0): ?>
 
 
-        <header id="highlighted-products">
+        <header id="highlighted-products" class="wrap">
             <h2 class="featured">Recently Listed Items</h2>
         </header>
         <section class="wrap">
@@ -63,7 +63,7 @@ if (false === ($html = $cacher->readCache(-1))): ?>
     ob_start();
     $products = TppStoreControllerProduct::getInstance()->getTopProducts(); ?>
     <?php if (count($products) > 0): ?>
-    <header id="highlighted-products">
+    <header id="highlighted-products" class="wrap">
         <h2 class="featured">Our Top Picks</h2>
     </header>
     <section class="wrap">
