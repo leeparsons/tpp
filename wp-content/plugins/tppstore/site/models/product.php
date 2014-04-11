@@ -21,6 +21,7 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
     protected $_table = 'shop_products';
 
 
+
     public function __construct()
     {
         parent::__construct();
@@ -338,8 +339,10 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
 
         if (intval($this->product_id) <= 0) {
 
+
             if (intval($this->enabled) == 1) {
                 $this->published_date = date('Y-m-d h:i:s');
+                $this->notify_live = true;
             } else {
                 $this->published_date = null;
             }
@@ -392,6 +395,7 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
 
             if (intval($this->enabled) == 1 && trim($this->published_date) == '' || $this->published_date == '0000-00-00 00:00:00') {
                 $this->published_date = date('Y-m-d h:i:s');
+                $this->notify_live = true;
             } elseif (intval($this->enabled) == 0) {
                 $this->published_date = null;
             }
@@ -600,7 +604,7 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
         //clean out the product cache!
         $this->clearCache();
 
-        return
+        $continue =
             $product_mentor_continue
             &&
             $product_images_continue
@@ -612,6 +616,13 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
             $product_options_continue
             &&
             $product_discounts_continue;
+
+        if ($continue === false) {
+            $this->notify_live = false;
+        }
+
+        return $continue;
+
     }
 
     public function clearCache()

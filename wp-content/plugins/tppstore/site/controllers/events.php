@@ -162,6 +162,10 @@ class TppStoreControllerEvents extends TppStoreAbstractBase {
                 if ($product->save()) {
 
 
+                    if ($store->enabled == 1 && $product->notify_live === true) {
+                        TppStoreControllerProduct::getInstance()->sendProductLiveNotification($product, $store);
+                    }
+
 
 //                            if ($preview == 1) {
 //

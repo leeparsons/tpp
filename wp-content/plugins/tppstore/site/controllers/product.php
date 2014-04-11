@@ -638,5 +638,16 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
         $_SESSION['tpp_product_upload_file'] = $file;
     }
 
+    public function sendProductLiveNotification($product, TppStoreModelStore $store)
+    {
+
+        ob_start();
+        include TPP_STORE_PLUGIN_DIR . 'emails/product/live_notification.php';
+        $message = ob_get_contents();
+        ob_end_clean();
+
+        $this->sendMail('rosie@thephotographyparlour.com', 'A new product has gone live: ' . $product->getTitle(), $message);
+
+    }
 
 }

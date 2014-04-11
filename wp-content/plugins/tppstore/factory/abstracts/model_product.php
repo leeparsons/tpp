@@ -24,6 +24,8 @@ class TppStoreAbstractModelBaseProduct extends TppStoreModelCurrency {
     public $price_includes_tax = null;
     public $published_date = null;
 
+    public $notify_live = false;
+
     protected $_product_download_model = null;
     protected $_p2c_model = null;
     protected $_product_options_model = null;
@@ -248,6 +250,10 @@ class TppStoreAbstractModelBaseProduct extends TppStoreModelCurrency {
 
             case 4:
                 return 'Mentor Session';
+                break;
+
+            case 5:
+                return 'Event/ Workshop';
                 break;
 
             default:

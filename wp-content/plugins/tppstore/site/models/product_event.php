@@ -250,7 +250,7 @@ class TppStoreModelEvent extends TppStoreModelProduct {
     private function generateMap()
     {
         if (trim($this->lat) != '' && trim($this->lng) != '' && (floatval($this->lng) > 0 || floatval($this->lng) < 0) && (floatval($this->lat) < 0 || floatval($this->lat) > 0)) {
-            if (false !== ($map = file_get_contents('http://maps.googleapis.com/maps/api/staticmap?size=500x400&sensor=false&center=' . $this->lat . ',' . $this->lng . '&zoom=12&markers=%7Clabel:Event%20Location%7C' . $this->lat . ',' . $this->lng))) {
+            if (false !== ($map = @file_get_contents('http://maps.googleapis.com/maps/api/staticmap?size=500x400&sensor=false&center=' . $this->lat . ',' . $this->lng . '&zoom=12&markers=%7Clabel:Event%20Location%7C' . $this->lat . ',' . $this->lng))) {
                 $dir = new TppStoreDirectoryLibrary();
 
                 $dir->setDirectory(WP_CONTENT_DIR . '/uploads/store/' . $this->store_id . '/' . $this->product_id . '/maps/');

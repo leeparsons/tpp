@@ -445,6 +445,9 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
                         if ($product->save()) {
 
 
+                            if (intval($store->enabled) == 1 && $product->notify_live === true) {
+                                TppStoreControllerProduct::getInstance()->sendProductLiveNotification($product, $store);
+                            }
 
 //                            if ($preview == 1) {
 //
@@ -458,6 +461,8 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
 //                                ));
 //                            } else {
                                 $this->deleteTempStorePathSession();
+
+
                                 if ($product->product_type == 4) {
                                     if ($product->enabled && $store->enabled) {
 
@@ -502,6 +507,9 @@ class TppStoreControllerDashboard extends TppStoreAbstractBase {
                                     'enabled'   =>  0
                                 ));
                             } else {
+
+
+
                                 TppStoreMessages::getInstance()->saveToSession();
 
                                 if ($product->product_type < 4) {
