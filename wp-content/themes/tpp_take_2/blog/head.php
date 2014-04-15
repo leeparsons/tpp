@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php get_temaplte_part('common/css') ?>
+    <?php get_template_part('common/css') ?>
+    <link href="/assets/css/blog.css" rel="stylesheet" type="text/css">
     <title><?php
 
             wp_title('');

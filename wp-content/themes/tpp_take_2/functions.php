@@ -30,7 +30,7 @@ add_image_size('slide_navi', 175, 175, true);
 add_image_size('featured_blog_post', 400, 300, true);
 add_image_size('size-full', 825, 620, true);
 add_image_size('store_related', 110, 110, true);
-
+add_image_size('blog_post_slide', 695, 340, true);
 register_nav_menu( 'footer_contact', 'Contact Us Footer Menu' );
 
 register_nav_menu( 'footer_pages', 'Pages Footer Menu' );
@@ -213,7 +213,11 @@ function tpp_limit_content($content = '', $len = 120, $more = '..')
     if ($content_len > $len) {
         $more_len = strlen($more);
         if ($content_len + $more_len > $len) {
-            return substr(strip_tags($content), 0, $len - $more_len) . $more;
+            $content = substr(strip_tags($content), 0, $len - $more_len);
+
+            return substr($content, 0, strrpos($content, ' '))
+
+            . $more;
         } else {
             return substr(strip_tags($content), 0, $len) . $more;
         }

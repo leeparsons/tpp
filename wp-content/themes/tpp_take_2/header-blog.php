@@ -1,4 +1,4 @@
-<?php get_template_part('common/head'); ?>
+<?php get_template_part('blog/head'); ?>
 <?php if (!wp_is_mobile() || tpp_is_tablet()): ?>
     <?php if (has_nav_menu('blog')): ?>
         <nav class="main-menu main-menu-blog">

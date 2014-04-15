@@ -3,3 +3,60 @@
 @import '_mixins.less';
 @import '_page.less';
 @import '_post.less';
+
+.blog-main {
+    width:695px;
+    margin-right:10px;
+}
+
+.post-slides {
+    position:relative;
+    height:340px;
+    width:100%;
+}
+
+.post-slide {
+    .transition(opacity, 0.5s);
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background: #000000;
+    img {
+        position: relative;
+        display: block;
+        margin:auto;
+        max-width: 100%;
+        z-index:2000;
+    }
+    .post-info {
+        z-index:2005;
+        position: absolute;
+        top:35%;
+        left:0;
+        right:0;
+        text-align: center;
+        h3 {
+            font-size:40px;
+            line-height: 35px;
+            padding-bottom:10px;
+        }
+        h3, p {
+            width:85%;
+            margin:auto;
+            display:block;
+            position:relative;
+        }
+        p, a {
+            color:#ffffff;
+            text-shadow: 1px 1px 1px #000;
+        }
+        .readmore {
+            border:1px solid #FFFFFF;
+            padding:10px;
+            margin-top:10px;
+            display: inline-block;
+        }
+    }
+}
