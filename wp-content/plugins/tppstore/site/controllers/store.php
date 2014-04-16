@@ -199,7 +199,7 @@ class TppStoreControllerStore extends TppStoreAbstractBase {
 
                     ob_end_clean();
 
-                    $this->sendMail($message->getReceiver(true)->email, 'You have received a private message on your account', $body);
+                    $this->sendMail($message->getReceiver(true)->email, 'You have received a private message from: ' . $message->getSender()->getName(), $body);
 
 
                     TppStoreMessages::getInstance()->addMessage('message', 'Your question has been submitted.');

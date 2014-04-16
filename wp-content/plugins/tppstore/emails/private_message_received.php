@@ -7,7 +7,7 @@
         <td style="text-align: left"><p style="color:#777777;">You have received a private message on The Photography Parlour from <?php echo $message->getSender(true)->first_name ?></p></td>
     </tr>
     <tr>
-        <td style="text-align: left"><p style="color:#777777;"><?php echo $message->getReceiver(true)->first_name ?> said:</p></td>
+        <td style="text-align: left"><p style="color:#777777;"><?php echo $message->getSender(true)->first_name ?> said:</p></td>
     </tr>
     <tr>
         <td style="text-align: left"><p style="color:#777777;"><?php echo $message->getHtmlMessage() ?></p></td>

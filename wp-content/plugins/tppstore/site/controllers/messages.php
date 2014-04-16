@@ -56,7 +56,7 @@ class TppStoreControllerMessages extends TppStoreAbstractBase {
 
             ob_end_clean();
 
-            $this->sendMail($message->getReceiver(true)->email, 'You have received a private message on your account', $body);
+            $this->sendMail($message->getReceiver(true)->email, 'You have received a private message from ' . $message->getSender()->getName(), $body);
 
         } else {
             TppStoreMessages::getInstance()->addMessage('message', 'Your message could not be sent.');
@@ -143,7 +143,7 @@ class TppStoreControllerMessages extends TppStoreAbstractBase {
 
             ob_end_clean();
 
-            $this->sendMail($message->getReceiver(true)->email, 'You have received a private message on your account', $body);
+            $this->sendMail($message->getReceiver(true)->email, 'You have received a private message from: ' . $message->getSender()->getName(), $body);
 
 
             TppStoreMessages::getInstance()->addMessage('message', 'Your response has been sent.');
