@@ -31,17 +31,10 @@
       <file leaf-file-name="blog.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="78" selection-start="759" selection-end="759" vertical-scroll-proportion="-0.14173229" vertical-offset="435" max-vertical-offset="1335">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_mixins.less" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/less/_mixins.less">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="1" selection-start="1570" selection-end="1570" vertical-scroll-proportion="0.0" vertical-offset="110" max-vertical-offset="780">
-              <folding />
+            <state line="151" column="78" selection-start="4825" selection-end="4825" vertical-scroll-proportion="0.8029557" vertical-offset="1776" max-vertical-offset="2775">
+              <folding>
+                <element signature="e#6#35#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -421,15 +414,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="790" extended-state="0" />
-    <editor active="false" />
+    <frame x="0" y="22" width="1440" height="790" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985073" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3283582" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998565" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25608012" sideWeight="0.6686567" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.43061516" sideWeight="0.5833333" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.44921315" sideWeight="0.5833333" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4157143" sideWeight="0.4978479" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.419403" sideWeight="0.50143474" order="7" side_tool="true" content_ui="tabs" />
@@ -437,11 +430,11 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3157143" sideWeight="0.49928263" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32738096" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -459,10 +452,10 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3283582" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25608012" sideWeight="0.6686567" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4038055" sideWeight="0.5833333" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.43705294" sideWeight="0.5833333" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32738096" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -815,13 +808,6 @@
         <state line="80" column="0" selection-start="2551" selection-end="2808" vertical-scroll-proportion="0.3590164" vertical-offset="981" max-vertical-offset="23100" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/less/_mixins.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="1" selection-start="1570" selection-end="1570" vertical-scroll-proportion="0.0" vertical-offset="110" max-vertical-offset="780">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wp-includes/post-template.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="117" column="0" selection-start="3032" selection-end="3032" vertical-scroll-proportion="0.33333334" vertical-offset="1543" max-vertical-offset="21660" />
@@ -847,15 +833,22 @@
         <state line="215" column="23" selection-start="6134" selection-end="6134" vertical-scroll-proportion="-10.333333" vertical-offset="2977" max-vertical-offset="3720" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/less/_mixins.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="1" selection-start="735" selection-end="735" vertical-scroll-proportion="0.3590164" vertical-offset="36" max-vertical-offset="780" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/less/blog.less">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="32" selection-start="775" selection-end="775" vertical-scroll-proportion="0.576244" vertical-offset="271" max-vertical-offset="1005" />
+        <state line="36" column="9" selection-start="707" selection-end="707" vertical-scroll-proportion="-10.265306" vertical-offset="37" max-vertical-offset="1350" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="78" selection-start="759" selection-end="759" vertical-scroll-proportion="-0.14173229" vertical-offset="435" max-vertical-offset="1335">
-          <folding />
+        <state line="151" column="78" selection-start="4825" selection-end="4825" vertical-scroll-proportion="0.8029557" vertical-offset="1776" max-vertical-offset="2790">
+          <folding>
+            <element signature="e#6#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

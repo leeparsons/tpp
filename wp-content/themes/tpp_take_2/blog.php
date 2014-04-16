@@ -29,6 +29,11 @@ if (have_posts()):
                 </div>
             </article>
         <?php flush(); endwhile; ?>
+            <nav id="slide_navigation">
+                <?php for ($x = 0; $x < $i; $x++): ?>
+                    <a data-index="<?php echo $x; ?>" href="#" class="navi <?php echo $x == 0 ? 'active':'' ?>"></a>
+                <?php endfor; ?>
+            </nav>
         </div>
 <!--        <div class="wrap navigation">-->
 <!--            --><?php //posts_nav_link(' ', '<span class="align-right btn btn-primary">Recent Posts</span>', '<span class="align-left btn btn-primary">Previous Posts</span>'); ?>
@@ -37,43 +42,132 @@ if (have_posts()):
 <?php endif; ?>
 </section>
 <script>
-    var slides = document.getElementsByClassName('post-slide');
 
-    for (var x = 0; x < slides.length; x++) {
+    var postSlider = {
+        slides:{},
+        navis: {},
+        it: 0,
+        to: 0,
+        init: function() {
 
-        if (x > 0) {
-            slides[x].setAttribute('data-active', false);
-            slides[x].style.opacity = 0;
-            slides[x].style.display = 'block';
-        } else {
-            slides[x].setAttribute('data-active', true);
-        }
-    }
+            this.slides = document.getElementsByClassName('post-slide');
+            this.navis = document.getElementsByClassName('navi');
 
-    setInterval(function() {
+            document.getElementById('slide_navigation').style.display = 'block';
 
-        var slides = document.getElementsByClassName('post-slide');
+            this.setUpSlides();
+            this.setUpNavis();
 
-        for (var x = 0; x < slides.length; x++) {
 
-            if (slides[x].getAttribute('data-active') == 'true') {
-                slides[x].style.opacity = '0';
+           this.startSlides();
 
-                slides[x].setAttribute('data-active', false);
-                if (x < slides.length  - 1) {
-                    slides[x+1].style.opacity = 1;
-                    slides[x+1].setAttribute('data-active', true);
+        },
+        setUpSlides: function() {
+            for (var x = 0; x < this.slides.length; x++) {
+
+                if (x > 0) {
+                    this.slides[x].setAttribute('data-active', false);
+                    this.slides[x].style.opacity = 0;
+                    this.slides[x].style.display = 'block';
                 } else {
-                    slides[0].style.opacity = 1;
-                    slides[0].setAttribute('data-active', true);
+                    this.slides[x].setAttribute('data-active', true);
                 }
-                break;
-            } else {
-
             }
+        },
+        setUpNavis: function() {
+            for (var x = 0; x < this.navis.length; x++) {
+                this.navis[x].onclick = function() {
+                    return postSlider.rotateToIndex(this.getAttribute('data-index'));
+                }
+            }
+        },
+        startSlides: function() {
+            postSlider.to = setTimeout(function() {
+                postSlider.it = setInterval(function() {
+
+                    for (var x = 0; x < postSlider.slides.length; x++) {
+
+                        if (postSlider.slides[x].getAttribute('data-active') == 'true') {
+
+                            postSlider.rotateSlides(x);
+                            break;
+                        }
+                    }
+
+                }, 4000);
+            }, 5000);
+        },
+        rotateSlides: function(x) {
+            var y = 0;
+
+            x = parseInt(x);
+
+            if (x < postSlider.slides.length  - 1) {
+                y = x+1;
+            }
+
+            var active_index = postSlider.getActiveIndex();
+
+            postSlider.hideSlide(active_index);
+
+           postSlider.showSlide(y);
+
+            postSlider.hideNavi(active_index);
+            postSlider.showNavi(y);
+        },
+        hideSlide: function(x) {
+            postSlider.slides[x].style.opacity = 0;
+            postSlider.slides[x].setAttribute('data-active', false);
+        },
+        showSlide: function(y) {
+            postSlider.slides[y].style.opacity = 1;
+            postSlider.slides[y].setAttribute('data-active', true);
+        },
+        hideNavi: function(x) {
+            postSlider.navis[x].setAttribute('class', 'navi');
+        },
+        showNavi: function(x) {
+            postSlider.navis[x].setAttribute('class', 'navi active');
+        },
+        rotateToIndex: function(x) {
+
+            clearTimeout(postSlider.to);
+            clearInterval(postSlider.it);
+
+            active_index = postSlider.getActiveIndex();
+
+            console.log(active_index);
+
+            postSlider.hideNavi(active_index);
+            postSlider.hideSlide(active_index);
+
+            postSlider.showSlide(x);
+            postSlider.showNavi(x);
+            postSlider.startSlides();
+
+            return false;
+        },
+        getActiveIndex: function() {
+            for ( var i = 0; i < postSlider.slides.length; i++) {
+                if (postSlider.slides[i].getAttribute('data-active') == 'true') {
+                    return i;
+                }
+            }
+            return 0;
+
         }
 
-    }, 3000);
+    };
+
+    postSlider.init();
+
+
+
+
+
+
+
+
 
 </script>
 <?php
