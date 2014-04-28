@@ -23,14 +23,22 @@ add_theme_support( 'menus' );
 add_theme_support( 'post-thumbnails' );
 add_image_size('slideshow_thumb', 50, 50, true);
 add_image_size('home_widget', 250, 250, true);
-add_image_size('blog_post_thumb', 250, 150, true);
 //add_image_size('four_square_small', 100, 100, true);
 add_image_size('slideshow', 960, 300);
 add_image_size('slide_navi', 175, 175, true);
 add_image_size('featured_blog_post', 400, 300, true);
 add_image_size('size-full', 825, 620, true);
 add_image_size('store_related', 110, 110, true);
+
+add_image_size('blog_post_thumb', 250, 150, true);
 add_image_size('blog_post_slide', 695, 340, true);
+add_image_size('blog_sidebar', 380, 160, true);
+add_image_size('blog_small_square', 200, 110, true);
+add_image_size('blog_large_square', 475, 395, true);
+add_image_size('blog_large_community_challenge', 340, 200, true);
+add_image_size('blog_small_community_challenge', 70, 70, true);
+
+
 register_nav_menu( 'footer_contact', 'Contact Us Footer Menu' );
 
 register_nav_menu( 'footer_pages', 'Pages Footer Menu' );
@@ -239,4 +247,3 @@ function remove_jquery_migrate( &$scripts)
 }
 
 add_filter( 'comments_array', 'array_reverse' );
-

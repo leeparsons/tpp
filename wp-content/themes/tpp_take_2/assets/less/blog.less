@@ -7,6 +7,18 @@
 .blog-main {
     width:695px;
     margin-right:10px;
+    float:left;
+    h2 {
+        text-align:center;
+        color:#3c3c3c;
+        text-transform: uppercase;
+    }
+}
+
+.blog-wrap {
+    .aside-40 {
+        width:380px;
+    }
 }
 
 .post-slides {
@@ -32,6 +44,8 @@
         .opacity(100);
         cursor:pointer;
         .transition(all, 1s);
+        .boxShadow(0, 0, 5px, #000000);
+        -webkit-backface-visibility: hidden;
         &.active {
             background:#FFFFFF;
         }
@@ -56,7 +70,7 @@
     .post-info {
         z-index:2005;
         position: absolute;
-        top:35%;
+        bottom:60px;
         left:0;
         right:0;
         text-align: center;
@@ -75,11 +89,194 @@
             color:#ffffff;
             text-shadow: 1px 1px 1px #000;
         }
+        a {
+            &:hover {
+                .opacity(75);
+            }
+        }
         .readmore {
             border:1px solid #FFFFFF;
             padding:10px;
             margin-top:10px;
             display: inline-block;
+            .boxShadow(0, 0, 5px, #000000);
         }
     }
+}
+
+.side-box {
+    margin-bottom:20px;
+
+    .blog-sidebar-box {
+        cursor: pointer;
+        height:160px;
+        position:relative;
+
+
+
+        &:hover {
+            a {
+                .opacity(75);
+
+            }
+        }
+
+        .links-wrap {
+            position:absolute;
+            right:0;
+            left:0;
+            top:40%;
+            text-align: center;
+            a {
+                text-align: center;
+                margin:auto;
+                color:#FFFFFF;
+                text-transform:uppercase;
+
+                &.post-title {
+                    width:100%;
+                    display:block;
+                    margin-top:20px;
+                    font-size:16px;
+                }
+                &.cat-title {
+                    font-weight:600;
+                    display:inline-block;
+                    border-bottom:1px solid #FFFFFF;
+                    font-size:14px;
+                }
+            }
+        }
+    }
+}
+
+.blog-divider-top {
+    width:100%;
+    height:4px;
+    border-top:2px solid #000000;
+    border-bottom:1px solid #AAAAAA;
+    float:left;
+}
+
+.blog-divider-bottom {
+    width:100%;
+    float:left;
+    height:2px;
+    background:#000000;
+}
+
+
+
+#interview_articles {
+
+    margin:30px 0;
+
+
+    .small-square {
+        width:200px;
+        height:auto;
+        margin-bottom:10px;
+        float:left;
+        clear:left;
+    }
+
+    .square-large {
+        float: right;
+        width:475px;
+    }
+
+}
+
+.featured-interview-wrap {
+    position:relative;
+    height:356px;
+    width:475px;
+    z-index:100;
+    h2 {
+        margin:0;
+    }
+    &:hover {
+        z-index:5;
+        .interview-title {
+            .opacity(0);
+            z-index:5;
+        }
+    }
+    iframe {
+        z-index:10;
+        position: relative;
+    }
+}
+
+.interview-title {
+    position:absolute;
+    z-index:101;
+    top:20%;
+    padding:0 20px;
+    left:0;
+    right:0;
+    text-align: center;
+    text-shadow:0 0 3px #000000;
+    color:#FFFFFF;
+    font-size:32px;
+
+    .transition(all, ease-in, 0.25s);
+    &:hover {
+        color:#FFFFFF;
+    }
+
+}
+
+
+.interview-text {
+    background:#f2f2f2;
+    padding:20px;
+    .interview-meta {
+        font-weight: 600;
+        color:#8b7677;
+    }
+    strong, .read-more {
+        font-weight: 600;
+        text-transform: capitalize;
+        color:#000000;
+    }
+    strong {
+        margin:0 0 10px;
+        text-transform: uppercase;
+    }
+    .hentry {
+        margin:10px 0;
+    }
+}
+
+.community-challenges {
+    .square-large {
+        float: left;
+        width:340px;
+        margin-right:10px;
+    }
+    .small-square {
+        float:right;
+        width:340px;
+    }
+}
+
+.social-counter {
+    background:url(../images/blog/social-counts-icons.png);
+    float:left;
+    width:71px;
+    height:71px;
+    margin:15px 27px;
+}
+
+.tw-counter {
+    background-position:-96px 0;
+}
+
+.li-counter {
+    background-position:-192px 0;
+}
+
+.gp-counter {
+
 }

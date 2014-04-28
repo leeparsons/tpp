@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="ANALYSIS_IN_BACKGROUND" value="true" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="5b789d7f-afde-4db4-b2ae-39f14f69f353" name="Default" comment="" />
     <ignored path="tpp.iws" />
@@ -28,13 +31,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="blog.php" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="blog.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="151" column="78" selection-start="4825" selection-end="4825" vertical-scroll-proportion="0.8029557" vertical-offset="1776" max-vertical-offset="2775">
-              <folding>
-                <element signature="e#6#35#0" expanded="true" />
-              </folding>
+            <state line="26" column="47" selection-start="811" selection-end="811" vertical-scroll-proportion="-6.375" vertical-offset="207" max-vertical-offset="1020">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="blog.less" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/less/blog.less">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="246" column="13" selection-start="4484" selection-end="4484" vertical-scroll-proportion="0.2295345" vertical-offset="3547" max-vertical-offset="4305">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -49,22 +59,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/product/mentor/cart.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/site_hooks.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/order.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/admin/views/reports/loyalty.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/admin/controllers/reports.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/admin/views/reports/best_sellers.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/admin/models/orders.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/checkout.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/products.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/admin/models/products.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/admin/controllers/products.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/admin/views/dashboard.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/factory/abstracts/base.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/admin/views/banners/form.php" />
-        <option value="$PROJECT_DIR$/../event-exeter/wp-content/themes/event-exeter/other-tables/includes/table-list.php" />
-        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/admin/admin_hooks.php" />
         <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/admin/controllers/default.php" />
         <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/admin/views/banners/homepage.php" />
         <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/classes/comments/antispam.php" />
@@ -96,9 +90,26 @@
         <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/header-blog.php" />
         <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog/head.php" />
         <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/less/_mixins.less" />
+        <option value="$PROJECT_DIR$/a.html" />
+        <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog/slideshow.php" />
+        <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog/sidebar_top_boxes.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tppstore/tppstore.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tpp_interviews/tpp_interviews.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tpp_interviews/admin/hooks.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tpp_interviews/admin/controllers/default.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tpp_interviews/admin/installer.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tpp_interviews/general_hooks.php" />
+        <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog/interviews/square_small.php" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tpp_interviews/assets/js/video_click_detect.js" />
+        <option value="$PROJECT_DIR$/wp-content/plugins/tpp_interviews/models/interview.php" />
+        <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog/interviews/square_large.php" />
+        <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog/most_recent_interviews.php" />
+        <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog/most_recent_community_challenges.php" />
+        <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog/community_challenges/square_large.php" />
+        <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog/community_challenges/square_small.php" />
         <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/functions.php" />
-        <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/less/blog.less" />
         <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog.php" />
+        <option value="$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/less/blog.less" />
       </list>
     </option>
   </component>
@@ -288,6 +299,66 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="blog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="interviews" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wp-content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="themes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp_take_2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="blog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="community_challenges" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wp-content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="themes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp_take_2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="assets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -322,6 +393,126 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wp-content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugins" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wp-content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugins" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp_interviews" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wp-content" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugins" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp_interviews" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="images" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tpp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="images" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="blog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -334,21 +525,22 @@
     <property name="FullScreen" value="false" />
     <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="DefaultHtmlFileTemplate" value="Html5" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog/community_challenges" />
       <recent name="$PROJECT_DIR$/wp-content/plugins/tppstore/assets/images" />
       <recent name="$PROJECT_DIR$/wp-content/plugins/tppstore/admin/views/reports" />
       <recent name="$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog" />
       <recent name="$PROJECT_DIR$/wp-content/themes/tpp_take_2/sidebars" />
-      <recent name="$PROJECT_DIR$/wp-content/plugins/tppstore/admin/models" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/wp-content/plugins/tpp_interviews" />
       <recent name="$PROJECT_DIR$/wp-content/plugins/tppstore/emails/order" />
       <recent name="$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/dashboard/products" />
       <recent name="$PROJECT_DIR$/wp-content/themes/tpp_take_2/classes/ip2location" />
       <recent name="$PROJECT_DIR$/wp-content/plugins/tppstore/site/assets/js" />
-      <recent name="$PROJECT_DIR$/wp-content/plugins/tppstore/site/assets/js/product" />
     </key>
   </component>
   <component name="RunManager">
@@ -422,7 +614,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3283582" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998565" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25608012" sideWeight="0.6686567" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.44921315" sideWeight="0.5833333" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34263232" sideWeight="0.5833333" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4157143" sideWeight="0.4978479" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.419403" sideWeight="0.50143474" order="7" side_tool="true" content_ui="tabs" />
@@ -430,10 +622,11 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3157143" sideWeight="0.49928263" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3157143" sideWeight="0.49928263" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32738096" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
     </layout>
@@ -577,146 +770,10 @@
           <option name="timeStamp" value="3170" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="3175" />
+      <option name="time" value="3209" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/admin/views/banners/homepage.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="91" selection-start="1466" selection-end="1466" vertical-scroll-proportion="0.0" vertical-offset="420" max-vertical-offset="1245" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/helpers/category.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3135" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/templates/banners.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="180" selection-start="347" selection-end="347" vertical-scroll-proportion="0.09448819" vertical-offset="0" max-vertical-offset="635" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/classes/tpp_cacher.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="20" selection-start="1786" selection-end="1786" vertical-scroll-proportion="0.3448819" vertical-offset="681" max-vertical-offset="2490" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/models/banner.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="193" column="0" selection-start="4846" selection-end="4846" vertical-scroll-proportion="0.33333334" vertical-offset="2729" max-vertical-offset="3855" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/helpers/banners.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="19" selection-start="599" selection-end="599" vertical-scroll-proportion="1.0084034" vertical-offset="0" max-vertical-offset="495" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/admin/models/banners.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="105" column="30" selection-start="2248" selection-end="2248" vertical-scroll-proportion="0.8319328" vertical-offset="1218" max-vertical-offset="1635" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/category.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="28" selection-start="327" selection-end="327" vertical-scroll-proportion="0.4488189" vertical-offset="0" max-vertical-offset="960" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/stores.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="659" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/products/store_list.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="0" selection-start="2278" selection-end="2278" vertical-scroll-proportion="1.5826771" vertical-offset="0" max-vertical-offset="1170">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../hwfisher2/configuration.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.45833334" vertical-offset="297" max-vertical-offset="945" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/uploads/store/10/82/1511604_10153757841660068_471955621_n_110_110.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/less/style.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="649" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/less/_responsive700.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="216" column="28" selection-start="4202" selection-end="4202" vertical-scroll-proportion="5.200642" vertical-offset="0" max-vertical-offset="3495" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/checkout.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="290" selection-end="296" vertical-scroll-proportion="0.25984251" vertical-offset="90" max-vertical-offset="10740">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/views/store.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="145" selection-start="1008" selection-end="1008" vertical-scroll-proportion="0.70866144" vertical-offset="60" max-vertical-offset="3375" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/less/store.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="25" selection-start="1169" selection-end="1169" vertical-scroll-proportion="0.0" vertical-offset="885" max-vertical-offset="2235" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/less/_header.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="179" column="21" selection-start="2966" selection-end="2966" vertical-scroll-proportion="0.9860627" vertical-offset="2119" max-vertical-offset="5730" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/less/_responsive1100.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="5" selection-start="962" selection-end="962" vertical-scroll-proportion="1.4927769" vertical-offset="0" max-vertical-offset="1305" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/less/_responsive1100_store.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="1" selection-start="384" selection-end="384" vertical-scroll-proportion="0.4093098" vertical-offset="0" max-vertical-offset="623" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/front-page.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="49" selection-start="2057" selection-end="2057" vertical-scroll-proportion="0.35433072" vertical-offset="720" max-vertical-offset="3495" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/mentors.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="148" column="64" selection-start="4501" selection-end="4501" vertical-scroll-proportion="1.2222222" vertical-offset="1654" max-vertical-offset="7905">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/header.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="59" selection-start="366" selection-end="366" vertical-scroll-proportion="0.32608697" vertical-offset="0" max-vertical-offset="630" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/less/mobile.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="17" selection-start="847" selection-end="847" vertical-scroll-proportion="0.7288557" vertical-offset="592" max-vertical-offset="1275" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/common/css.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="24" selection-start="464" selection-end="464" vertical-scroll-proportion="0.16535433" vertical-offset="0" max-vertical-offset="635" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/common/head.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="39" selection-start="79" selection-end="79" vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="1140" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/site/controllers/store.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="565" column="19" selection-start="15493" selection-end="15497" vertical-scroll-proportion="0.33333334" vertical-offset="8272" max-vertical-offset="10110" />
@@ -803,11 +860,6 @@
         <state line="0" column="29" selection-start="29" selection-end="29" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="648" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/woocommerce/assets/css/woocommerce.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="0" selection-start="2551" selection-end="2808" vertical-scroll-proportion="0.3590164" vertical-offset="981" max-vertical-offset="23100" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wp-includes/post-template.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="117" column="0" selection-start="3032" selection-end="3032" vertical-scroll-proportion="0.33333334" vertical-offset="1543" max-vertical-offset="21660" />
@@ -828,27 +880,183 @@
         <state line="2894" column="0" selection-start="99503" selection-end="99503" vertical-scroll-proportion="0.3110465" vertical-offset="43213" max-vertical-offset="56700" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/functions.php">
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/sidebars/general.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="215" column="23" selection-start="6134" selection-end="6134" vertical-scroll-proportion="-10.333333" vertical-offset="2977" max-vertical-offset="3720" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.08661418" vertical-offset="55" max-vertical-offset="690" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/sidebars/page.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="103" selection-start="469" selection-end="482" vertical-scroll-proportion="0.56686044" vertical-offset="0" max-vertical-offset="555" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog/slideshow.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="154" column="9" selection-start="4895" selection-end="4895" vertical-scroll-proportion="1.519685" vertical-offset="1345" max-vertical-offset="2400" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog/sidebar_top_boxes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="20" selection-start="917" selection-end="917" vertical-scroll-proportion="0.70866144" vertical-offset="0" max-vertical-offset="635" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/tppstore.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="1" selection-start="737" selection-end="737" vertical-scroll-proportion="0.672" vertical-offset="0" max-vertical-offset="625" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/admin/loader.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="750" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tppstore/admin/admin_hooks.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2280" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tpp_interviews/tpp_interviews.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="56" selection-start="830" selection-end="830" vertical-scroll-proportion="0.6614173" vertical-offset="0" max-vertical-offset="635">
+          <folding>
+            <element signature="e#6#56#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/classes/blog_product_relations.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="72" column="0" selection-start="1814" selection-end="1814" vertical-scroll-proportion="-5.0833335" vertical-offset="898" max-vertical-offset="3450" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-admin/includes/user.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="413" column="0" selection-start="13880" selection-end="13880" vertical-scroll-proportion="0.33139536" vertical-offset="6006" max-vertical-offset="6405" />
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/com/jetbrains/php/lang/psi/stubs/data/standard_8.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="962" column="9" selection-start="30821" selection-end="30821" vertical-scroll-proportion="-4.9651165" vertical-offset="16138" max-vertical-offset="16530" />
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/com/jetbrains/php/lang/psi/stubs/data/Core.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="528" column="9" selection-start="14354" selection-end="14354" vertical-scroll-proportion="0.859944" vertical-offset="7613" max-vertical-offset="15300" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tpp_interviews/admin/installer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="0" selection-start="525" selection-end="525" vertical-scroll-proportion="0.5092593" vertical-offset="0" max-vertical-offset="648" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tpp_interviews/admin/controllers/default.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="105" selection-start="1421" selection-end="1421" vertical-scroll-proportion="0.21259843" vertical-offset="630" max-vertical-offset="2655" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tpp_interviews/admin/hooks.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="0" selection-start="102" selection-end="102" vertical-scroll-proportion="0.33613446" vertical-offset="0" max-vertical-offset="357" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/less/_mixins.less">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="1" selection-start="735" selection-end="735" vertical-scroll-proportion="0.3590164" vertical-offset="36" max-vertical-offset="780" />
+        <state line="41" column="1" selection-start="1298" selection-end="1298" vertical-scroll-proportion="0.62459546" vertical-offset="422" max-vertical-offset="780" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/less/blog.less">
+    <entry file="file://$PROJECT_DIR$/wp-includes/cache.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="9" selection-start="707" selection-end="707" vertical-scroll-proportion="-10.265306" vertical-offset="37" max-vertical-offset="1350" />
+        <state line="650" column="0" selection-start="17985" selection-end="17985" vertical-scroll-proportion="0.5794392" vertical-offset="9459" max-vertical-offset="9780" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-includes/wp-db.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="550" column="0" selection-start="9010" selection-end="9010" vertical-scroll-proportion="0.33139536" vertical-offset="8016" max-vertical-offset="26370" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog/interviews/square_small.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="82" selection-start="434" selection-end="615" vertical-scroll-proportion="0.31862745" vertical-offset="0" max-vertical-offset="612" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tpp_interviews/general_hooks.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="72" column="64" selection-start="2458" selection-end="2458" vertical-scroll-proportion="0.2037037" vertical-offset="948" max-vertical-offset="1620" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tpp_interviews/assets/js/video_click_detect.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="29" selection-start="2417" selection-end="2417" vertical-scroll-proportion="1.2276785" vertical-offset="0" max-vertical-offset="915" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tpp_interviews/assets/js/video_click_detect.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="659" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog/most_recent_interviews.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="0" selection-start="470" selection-end="470" vertical-scroll-proportion="0.787037" vertical-offset="0" max-vertical-offset="648">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/tpp_interviews/models/interview.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="52" selection-start="1544" selection-end="1544" vertical-scroll-proportion="0.75980395" vertical-offset="510" max-vertical-offset="6630">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog/interviews/square_large.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="45" column="124" selection-start="1625" selection-end="1632" vertical-scroll-proportion="0.5245098" vertical-offset="354" max-vertical-offset="1020">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog/community_challenges/square_small.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="44" selection-start="135" selection-end="135" vertical-scroll-proportion="0.04901961" vertical-offset="0" max-vertical-offset="612">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog/community_challenges/square_large.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="38" selection-start="153" selection-end="183" vertical-scroll-proportion="0.073529415" vertical-offset="0" max-vertical-offset="612">
+          <folding>
+            <marker date="1398686925000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1398686925000" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/functions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="51" selection-start="1512" selection-end="1512" vertical-scroll-proportion="0.5748032" vertical-offset="205" max-vertical-offset="3825">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog/most_recent_community_challenges.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="13" selection-start="333" selection-end="333" vertical-scroll-proportion="0.41666666" vertical-offset="0" max-vertical-offset="648">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/blog.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="151" column="78" selection-start="4825" selection-end="4825" vertical-scroll-proportion="0.8029557" vertical-offset="1776" max-vertical-offset="2790">
-          <folding>
-            <element signature="e#6#35#0" expanded="true" />
-          </folding>
+        <state line="26" column="47" selection-start="811" selection-end="811" vertical-scroll-proportion="-6.375" vertical-offset="207" max-vertical-offset="1020">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/tpp_take_2/assets/less/blog.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="246" column="13" selection-start="4484" selection-end="4484" vertical-scroll-proportion="0.2295345" vertical-offset="3547" max-vertical-offset="4305">
+          <folding />
         </state>
       </provider>
     </entry>
