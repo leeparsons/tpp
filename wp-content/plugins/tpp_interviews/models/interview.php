@@ -56,7 +56,7 @@ class TppInterviewModel {
         $this->convertDateToTimestamp();
 
         if (false === $this->date_as_time_str) {
-            return '';
+            return false;
         }
 
         return date($format, $this->date_as_time_str);

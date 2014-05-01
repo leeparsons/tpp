@@ -34,10 +34,11 @@ add_image_size('blog_post_thumb', 250, 150, true);
 add_image_size('blog_post_slide', 695, 340, true);
 add_image_size('blog_sidebar', 380, 160, true);
 add_image_size('blog_small_square', 200, 110, true);
-add_image_size('blog_large_square', 475, 395, true);
-add_image_size('blog_large_community_challenge', 340, 200, true);
-add_image_size('blog_small_community_challenge', 70, 70, true);
-
+add_image_size('blog_large_square', 475, 356, true);
+add_image_size('blog_square_half', 340, 200, true);
+add_image_size('blog_square_x_small', 70, 70, true);
+add_image_size('blog_small_my_first_time', 215, 150, true);
+add_image_size('blog_square_two', 330, 190, true);
 
 register_nav_menu( 'footer_contact', 'Contact Us Footer Menu' );
 

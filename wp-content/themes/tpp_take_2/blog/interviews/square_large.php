@@ -15,7 +15,7 @@ $interview->load();
                 if ($interview->isLive()) {
                     echo 'Live Now!<br>';
                     the_title();
-                } elseif (1 || !$interview->hasHappened()) {
+                } elseif (!$interview->hasHappened()) {
                     echo 'Next interview<br>';
                     the_title();
                     echo '<br><br>';
@@ -42,8 +42,8 @@ $interview->load();
     </div>
     <div class="interview-text wrap">
         <a class="wrap" href="<?php the_permalink(); ?>"><strong class="wrap"><?php the_title(); ?></strong></a>
-        <div class="wrap interview-meta">
-            <time class="align-left" datetime="<?php echo $interview->getDate(); ?>"><?php echo $interview->getDate('F, j. Y'); ?></time>
+        <div class="wrap post-meta">
+            <time class="align-left" datetime="<?php echo $interview->getDate()?:get_the_date('Y-m-d'); ?>"><?php echo $interview->getDate('F, j. Y')?:get_the_date('F, j. Y'); ?></time>
             <span class="align-left"> / </span>
             <span class="align-left"><?php
 
@@ -52,7 +52,6 @@ $interview->load();
             echo $comment_counts['approved'];
 
             ?> comment<?php echo $comment_counts['approved'] == 1?'':'s' ?></span>
-            <span class="align-left"> / </span>
         </div>
         <div class="hentry wrap">
             <?php the_excerpt(); ?>

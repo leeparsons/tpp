@@ -1,8 +1,38 @@
+@import '_bootstrap';
 @import "_fonts";
 @import '_variables.less';
 @import '_mixins.less';
+
+
+@import '_header';
+@import '_menu';
+@import '_homepage';
+@import '_wrap';
+
 @import '_page.less';
 @import '_post.less';
+
+@import '_footer';
+
+footer {
+    a, h5, label, p {
+        color:#FFFFFF;
+    }
+    #copyright {
+        margin-top:30px;
+        padding-top:10px;
+        border-top:1px solid #FFFFFF;
+    }
+}
+
+body, a, p {
+    color:@blogColour;
+}
+
+body {
+    font-family:@mainFontFamily;
+}
+
 
 .blog-main {
     width:695px;
@@ -25,6 +55,8 @@
     position:relative;
     height:340px;
     width:100%;
+    margin-bottom:20px;
+
 
     #slide_navigation {
         position:absolute;
@@ -162,8 +194,10 @@
     width:100%;
     float:left;
     height:2px;
+    margin-bottom: 20px;
     background:#000000;
 }
+
 
 
 
@@ -227,11 +261,16 @@
 
 }
 
+.post-meta {
+    span {
+        white-space: pre;
+    }
+}
 
 .interview-text {
     background:#f2f2f2;
     padding:20px;
-    .interview-meta {
+    .post-meta {
         font-weight: 600;
         color:#8b7677;
     }
@@ -249,28 +288,41 @@
     }
 }
 
+
+
 .community-challenges {
     .square-large {
         float: left;
         width:340px;
         margin-right:10px;
     }
-    .small-square {
+    .small-row {
         float:right;
         width:340px;
     }
 }
 
+.small-square {
+    h4 {
+        font-size: 14px;
+    }
+}
+
 .social-counter {
-    background:url(../images/blog/social-counts-icons.png);
+    background:url(../images/blog/social-counts-icons.jpg);
     float:left;
     width:71px;
     height:71px;
     margin:15px 27px;
 }
 
+
+.fb-counter {
+    background-position:-3px 0;
+}
+
 .tw-counter {
-    background-position:-96px 0;
+    background-position:-100px 0;
 }
 
 .li-counter {
@@ -278,5 +330,16 @@
 }
 
 .gp-counter {
-
+    background-position:-192px -115px;
 }
+
+
+.ig-counter {
+    background-position:-3px -115px;
+}
+
+.yt-counter {
+    background-position:-98px -115px;
+}
+
+
