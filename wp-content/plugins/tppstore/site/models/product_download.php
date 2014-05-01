@@ -126,8 +126,13 @@ class TppStoreModelProductDownload extends TppStoreAbstractModelResource {
                 TppStoreMessages::getInstance()->addMessage('error', array('product_download' =>  'We could not detect the file you uploaded. Please note we will need to manually upload files above 15MB for you so please get in touch!'));
 
                 TppStoreLibraryLogger::getInstance()->add(null, 'The uploaded file could not be detected.', 'product download file upload', array(
-                    'product_id'    =>  $this->product_id
-                ));
+                    'product_id'    =>  $this->product_id,
+                    'file'          =>  $this->file,
+                    'upload_path'   =>  $this->upload_path,
+                    'upload_file'   =>  $this->upload_file,
+                    'object:'       =>  'TppStoreModelProductDownload'
+                ),
+                    'error');
             }
             return false;
         }

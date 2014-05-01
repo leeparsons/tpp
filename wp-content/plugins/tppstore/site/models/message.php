@@ -73,12 +73,41 @@ class TppStoreModelMessage extends TppStoreAbstractModelBase {
 
     public function getRespondedDate()
     {
-        return date('dS F, Y H:i:s', strtotime($this->responded_on));
+        return date('jS F, Y H:i:s', strtotime($this->responded_on));
+    }
+
+    public function getReceivedLapseTime()
+    {
+
+        $date1 = new DateTime($this->created_on, new DateTimeZone('Europe/London'));
+
+        $date2 = new DateTime('now', new DateTimeZone('Europe/London'));
+
+        $diff = $date1->diff($date2);
+
+        if ($diff->y > 0) {
+            return $date1->format('F Y');
+        } elseif ($diff->m > 0) {
+            if ($date2->format('Y') < $date1->format('Y')) {
+                return $date1->format('jS F');
+            } else {
+                return $date1->format('F Y');
+            }
+        } elseif ($diff->d > 0) {
+            return $diff->d . ' days';
+        } elseif ($diff->h < 1) {
+                return $diff->i . ' minutes';
+        } else {
+                return $date1->format('H:i');
+        }
+
+
+
     }
 
     public function getReceivedDate()
     {
-        return date('dS F, Y H:i:s', strtotime($this->created_on));
+        return date('jS F, Y H:i:s', strtotime($this->created_on));
     }
 
 
@@ -87,9 +116,14 @@ class TppStoreModelMessage extends TppStoreAbstractModelBase {
         return nl2br($this->message);
     }
 
-    public function getSafeMessage()
+    public function getSafeMessage($limit = 0)
     {
-        return esc_textarea($this->message);
+        if ($limit > 0) {
+            return esc_textarea(substr(strip_tags($this->message), 0, $limit));
+        } else {
+            return esc_textarea($this->message);
+        }
+
     }
 
 

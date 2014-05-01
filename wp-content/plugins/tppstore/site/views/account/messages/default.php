@@ -21,6 +21,32 @@ get_header();
         <br>
     </header>
 
+    <table>
+        <tbody>
+        <tr>
+            <td>From: </td>
+            <td><?php echo $message->getSender()->first_name . ' ' . $message->getSender()->last_name ?></td>
+        </tr>
+        <tr>
+            <td>Received:</td>
+            <td><?php echo $message->getReceivedDate() ?></td>
+        </tr>
+        <tr>
+            <td>Status:</td>
+            <td><?php echo ucwords($message->status) ?></td>
+        </tr>
+        <tr>
+            <td>Message</td>
+            <td><?php
+
+                echo $message->getHtmlMessage();
+
+                ?></td>
+        </tr>
+        </tbody>
+    </table>
+
+
     <?php if (count($message_history) > 0): ?>
         <a href="#" id="history_toggle">View previous messages</a>
         <div id="history_expander" data-expanded="closed" class="wrap">
@@ -57,10 +83,9 @@ get_header();
         <?php endforeach; ?>
         </div>
         <script>
-            /*
+
             var h = document.getElementById('history_expander').clientHeight;
             document.getElementById('history_expander').setAttribute('data-height', h);
-            console.log(document.getElementById('history_expander').getAttribute('data-height'));
             document.getElementById('history_expander').style.transition = 'height 0.25s ease-in';
             document.getElementById('history_expander').style.height = '0px';
             document.getElementById('history_expander').style.overflow = 'hidden';
@@ -69,40 +94,19 @@ get_header();
                 if (h.getAttribute('data-expanded') == 'closed') {
                     h.style.height = h.getAttribute('data-height') + 'px';
                     h.setAttribute('data-expanded', 'open');
+                    this.innerHTML = 'Hide previous messages';
                 } else {
+                    this.innerHTML = 'View previous messages';
                     h.style.height = '0px';
                     h.style.overflow = 'hidden';
                     h.setAttribute('data-expanded', 'closed');
                 }
                 return false;
             }
-            */
+
         </script>
     <?php endif; ?>
-<!--    <table>-->
-<!--        <tbody>-->
-<!--            <tr>-->
-<!--                <td>From: </td>-->
-<!--                <td>--><?php //echo $message->getSender()->first_name . ' ' . $message->getSender()->last_name ?><!--</td>-->
-<!--            </tr>-->
-<!--            <tr>-->
-<!--                <td>Received:</td>-->
-<!--                <td>--><?php //echo $message->getReceivedDate() ?><!--</td>-->
-<!--            </tr>-->
-<!--            <tr>-->
-<!--                <td>Status:</td>-->
-<!--                <td>--><?php //echo ucwords($message->status) ?><!--</td>-->
-<!--            </tr>-->
-<!--            <tr>-->
-<!--                <td>Message</td>-->
-<!--                <td>--><?php
-//
-//                        echo $message->getHtmlMessage();
-//
-//                        ?><!--</td>-->
-<!--            </tr>-->
-<!--        </tbody>-->
-<!--    </table>-->
+
 
     <div class="wrap">
         <a id="reply" href="#" class="btn btn-primary">Reply</a>

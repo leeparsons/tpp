@@ -27,12 +27,10 @@ $paginator->total_results = $total_messages;
         <table class="dashboard-list">
             <thead>
                 <tr>
-                    <th>Subject</th>
-                    <th>Received</th>
                     <th>From</th>
-                    <th>Status</th>
-<!--                    <th>&nbsp;</th>-->
-                    <th>Responded</th>
+                    <th>Message</th>
+                    <th>Received</th>
+<!--                    <th>Responded</th>-->
                 </tr>
             </thead>
             <tbody>
@@ -40,18 +38,22 @@ $paginator->total_results = $total_messages;
                     <?php $href = '/shop/myaccount/message/' . $message->message_id; ?>
 
                     <tr class="message <?php echo str_replace(' ', '-', $message->status) ?>">
-                        <td><a href="<?php echo $href ?>"><?php echo $message->subject ?></a></td>
-                        <td><a href="<?php echo $href ?>"><?php echo $message->getReceivedDate() ?></a></td>
-                        <td><a href="<?php echo $href ?>"><?php echo $message->getSender()->first_name . ' ' . $last_name ?></a></td>
-                        <td><a href="<?php echo $href ?>"><?php echo $message->status ?></a></td>
+                        <td><a href="<?php echo $href ?>"><?php echo $message->getSender()->getName() ?></a></td>
+                        <td><a href="<?php echo $href ?>"><?php echo $message->subject ?><span class="shorttext"><?php
+
+                                    echo $message->getSafeMessage(200);
+
+                                    ?></span></a></td>
+                        <td><a href="<?php echo $href ?>"><?php echo $message->getReceivedLapseTime() ?></a></td>
+<!--                        <td><a href="--><?php //echo $href ?><!--">--><?php //echo $message->status ?><!--</a></td>-->
                         <!--td><a class="btn btn-<?php echo $message->status == 'unread'?'default':'primary' ?>" href="<?php echo $href; ?>">Open</a></td-->
-                        <td>
-                            <span><?php
-
-                                echo $message->responded_on == '0000-00-00 00:00:00'?'':$message->getRespondedDate();
-
-                                ?></span>
-                        </td>
+<!--                        <td>-->
+<!--                            <span>--><?php
+//
+//                                echo $message->responded_on == '0000-00-00 00:00:00'?'':$message->getRespondedDate();
+//
+//                                ?><!--</span>-->
+<!--                        </td>-->
                     </tr>
                 <?php endforeach; ?>
             </tbody>

@@ -154,19 +154,32 @@ class TppStoreModelMessages extends TppStoreAbstractModelResource {
 
         $start = ($page-1) * 20;
 
+//        $wpdb->query(
+//            $wpdb->prepare(
+//                "SELECT * FROM " . $this->getTable() . " AS m
+//                LEFT JOIN " . TppStoreModelUser::getInstance()->getTable() .  " AS u ON u.user_id = m.sender
+//                WHERE receiver = %d
+//                GROUP BY parent_id
+//                ORDER BY status = 'unread' DESC, created_on DESC
+//                LIMIT $start, 20
+//                ",
+//                $this->receiver
+//            )
+//        );
+
         $wpdb->query(
             $wpdb->prepare(
-                "SELECT * FROM " . $this->getTable() . " AS m
-                LEFT JOIN " . TppStoreModelUser::getInstance()->getTable() .  " AS u ON u.user_id = m.sender
+                "SELECT * FROM " . TppStoreModelUser::getInstance()->getTable() .  " AS u
+                LEFT JOIN (SELECT * FROM " . $this->getTable() . " ORDER BY status) AS m ON m.receiver = u.user_id
                 WHERE receiver = %d
                 GROUP BY parent_id
-                ORDER BY created_on DESC
-
+                ORDER BY status = 'unread' DESC, created_on DESC
                 LIMIT $start, 20
                 ",
                 $this->receiver
             )
         );
+
 
         $messages = array();
 

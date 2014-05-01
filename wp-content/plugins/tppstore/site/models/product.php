@@ -680,7 +680,7 @@ class TppStoreModelProduct extends TppStoreAbstractModelBaseProduct {
 
                 TppStoreLibraryLogger::getInstance()->add(null, 'We could not determine the users store', 'product upload', array(
                     'product_id'    =>  $this->product_id
-                ));
+                ), 'error');
                 return false;
 
             }

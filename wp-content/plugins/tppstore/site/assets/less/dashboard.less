@@ -365,6 +365,15 @@ table.dashboard-list {
             }
 
             &.message {
+                background:@secondaryColour;
+                color:@secondaryColourDarker;
+                &.read {
+
+                    a, .shorttext {
+                        color:#000000;
+                        .opacity(55);
+                    }
+                }
                 td {
                     padding:5px;
 //                    a.btn-default {
@@ -376,7 +385,7 @@ table.dashboard-list {
 
 
             &.unread {
-                background:@mainColour;
+                background:#FFFFFF;
 
 
                 .btn {
@@ -385,15 +394,28 @@ table.dashboard-list {
                 }
 
 
+                    .shorttext {
+                        color:@secondaryColourDarker;
+                    }
+
                 a {
-                    color:#FFFFFF;
-                }
-                &:nth-child(odd) {
-                    background:@mainColour;
-                    a {
-                        color:#FFFFFF;
+                    &:hover {
+                        .shorttext {
+                            .opacity(75);
+                        }
                     }
                 }
+
+
+//                a {
+//                    color:#FFFFFF;
+//                }
+////                &:nth-child(odd) {
+//                    background:@mainColour;
+//                    a {
+//                        color:#FFFFFF;
+//                    }
+//                }
 
             }
 

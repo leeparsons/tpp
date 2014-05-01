@@ -237,11 +237,11 @@ class TppStoreAbstractModelBaseProduct extends TppStoreModelCurrency {
         switch (intval($this->product_type))
         {
             case 1:
-                return 'Service';
+                return 'Download';
                 break;
 
             case 2:
-                return 'Download';
+                return 'Service';
                 break;
 
             case 3:

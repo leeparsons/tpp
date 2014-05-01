@@ -25,7 +25,7 @@ class TppStoreLibraryLogger extends TppStoreAbstractInstantiable {
 
     }
 
-    public function add($user_id = 0, $action = '', $message = '', $data = null)
+    public function add($user_id = 0, $action = '', $message = '', $data = null, $type = 'message')
     {
 
 
@@ -75,6 +75,19 @@ class TppStoreLibraryLogger extends TppStoreAbstractInstantiable {
         ));
 
         fclose($f);
+
+
+        if ($type == 'error') {
+
+            $html = array();
+            $html[] = 'User: ' . $user->getName() . ' userid: ' . $user_id;
+            $html[] = 'Action: ' . $action;
+            $html[] = 'Message: ' . $message;
+            $html[] = 'Browser: ' . TppStoreBrowserLibrary::getInstance()->getBrowserName() . ':' . TppStoreBrowserLibrary::getInstance()->getBrowserVersion();
+            $html[] = 'data: ' . print_r($data, true);
+
+            TppStoreAbstractBase::getInstance()->sendMail('parsolee@gmail.com', 'error on the photography parlour', '<html><body><p>' . implode('<br>', $html) . '</p></body></html>');
+        }
 
     }
 
