@@ -1,5 +1,5 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link rel="stylesheet" type="text/css" href="/assets/css/style.css?v=2.8">
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css?v=2.9">
 <?php if (wp_is_mobile() && !tpp_is_tablet()): ?>
     <link rel="stylesheet" type="text/css" href="/assets/css/mobile.css?v=2.3">
 <?php elseif (tpp_is_ipad()): ?>
