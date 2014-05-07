@@ -63,8 +63,9 @@ class TppStoreModelEvent extends TppStoreModelProduct {
             if ($this->end == $this->start) {
                 return '1 day';
             } else {
-                $d1 = new DateTime($this->event_start_date);
-                $d2 = new DateTime($this->event_end_date);
+                $date_time_zone = new DateTimeZone('Europe/London');
+                $d1 = new DateTime($this->event_start_date, $date_time_zone);
+                $d2 = new DateTime($this->event_end_date, $date_time_zone);
                 $diff = date_diff($d1, $d2);
                 return ($diff->days + 1) . ' days';
             }
@@ -73,6 +74,14 @@ class TppStoreModelEvent extends TppStoreModelProduct {
         }
 
     }
+
+    public function hasEventDatePassed()
+    {
+        $d1 = new DateTime($this->event_start_date, new DateTimeZone('Europe/London'));
+        $now = new DateTime('now', new DateTimeZone('Europe/London'));
+        return $d1 <= $now;
+    }
+
 
     public function getFormattedEventEndDate()
     {
@@ -240,7 +249,7 @@ class TppStoreModelEvent extends TppStoreModelProduct {
 
             $id = $id == ''?'':' id="' . $id . '" ';
 
-            return '<img ' . $id . ' ' . $width . ' ' . $height . ' . src="/wp-content/uploads/store/' . $this->store_id . '/' . $this->product_id . '/maps/map.png" alt="event location" >';
+            return '<img ' . $id . ' ' . $width . ' ' . $height . ' src="/wp-content/uploads/store/' . $this->store_id . '/' . $this->product_id . '/maps/map.png" alt="event location" >';
         } else {
             return false;
         }

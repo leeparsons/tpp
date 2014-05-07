@@ -80,27 +80,27 @@ if (isset($preview) && $preview == 1) {
 
 ?>
 
-<article class="product page">
+    <article class="product page">
     <div class="wrap" id="errors">
         <?php TppStoreMessages::getInstance()->render() ?>
     </div>
 
-<?php if (count($slide_images) > 0): ?>
-    <div class="half-left">
+    <?php if (count($slide_images) > 0): ?>
+        <div class="half-left">
 
-        <div class="product-images" id="product_images">
+            <div class="product-images" id="product_images">
 
-            <div class="slides">
-                <?php echo implode('', $slide_images); ?>
+                <div class="slides">
+                    <?php echo implode('', $slide_images); ?>
+                </div>
+                <?php if (count($slide_images) > 1): ?>
+                    <nav class="slide-navigation">
+                        <?php echo implode('', $thumb_images); ?>
+                    </nav>
+                <?php endif; ?>
             </div>
-            <?php if (count($slide_images) > 1): ?>
-                <nav class="slide-navigation">
-                    <?php echo implode('', $thumb_images); ?>
-                </nav>
-            <?php endif; ?>
         </div>
-    </div>
-<?php endif;?>
+    <?php endif;?>
 
     <div class="half-right">
 
@@ -120,57 +120,60 @@ if (isset($preview) && $preview == 1) {
         }
         ?>
 
+        <?php if (($product->product_type == '5' && false === $product->hasEventDatePassed()) || $product->product_type != '5'): ?>
+            <div class="product-aside align-left white-bg" id="wish_list">
 
-        <div class="product-aside align-left white-bg" id="wish_list">
+                <?php if (false === $user): ?>
+                    <a class="btn btn-primary" href="/shop/store_login/?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']) ?>">Login to add to your wish list</a>
+                <?php else: ?>
+                    <form method="post" action="/shop/wishlist/add/">
+                        <input type="hidden" name="product" value="<?php echo $product->product_id ?>">
+                        <input type="submit" value="Add to wishlist" class="btn btn-primary form-control">
+                    </form>
+                    <a href="/shop/myaccount/wishlist" class="btn btn-primary"><?php
 
-            <?php if (false === $user): ?>
-                <a class="btn btn-primary" href="/shop/store_login/?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']) ?>">Login to add to your wish list</a>
-            <?php else: ?>
-                <form method="post" action="/shop/wishlist/add/">
-                    <input type="hidden" name="product" value="<?php echo $product->product_id ?>">
-                    <input type="submit" value="Add to wishlist" class="btn btn-primary form-control">
-                </form>
-                <a href="/shop/myaccount/wishlist" class="btn btn-primary"><?php
+                        $total = TppStoreModelWishlist::getInstance()->setData(array(
+                            'user_id'   =>  $user->user_id
+                        ))->getTotalItems();
 
-                    $total = TppStoreModelWishlist::getInstance()->setData(array(
-                        'user_id'   =>  $user->user_id
-                    ))->getTotalItems();
+                        echo $total;
 
-                    echo $total;
+                        ?> item<?php echo $total == 1?'':'s' ?> in your wish list</a>
+                <?php endif; ?>
+            </div>
+        <?php else: ?>
 
-                    ?> item<?php echo $total == 1?'':'s' ?> in your wish list</a>
-            <?php endif; ?>
-        </div>
+        <?php endif; ?>
     </div>
 
 
 
     <div class="half-left">
-    <?php
+        <?php
 
-    include TPP_STORE_PLUGIN_DIR . 'site/views/product/default/share.php';
+        include TPP_STORE_PLUGIN_DIR . 'site/views/product/default/share.php';
 
-    ?>
+        ?>
 
-    <div class="description">
-        <h2>Details</h2>
-        <div class="wrap"><pre><?php echo $product->product_description ?></pre></div>
+        <div class="description">
+            <h2>Details</h2>
+            <div class="wrap"><pre><?php echo $product->product_description ?></pre></div>
+        </div>
+        <?php
+
+        include TPP_STORE_PLUGIN_DIR . 'site/views/product/default/share.php';
+
+        ?>
     </div>
     <?php
 
-    include TPP_STORE_PLUGIN_DIR . 'site/views/product/default/share.php';
+    $cacher->setCacheName('card');
 
-    ?>
-</div>
-<?php
-
-$cacher->setCacheName('card');
-
-if ($can_cache && false === ($card_html = $cacher->readCache(-1))) {
+    if ($can_cache && false === ($card_html = $cacher->readCache(-1))) {
 
     ob_start();
 
-?>
+    ?>
     <div class="half-right" id="store_profile">
 
         <?php
@@ -191,42 +194,42 @@ if ($can_cache && false === ($card_html = $cacher->readCache(-1))) {
 
         $card_html = ob_get_contents();
 
-    ob_end_clean();
+        ob_end_clean();
 
-    $cacher->saveCache($card_html);
+        $cacher->saveCache($card_html);
 
-}
+        }
 
         echo $card_html;
         unset($card_html);
 
 
-    ?>
+        ?>
 
 
 
-    <div class="product-aside align-left">
-        <a href="/shop/ask/<?php echo $store->store_slug ?>/" class="btn btn-primary form-control">Ask store owner a question</a>
-    </div>
+        <div class="product-aside align-left">
+            <a href="/shop/ask/<?php echo $store->store_slug ?>/" class="btn btn-primary form-control">Ask store owner a question</a>
+        </div>
 
-    <?php
+        <?php
 
-    switch ($product->product_type) {
-        case '4':
-            include TPP_STORE_PLUGIN_DIR . 'site/views/product/mentor/mentor_sessions.php';
-            break;
+        switch ($product->product_type) {
+            case '4':
+                include TPP_STORE_PLUGIN_DIR . 'site/views/product/mentor/mentor_sessions.php';
+                break;
 
-        default:
-            include TPP_STORE_PLUGIN_DIR . 'site/views/product/default/store_products.php';
-            break;
-    }
-
-
+            default:
+                include TPP_STORE_PLUGIN_DIR . 'site/views/product/default/store_products.php';
+                break;
+        }
 
 
-   ?>
 
-    <?php /* categories
+
+        ?>
+
+        <?php /* categories
 
 
 //$cats = $product->getCategories();
@@ -245,12 +248,12 @@ if ($can_cache && false === ($card_html = $cacher->readCache(-1))) {
 
  end categories
  */
- ?>
+        ?>
 
-</div>
+    </div>
 
 
-<?php /* reviews
+    <?php /* reviews
 
  $rating = $product->getAverageRating(); ?>
 
@@ -360,14 +363,14 @@ if ($can_cache && false === ($card_html = $cacher->readCache(-1))) {
 
  end reviews
  */ ?>
-</article>
-<script>
-    var main_image = "<?php echo get_bloginfo('url') .  $main_image ?>";
-    var permalink = "<?php echo $product->getPermalink() ?>";
-    var title = "<?php echo esc_attr($product->product_title) ?>";
-    var shop_fb_id = "<?php echo $store->getFacebookId() ?>";
-    var description = "<?php echo esc_attr(str_replace('<br>', ' ', nl2br($product->excerpt, false))) ?>";
-    <?php wp_enqueue_script('product', TPP_STORE_PLUGIN_URL . '/site/assets/js/product-ck.js', array('jquery'), 2.5, true) ?></script>
+    </article>
+    <script>
+        var main_image = "<?php echo get_bloginfo('url') .  $main_image ?>";
+        var permalink = "<?php echo $product->getPermalink() ?>";
+        var title = "<?php echo esc_attr($product->product_title) ?>";
+        var shop_fb_id = "<?php echo $store->getFacebookId() ?>";
+        var description = "<?php echo esc_attr(str_replace('<br>', ' ', nl2br($product->excerpt, false))) ?>";
+        <?php wp_enqueue_script('product', TPP_STORE_PLUGIN_URL . '/site/assets/js/product-ck.js', array('jquery'), 2.5, true) ?></script>
 <?php get_footer();
 
 

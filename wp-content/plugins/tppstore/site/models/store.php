@@ -368,7 +368,7 @@ class TppStoreModelStore extends TppStoreModelCurrency {
         $relative_path = substr($directory, strlen(WP_CONTENT_DIR . '/uploads'));
 
         if (true === $html) {
-            return '<img src="' . $relative_path . $this->src . '" alt="">';
+            return '<img src="' . $relative_path . $this->src . '" alt="' . $this->getSafeTitle() . '">';
 
         } else {
             return $relative_path . $this->src;
