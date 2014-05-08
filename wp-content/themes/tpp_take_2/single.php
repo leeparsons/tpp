@@ -28,41 +28,43 @@ get_header('blog');
 
     <div class="author-meta align-left wrap">
 
-        <?php echo get_avatar( get_the_author_meta('ID') , 100 ); ?>
-        <a class="author" href="<?php echo get_author_posts_url($post->post_author) ?>">By: <?php echo trim(get_the_author_meta('first_name') . ' ' . get_the_author_meta('last_name')) ?></a>
-        <p><?php the_author_meta('description') ?></p>
-        <?php
+        <div class="align-left author-left">
+            <?php echo get_avatar( get_the_author_meta('ID') , 100 ); ?>
+            <?php
 
-        $url = get_the_author_meta('url');
-        $twitter = get_the_author_meta('twitter');
-        $facebook = get_the_author_meta('facebook');
-        $gplus = get_the_author_meta('gplus');
-        $blog = get_the_author_meta('blog');
-        $twitter_url = get_the_author_meta('twitter_url');
+            $url = get_the_author_meta('url');
+            $twitter = get_the_author_meta('twitter');
+            $facebook = get_the_author_meta('facebook');
+            $gplus = get_the_author_meta('gplus');
+            $blog = get_the_author_meta('blog');
+            $twitter_url = get_the_author_meta('twitter_url');
 
-        if ($url || $twitter_url || $facebook || $gplus || $blog):
+            if ($url || $twitter_url || $facebook || $gplus || $blog):
 
+                $icon = 1;
 
-
-        ?>
-        <div class="author-links">
-            <?php if ($url): ?>
-            <a href="<?php echo $url ?>" target="_blank">website</a>
-            <?php endif; ?>
-            <?php if ($blog): ?>
-                <a href="<?php echo $blog ?>" target="_blank">blog</a>
-            <?php endif; ?>
-            <?php if ($twitter_url): ?>
-                <a href="<?php echo $twitter_url ?>" target="_blank">twitter</a>
-            <?php endif; ?>
-            <?php if ($facebook): ?>
-                <a href="<?php echo $facebook ?>" target="_blank">facebook</a>
-            <?php endif; ?>
-            <?php if ($gplus): ?>
-                <a href="<?php echo $gplus ?>" target="_blank">Google +</a>
+                ?>
+                <div class="author-links align-left">
+                    <?php if ($url): ?>
+                        <a href="<?php echo $url ?>" class="align-left" target="_blank">website</a>
+                    <?php endif; ?>
+                    <?php if ($blog): ?>
+                        <a href="<?php echo $blog ?>" class="align-right" target="_blank">blog</a>
+                    <?php endif; ?>
+                    <?php if ($twitter_url): ?>
+                        <a href="<?php echo $twitter_url ?>" class="twitter icon icon<?php echo $icon; $icon++; ?>" target="_blank">twitter</a>
+                    <?php endif; ?>
+                    <?php if ($facebook): ?>
+                        <a href="<?php echo $facebook ?>" class="facebook icon icon<?php echo $icon; $icon++; ?>" target="_blank">facebook</a>
+                    <?php endif; ?>
+                    <?php if ($gplus): ?>
+                        <a href="<?php echo $gplus ?>" class="gplus icon icon<?php echo $icon; $icon++; ?>" target="_blank">Google +</a>
+                    <?php endif; ?>
+                </div>
             <?php endif; ?>
         </div>
-        <?php endif; ?>
+            <a class="author" rel="author" href="<?php echo get_author_posts_url($post->post_author) ?>">By: <?php echo trim(get_the_author_meta('first_name') . ' ' . get_the_author_meta('last_name')) ?></a>
+            <p><?php the_author_meta('description') ?></p>
     </div>
         <script>
             document.getElementById('autor_avatar');
