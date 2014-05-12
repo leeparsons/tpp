@@ -28,8 +28,15 @@ get_header('blog'); ?>
             <a href="" class="social-counter ig-counter"></a>
             <a href="" class="social-counter yt-counter"></a>
             <a href="" class="social-counter gp-counter"></a>
-            subscribe
+
+            <?php get_template_part('blog/sidebar/newsletter'); ?>
+
         </aside>
+
+        <aside class="aside-40">
+            <?php get_template_part('blog/sidebar/products') ?>
+        </aside>
+
 
         <section class="blog-main community-challenges">
 
@@ -55,6 +62,12 @@ get_header('blog'); ?>
 
         </section>
 
+<!--        <aside class="aside-40">-->
+<!--            <h4>Popular Categories</h4>-->
+<!--            <div class="blog-divider-top"></div>-->
+<!--            --><?php //get_template_part('blog/sidebar/popular_categories'); ?>
+<!--        </aside>-->
+
 
         <section class="blog-main behind-the-scenes">
 
@@ -66,6 +79,12 @@ get_header('blog'); ?>
 
         </section>
 
+        <?php
+
+        /*
+         * TODO: get the most popular posts!
+         *
+
         <section class="blog-main most-popular">
 
             <div class="blog-divider-top"></div>
@@ -76,9 +95,11 @@ get_header('blog'); ?>
 
         </section>
 
+        *
+        * end TODO
+        */
 
-
-        <?php get_template_part('sidebars/general'); ?>
+        ?>
     </div>
 <?php get_footer();
 

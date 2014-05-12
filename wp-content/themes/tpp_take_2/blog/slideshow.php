@@ -11,7 +11,7 @@ if (have_posts()):
         <?php while (have_posts()): the_post(); ?>
             <?php $i++; ?>
             <article class="post-slide" <?php echo $i > 1?'style="display:none"':'' ?>>
-                <?php the_post_thumbnail('blog_post_slide'); ?>
+                <a href="<?php the_permalink() ?>"><?php the_post_thumbnail('blog_post_slide'); ?></a>
                 <div class="post-info">
                     <header><h3><a href="<?php the_permalink() ?>"><?php echo tpp_limit_content(get_the_title(), 40, ''); ?></a></h3></header>
                     <div class="hentry excerpt">

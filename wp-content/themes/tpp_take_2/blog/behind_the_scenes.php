@@ -1,29 +1,31 @@
 <?php
 
 
-query_posts('post_type=tpp_interview&posts_per_page=5');
+query_posts('posts_per_page=5&cat=326');
 
-if (have_posts()): ?>
+if (have_posts()): $i = 1; ?>
 
-    <section id="behind_the_scenes_articles" class="half-half">
+    <section id="behind_the_scenes_articles" class="half-half artillery">
+        <?php
 
-<?php
-
-    $i = 1;
-
-    while (have_posts()):
+        while (have_posts()):
         the_post();
 
-        if ($i > 1) {
-            get_template_part('blog/squares/square_small');
-        } else {
-            get_template_part('blog/squares/square_half');
-        }
+        if ($i == 1): ?>
+        <div class="align-left half-wrap">
+            <?php get_template_part('blog/squares/square_half') ?>
+        </div>
+        <div class="align-right half-wrap">
+            <?php else: ?>
+                <?php get_template_part('blog/rows/row_small'); ?>
+                <div class="blog-divider-grey"></div>
+            <?php endif;
 
 
-        $i++;
+            $i++;
 
-    endwhile; ?>
+            endwhile; ?>
+        </div>
     </section>
 <?php endif;
 

@@ -33,17 +33,38 @@ $interview->load();
         if (false === $interview->hasVideo()): ?>
             <?php if (has_post_thumbnail()): ?>
                 <a href="<?php the_permalink() ?>">
-                <?php the_post_thumbnail('blog_large_square') ?>
+                <?php
+
+                $img = get_the_post_thumbnail(get_the_ID(), 'blog_large_square');
+
+                $bits = explode('height="', $img);
+
+                $height = substr($bits[1], 0, strpos($bits[1], '"'));
+
+
+                if (intval($height) < 356) {
+
+                    echo '<span class="interview-image-spacer" style="display:block;background:#000000;padding:' . ((356 - $height)/2) . 'px 0;">';
+                    echo $img;
+                    echo '</span>';
+
+                } else {
+                    echo $img;
+                }
+
+
+
+                ?>
                 </a>
             <?php endif; ?>
         <?php else: ?>
             <?php echo $interview->getVideoEmbedCode(false, 475); ?>
         <?php endif; ?>
     </div>
-    <div class="interview-text wrap">
-        <a class="wrap" href="<?php the_permalink(); ?>"><strong class="wrap"><?php the_title(); ?></strong></a>
+    <div class="interview-text wrap hentry">
+        <a class="wrap entry-title" href="<?php the_permalink(); ?>"><strong class="wrap"><?php the_title(); ?></strong></a>
         <div class="wrap post-meta">
-            <time class="align-left" datetime="<?php echo $interview->getDate()?:get_the_date('Y-m-d'); ?>"><?php echo $interview->getDate('F, j. Y')?:get_the_date('F, j. Y'); ?></time>
+            <time class="align-left published" datetime="<?php echo $interview->getDate()?:get_the_date('Y-m-d'); ?>"><?php echo $interview->getDate('F, j. Y')?:get_the_date('F, j. Y'); ?></time>
             <span class="align-left"> / </span>
             <span class="align-left"><?php
 
@@ -53,9 +74,9 @@ $interview->load();
 
             ?> comment<?php echo $comment_counts['approved'] == 1?'':'s' ?></span>
         </div>
-        <div class="hentry wrap">
-            <?php the_excerpt(); ?>
-            <a class="read-more" href="<?php the_permalink(); ?>">&ndash; read more</a>
+        <div class="entry-excerpt wrap">
+            <?php echo tpp_limit_content(strip_tags(get_the_content()), 650); ?>
+            <a class="read-more wrap" href="<?php the_permalink(); ?>">&ndash; read more</a>
         </div>
     </div>
 </article>

@@ -13,9 +13,6 @@
     <?php endif; ?>
 <?php endif; ?>
     <div class="wrap">
-        <section id="header_category" class="header-slideshow"></section>
-    </div>
-    <div class="wrap">
         <section class="innerwrap"><?php
 
 

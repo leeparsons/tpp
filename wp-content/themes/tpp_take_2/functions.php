@@ -33,7 +33,7 @@ add_image_size('store_related', 110, 110, true);
 add_image_size('blog_post_thumb', 250, 150, true);
 add_image_size('blog_post_slide', 695, 340, true);
 add_image_size('blog_sidebar', 380, 160, true);
-add_image_size('blog_small_square', 200, 110, true);
+add_image_size('blog_small_square', 200, 130, true);
 add_image_size('blog_large_square', 475, 356, true);
 add_image_size('blog_square_half', 340, 200, true);
 add_image_size('blog_square_x_small', 70, 70, true);
@@ -209,7 +209,7 @@ function tppReadMore($more = '') {
 
 add_filter('excerpt_more', 'tppReadMore');
 
-function tpp_limit_content($content = '', $len = 120, $more = '..')
+function tpp_limit_content($content = '', $len = 120, $more = '...')
 {
     if (trim($content) == '') {
         return $content;

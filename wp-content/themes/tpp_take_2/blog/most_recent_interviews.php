@@ -5,7 +5,7 @@ query_posts('post_type=tpp_interview&posts_per_page=4');
 
 if (have_posts()): ?>
 
-    <section id="interview_articles">
+    <section id="interview_articles" class="wrap">
 
 <?php
 
@@ -13,9 +13,8 @@ if (have_posts()): ?>
 
     while (have_posts()):
         the_post();
-
         if ($i > 1) {
-            get_template_part('blog/interviews/square_small');
+            include get_template_directory() . '/blog/interviews/square_small.php';
         } else {
             get_template_part('blog/interviews/square_large');
         }

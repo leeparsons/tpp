@@ -11,22 +11,18 @@ var video_click_detection = {
         };
 
         video_click_detection.register_click_watcher();
+
     },
     _click:  function() {
-        console.log('click');
         if (video_click_detection.hovering === true) {
-            console.log('hovering');
             if (video_click_detection.playing === false) {
-                console.log('playing now');
                 video_click_detection.playing = true;
                 document.getElementById('interview_title-<?php echo get_the_ID() ?>').style.display = 'none';
             } else {
-                console.log('finished playing now');
                 video_click_detection.playing = false;
                 document.getElementById('interview_title-<?php echo get_the_ID() ?>').style.display = 'block';
             }
         }
-        console.log('end cycle');
     },
     register_click_watcher:   function() {
         if(typeof window.addEventListener != 'undefined') {

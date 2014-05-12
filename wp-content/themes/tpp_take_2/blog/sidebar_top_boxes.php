@@ -1,4 +1,4 @@
-<?php foreach (array(286, 296) as $cat_id): ?>
+<?php foreach (array(325, 329) as $cat_id): ?>
     <div class="side-box">
         <?php
 
