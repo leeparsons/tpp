@@ -14,7 +14,7 @@
 
                 <div class="links-wrap">
                     <a href="" class="cat-title"><?php echo get_the_category_by_ID($cat_id); ?></a>
-                    <a class="post-title" href="<?php the_permalink(); ?>"><?php echo tpp_limit_content(get_the_title()) ?></a>
+                    <a class="post-title" href="<?php the_permalink(); ?>"><?php echo tpp_limit_content(get_the_title(), 60) ?></a>
                 </div>
                 </article><?php
             }

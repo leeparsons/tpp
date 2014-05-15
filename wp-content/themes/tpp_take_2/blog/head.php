@@ -3,6 +3,9 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href="/assets/css/blog.css" rel="stylesheet" type="text/css">
+    <?php if (tpp_is_ipad()): ?>
+        <link href="/assets/css/blog_ipad.css" rel="stylesheet" type="text/css">
+    <?php endif; ?>
     <title><?php
 
             wp_title('');
@@ -35,5 +38,7 @@
             <input type="submit" class="button button-default" value="Search">
             <button type="submit" id="search_button">Search</button>
         </form>
+        <?php TppStoreControllerUser::getInstance()->renderMenuButtons(); ?>
+
     </header>
 </div><?php flush();

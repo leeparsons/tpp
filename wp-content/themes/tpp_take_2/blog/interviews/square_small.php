@@ -2,7 +2,7 @@
     <?php if ($i > 2): ?>
         <div class="blog-divider-grey"></div>
     <?php endif; ?>
-    <a class="wrap text-center" href="<?php the_permalink(); ?>">
+    <a class="wrap text-center img-wrap" href="<?php the_permalink(); ?>">
         <?php the_post_thumbnail('blog_small_square'); ?>
     </a>
     <h4 class="align-left wrap"><a href="<?php the_permalink(); ?>"><?php echo tpp_limit_content(get_the_title(), 45) ?></a></h4>

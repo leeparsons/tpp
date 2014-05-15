@@ -1,5 +1,6 @@
 <div class="widget">
     <h5><?php echo $title ?></h5>
+    <div class="blog-divider-top"></div>
     <?php foreach ($products as $product): ?>
         <div class="wrap latest-product">
         <a class="wrap" href="<?php echo $product->getPermalink(); ?>">

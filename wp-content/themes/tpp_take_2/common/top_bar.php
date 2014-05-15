@@ -7,12 +7,6 @@
             <li>
                 <span></span>
             </li>
-<!--            <li>-->
-<!--                <a href="">Archives</a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <span></span>-->
-<!--            </li>-->
             <li>
                 <a href="/">Home</a>
             </li>
@@ -35,5 +29,10 @@
                 <a href="https://plus.google.com/communities/115609399709962829561" target="_blank">Community</a>
             </li>
         </ul>
+<!--        <ul class="align-left">-->
+<!--            <li><a href="/">-->
+<!--                    <img width="82" height="52" src="/assets/images/logo-blue-and-pink.png" alt="The Photography Parlour">-->
+<!--                    The Photography Parlour</a></li>-->
+<!--        </ul>-->
     </nav>
 </div>

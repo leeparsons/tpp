@@ -410,7 +410,7 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
             $title = 'Products you might like';
             include TPP_STORE_PLUGIN_DIR . 'site/views/products/latest_products.php';
         } else {
-            $this->renderLatestProductsSideBar();
+            $this->renderLatestProductsSideBar(6);
         }
 
     }
@@ -434,9 +434,9 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
         return $this->getProductsModel()->getLatestProducts($limit);
     }
 
-    public function renderLatestProductsSideBar()
+    public function renderLatestProductsSideBar($limit = 5)
     {
-        $products = $this->getLatestProducts(5);
+        $products = $this->getLatestProducts($limit);
 
         if (count($products) > 0) {
             $title = 'Latest Products';

@@ -19,7 +19,6 @@ if (have_posts()): ?>
             get_template_part('blog/interviews/square_large');
         }
 
-
         $i++;
 
     endwhile; ?>

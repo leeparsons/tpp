@@ -27,6 +27,7 @@ $interview->load();
 
 
                 ?></a></h2>
+        <input type="hidden" id="video_id" value="<?php echo get_the_ID(); ?>">
         <?php
 
 
@@ -35,7 +36,7 @@ $interview->load();
                 <a href="<?php the_permalink() ?>">
                 <?php
 
-                $img = get_the_post_thumbnail(get_the_ID(), 'blog_large_square');
+                $img = get_the_post_thumbnail(get_the_ID(), 'blog_large_square', 'id=interview_media-' . get_the_ID());
 
                 $bits = explode('height="', $img);
 
@@ -44,13 +45,16 @@ $interview->load();
 
                 if (intval($height) < 356) {
 
-                    echo '<span class="interview-image-spacer" style="display:block;background:#000000;padding:' . ((356 - $height)/2) . 'px 0;">';
-                    echo $img;
-                    echo '</span>';
+                    echo '<span id="interview_media_wrap-' . get_the_ID() . '" class="interview-image-spacer" style="display:block;background:#000000;padding:' . ((356 - $height)/2) . 'px 0;">';
+
 
                 } else {
-                    echo $img;
+                    echo '<span id="interview_media_wrap-' . get_the_ID() . '" class="interview-image-spacer" style="display:block;background:#000000;">';
+
                 }
+
+                echo $img;
+                echo '</span>';
 
 
 

@@ -1,0 +1,75 @@
+@import '../_variables';
+@import '../_mixins';
+
+#interview_articles {
+
+    padding-bottom:20px;
+    border-bottom:1px solid @blogColour;
+
+    .square-large {
+        width:100%;
+        .featured-interview-wrap {
+            float:left;
+            width:50%;
+        }
+
+        img {
+            width:100%;
+        }
+
+        .interview-text {
+            float:left;
+            height:356px;
+            width:50%;
+        }
+        margin-bottom:10px;
+    }
+
+
+    .small-square {
+        width:27%;
+        margin:0 3%;
+        clear:none;
+        h4 {
+            a {
+                float:left;
+                width:100%;
+                font-size:16px;
+                text-align: center;
+            }
+        }
+        .blog-divider-grey {
+            display:none;
+        }
+        //            .img-wrap {
+        //                width:195px;
+        //                margin:0 10px 10px 0;
+        //            }
+        //            h4 {
+        //                margin-top:0;
+        //            }
+        //            h4, .post-meta {
+        //                float:left;
+        //                width:265px;
+        //            }
+    }
+}
+
+.my-first-time {
+    text-align:center;
+    article {
+        width:30%;
+        float:none;
+        margin:0 1.5%;
+        display:inline-block;
+        .img-wrap {
+            text-align:center;
+            width:100%;
+        }
+        img {
+            display:block;
+            margin:auto;
+        }
+    }
+
+}

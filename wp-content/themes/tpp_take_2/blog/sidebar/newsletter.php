@@ -13,11 +13,13 @@
                 <br>
                 <input type="email" placeholder="Email" value="" name="EMAIL" class="form-control" id="mce-EMAIL">
                 <div style="position: absolute; left: -5000px;"><input type="text" name="b_c83dc78a82a2e856668eb3087_3608e4a665" value=""></div>
-                <br>
-                <a class="rss-icon" href="<?php bloginfo('rss2_url'); ?>" target="_blank">Rss</a>
-                <span class="align-left or">or</span>
-                <input type="submit" value="subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-go">
-                <input type="hidden" value="newsletter" name="SOURCE" id="mce-SOURCE">
+
+                <div class="buttons">
+                    <input type="submit" value="subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-go align-left">
+                    <span class="align-left or">or</span>
+                    <a class="rss-icon" href="<?php bloginfo('rss2_url'); ?>" target="_blank">Rss</a>
+                    <input type="hidden" value="newsletter" name="SOURCE" id="mce-SOURCE">
+                </div>
 
 
             </form>

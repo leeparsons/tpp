@@ -9,12 +9,14 @@
     <?php
 
     $q = new WP_Query(array(
-        'post_status'   =>  'publish'
+        'post_status'       =>  'publish',
+        'posts_per_page'    =>  10
     ));
 
     ?>
     <div class="widget posts-widget">
         <h4>Recent Articles</h4>
+        <div class="blog-divider-top"></div>
         <?php if ($q->have_posts()): ?>
             <?php while ($q->have_posts()): $q->the_post(); ?>
                 <a class="wrap" href="<?php the_permalink() ?>">

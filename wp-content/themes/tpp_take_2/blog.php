@@ -31,9 +31,6 @@ get_header('blog'); ?>
 
             <?php get_template_part('blog/sidebar/newsletter'); ?>
 
-        </aside>
-
-        <aside class="aside-40">
             <?php get_template_part('blog/sidebar/products') ?>
         </aside>
 
@@ -52,6 +49,7 @@ get_header('blog'); ?>
         </section>
 
 
+
         <section class="blog-main my-first-time">
 
             <div class="blog-divider-top"></div>
@@ -61,6 +59,36 @@ get_header('blog'); ?>
             <?php get_template_part('blog/my_first_time'); ?>
 
         </section>
+
+
+        <?php
+
+        $q = new WP_Query(array(
+            'post_status'   =>  'publish'
+        ));
+
+        ?>
+        <aside class="aside-40">
+            <div class="widget posts-widget">
+                <h3>Recent Articles</h3>
+                <div class="blog-divider-top"></div>
+                <?php if ($q->have_posts()): ?>
+                    <?php while ($q->have_posts()): $q->the_post(); ?>
+                        <a class="wrap" href="<?php the_permalink() ?>">
+                    <span class="strong"><?php echo get_the_post_thumbnail(get_the_ID(), 'store_related') ?><?php
+
+
+                        echo tpp_limit_content(get_the_title(), 90) ?><span><?php
+
+                            echo tpp_limit_content(get_the_excerpt(), 110);
+
+                            ?></span></span>
+                        </a>
+
+                    <?php endwhile; ?>
+                <?php endif; ?>
+            </div>
+        </aside>
 
 <!--        <aside class="aside-40">-->
 <!--            <h4>Popular Categories</h4>-->

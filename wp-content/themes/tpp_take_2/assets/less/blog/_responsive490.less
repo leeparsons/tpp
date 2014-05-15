@@ -1,0 +1,100 @@
+@media(max-width:490px) {
+    .post-slides {
+        height:250px;
+
+    }
+    .side-box .blog-sidebar-box .links-wrap a.post-title {
+        display:none;
+    }
+
+    .post-slide {
+        .post-info {
+            h3 {
+                font-size:22px;
+            }
+        }
+
+        .excerpt p {
+            display:none;
+        }
+
+        height:250px;
+
+        img {
+            width:443px;
+            height:250px;
+        }
+
+    }
+
+    #interview_articles {
+
+        margin:0;
+
+        .square-large {
+            .featured-interview-wrap, .interview-text {
+
+                width:100%;
+
+
+
+
+            }
+        }
+
+        .small-square {
+            &:hover {
+                background:@secondaryColour;
+            }
+            h4 {
+                a {
+                    font-size:16px;
+                }
+            }
+            width:100%;
+            margin:0 0 10px;
+            padding-bottom:10px;
+            border-bottom:1px dashed @blogColour;
+
+            &:last-child {
+                border-bottom:0;
+            }
+        }
+
+    }
+
+    .blog-social-counts form.newsletter input[type="text"], .blog-social-counts form.newsletter input[type="email"] {
+        width:100%;
+    }
+
+    .sidebar-product {
+        width:100%;
+        margin:0 0 10px;
+        position:relative;
+        &:last-child {
+            border-bottom:0;
+        }
+        .meta-holder {
+            position:absolute;
+            left:0;
+            right:0;
+            padding-left:160px;
+            top:0;
+            bottom:0;
+            width:100%;
+            a {
+                width:auto;
+            }
+        }
+        form {
+            position:absolute;
+            bottom:0;
+            left:0;
+        }
+    }
+
+    .social-counter {
+        margin:15px 6%;
+    }
+
+}
