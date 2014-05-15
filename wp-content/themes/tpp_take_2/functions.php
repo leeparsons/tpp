@@ -248,3 +248,17 @@ function remove_jquery_migrate( &$scripts)
 }
 
 add_filter( 'comments_array', 'array_reverse' );
+
+
+function modify_contact_methods($profile_fields) {
+
+    // Add new fields
+    $profile_fields['twitter'] = 'Twitter Username';
+    $profile_fields['twitter_url'] = 'Twitter URL';
+    $profile_fields['facebook'] = 'Facebook URL';
+    $profile_fields['gplus'] = 'Google+ URL';
+    $profile_fields['blog'] = 'Blog URL';
+
+    return $profile_fields;
+}
+add_filter('user_contactmethods', 'modify_contact_methods');
