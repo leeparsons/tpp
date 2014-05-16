@@ -4,3 +4,4 @@ wp-content/tpp_cache/
 wp-content/store/logs/
 .htaccess*
 *wp-config*
+wp-content/tpp_cache/
