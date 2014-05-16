@@ -1,4 +1,4 @@
-.idea
+.idea/*
 wp-content/uploads/
 wp-content/tpp_cache/
 wp-content/store/logs/
