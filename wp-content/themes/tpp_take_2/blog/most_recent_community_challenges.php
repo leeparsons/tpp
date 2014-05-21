@@ -1,6 +1,8 @@
 <?php
 
-query_posts('posts_per_page=5');
+wp_reset_query();
+
+query_posts('posts_per_page=5&cat=411');
 
 if (have_posts()) :
 

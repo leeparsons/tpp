@@ -1,0 +1,167 @@
+@import '../mobile.less';
+
+
+header.head {
+    top:20px;
+}
+
+
+.social-buttons div, .header-social-buttons div, .social-buttons iframe, .header-social-buttons iframe {
+    margin-bottom:20px;
+}
+.posts-widget {
+    h3 {
+        text-align:center;
+    }
+    a.wrap {
+        margin-right: 0;
+        &:nth-child(odd), &:nth-child(even) {
+            width:100%;
+        }
+    }
+}
+
+footer {
+    form.newsletter {
+        input[type="text"], input[type="email"] {
+            width:100%;
+margin-bottom:10px;
+        }
+    }
+}
+
+.single-post {
+    .latest-product {
+        width:100%;
+    }
+}
+
+@media only screen and (min-device-width : 320px) and (orientation : landscape) {
+
+    .interview-text {
+        .entry-excerpt {
+            padding-bottom:20px;
+        }
+    }
+
+    #interview_articles .square-large .interview-text {
+        height:auto;
+        max-height: 290px;
+    }
+
+    .blog-social-counts {
+        .blog-divider-top {
+            margin-bottom:10px;
+        }
+    }
+
+    .community-challenges {
+        h3 {
+            text-align: center;
+        }
+    }
+
+
+
+
+
+
+    .single-article h1 {
+        font-size:24px;
+    }
+
+}
+
+
+
+@media only screen and (min-device-width : 320px) and (orientation : portrait) {
+
+    .blog-main {
+        overflow:hidden;
+        margin-right:0;
+    }
+
+    .head {
+        height:420px;
+    }
+
+    .post-slides {
+overflow:hidden;
+        img {
+            width:100%;
+            height:auto;
+        }
+    }
+
+    form.newsletter {
+
+    .btn-go {
+        margin-left:0;
+    }
+    }
+
+
+    .blog-social-counts {
+        .blog-divider-top {
+            margin-bottom:10px;
+        }
+    }
+
+    .sidebar-product {
+        .meta-holder {
+            a {
+                font-size:14px;
+            }
+        }
+    }
+
+    .artillery {
+        .square-half {
+            img {
+                width:100%;
+                height:auto;
+            }
+        }
+    }
+
+    .my-first-time {
+
+        article {
+            margin:0;
+            width:100%;
+            .img-wrap, .img-wrap img {
+                width:100%;
+                height:auto;
+            }
+            h4, .post-meta {
+                position:relative;
+                padding-left:0;
+            }
+            h4 {
+                margin:10px 0;
+            }
+        }
+    }
+
+    .posts-widget {
+        h3 {
+            margin-top:0;
+        }
+    }
+
+    .single-post {
+        header {
+            h1 {
+                font-size:20px;
+            }
+        }
+        .entry-content {
+            img {
+                width:auto;
+                height:auto;
+            }
+        }
+
+
+    }
+}

@@ -3,7 +3,7 @@
     <a class="align-left small-row-img" href="<?php the_permalink(); ?>"><?php the_post_thumbnail('blog_square_x_small'); ?></a>
 
     <div class="align-left small-row-text">
-        <h4 class="align-left wrap entry-title"><a class="align-left" href="<?php the_permalink(); ?>"><?php echo tpp_limit_content(get_the_title(), 60); ?></a></h4>
+        <h4 class="align-left wrap entry-title"><a class="align-left" href="<?php the_permalink(); ?>"><?php echo tpp_limit_content(get_the_title(), 50); ?></a></h4>
         <div class="abs">
             <a class="align-left post-meta" href="<?php the_permalink(); ?>">
                 <span class="wrap"></span>

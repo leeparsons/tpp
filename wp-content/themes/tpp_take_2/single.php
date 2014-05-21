@@ -24,7 +24,9 @@ get_header('blog');
                     ?>
 
                     <header>
+                        <div class="blog-divider-top"></div>
                         <h1><?php the_title(); ?></h1>
+                        <div class="blog-divider-bottom"></div>
                     </header>
 
                     <div class="author-meta align-left wrap">
@@ -100,7 +102,7 @@ get_header('blog');
                 </div>
 
                 <?php get_template_part('post/related_products') ?>
-                <div class="comments">
+                <div class="comments wrap">
                     <?php comments_template() ?>
                 </div>
 

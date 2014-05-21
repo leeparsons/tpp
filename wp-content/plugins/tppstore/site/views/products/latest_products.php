@@ -11,7 +11,7 @@
         <form method="post" action="/shop/cart/add/">
             <input type="hidden" name="product" value="<?php echo $product->product_id ?>">
             <input type="hidden" name="quantity" value="1">
-            <input type="submit" value="Add to cart" class="btn btn-primary">
+            <input type="submit" value="Add to cart" class="btn btn-cart">
         </form>
         </div>
     <?php endforeach; ?>

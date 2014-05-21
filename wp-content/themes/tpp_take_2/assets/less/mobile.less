@@ -1,5 +1,5 @@
-@import "_variables";
-@import "_mixins";
+@import "_variables.less";
+@import "_mixins.less";
 
 .aside-25 {
     width:100%;
@@ -7,12 +7,21 @@
 
 }
 
-.blog-top {
+.top-menu {
     ul {
         margin:auto;
         float:none;
-        width:270px;
+        //width:270px;
+        width:100%;
         padding-left: 0;
+        text-align:center;
+        li {
+            margin-right: 0;
+            float: none;
+            display: inline-block;
+            padding: 0 3px;
+
+        }
     }
 }
 
@@ -76,5 +85,5 @@
         }
     }
 }
-@import "mobile/_portrait";
-@import "mobile/_landscape";
+@import "mobile/_portrait.less";
+@import "mobile/_landscape.less";

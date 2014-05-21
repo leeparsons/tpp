@@ -1,4 +1,4 @@
-<div class="blog-top wrap align-left">
+<div class="top-menu wrap align-left">
     <nav class="innerwrap">
         <ul>
             <li>

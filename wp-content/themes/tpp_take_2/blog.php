@@ -22,12 +22,12 @@ get_header('blog'); ?>
         </section>
 
         <aside class="aside-40 blog-social-counts">
-            <a href="" class="social-counter fb-counter"></a>
-            <a href="" class="social-counter tw-counter"></a>
-            <a href="" class="social-counter li-counter"></a>
-            <a href="" class="social-counter ig-counter"></a>
-            <a href="" class="social-counter yt-counter"></a>
-            <a href="" class="social-counter gp-counter"></a>
+            <a href="http://www.facebook.com/thephotographyparlour" class="social-counter fb-counter"></a>
+            <a href="https://twitter.com/photoparlour" class="social-counter tw-counter"></a>
+            <a href="<?php bloginfo('atom_url'); ?>" class="social-counter rss-counter"></a>
+            <a href="http://instagram.com/photographyparlour" class="social-counter ig-counter"></a>
+            <a href="https://www.youtube.com/channel/UChK7UYtVc34PkSUoeAyjLbg" class="social-counter yt-counter"></a>
+            <a href="https://plus.google.com/communities/115609399709962829561" class="social-counter gp-counter"></a>
 
             <?php get_template_part('blog/sidebar/newsletter'); ?>
 
@@ -39,9 +39,9 @@ get_header('blog'); ?>
 
             <div class="blog-divider-top"></div>
             <h2>Community Challenges</h2>
-            <div class="wrap text-center">
+            <!--div class="wrap text-center">
                 sponsor logos
-            </div>
+            </div-->
             <div class="blog-divider-bottom"></div>
 
             <?php get_template_part('blog/most_recent_community_challenges'); ?>
@@ -64,7 +64,8 @@ get_header('blog'); ?>
         <?php
 
         $q = new WP_Query(array(
-            'post_status'   =>  'publish'
+            'post_status'       =>  'publish',
+            'posts_per_page'    =>  5
         ));
 
         ?>

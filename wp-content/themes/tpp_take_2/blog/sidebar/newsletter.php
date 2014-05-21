@@ -17,7 +17,7 @@
                 <div class="buttons">
                     <input type="submit" value="subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-go align-left">
                     <span class="align-left or">or</span>
-                    <a class="rss-icon" href="<?php bloginfo('rss2_url'); ?>" target="_blank">Rss</a>
+                    <a class="rss-icon" href="<?php bloginfo('atom_url'); ?>" target="_blank">Rss</a>
                     <input type="hidden" value="newsletter" name="SOURCE" id="mce-SOURCE">
                 </div>
 

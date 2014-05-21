@@ -1,5 +1,8 @@
-@import '../_variables';
-@import '../_mixins';
+
+@import '../_variables.less';
+@import '../_mixins.less';
+@import '../ipad/_portrait.less';
+@import '../ipad/_landscape.less';
 
 #interview_articles {
 
@@ -69,6 +72,68 @@
         img {
             display:block;
             margin:auto;
+        }
+    }
+
+}
+
+.fb_iframe_widget {
+    max-width:100px !important;
+}
+
+@media only screen and (min-device-width : 400px) and (orientation : portrait) {
+
+    .menu-btns .basket-btn {
+        float:left;
+    }
+
+    .aside-40 {
+        form.newsletter {
+            .or {
+                margin:0 15px 0 10px;
+            }
+        }
+    }
+    .sidebar-product {
+        .meta-holder {
+            width:170px;
+            a {
+                font-size:16px;
+            }
+        }
+    }
+}
+
+@media only screen and (min-device-width : 500px) and (orientation : landscape) {
+
+    #header_search_form {
+        top:30px;
+        right:80px;
+    }
+
+    .sidebar-product {
+        .meta-holder {
+            width:280px;
+            a {
+                font-size:16px;
+            }
+        }
+    }
+
+    form.newsletter {
+        border-top:0;
+        input[type="text"] {
+            margin-right:2%;
+        }
+        input[type="text"], input[type="email"] {
+            width:36%;
+            float:left;
+        }
+        br {
+            display:none;
+        }
+        .btn-go {
+            margin-left:2%;
         }
     }
 
