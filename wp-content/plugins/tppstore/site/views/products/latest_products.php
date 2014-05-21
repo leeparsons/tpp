@@ -1,5 +1,6 @@
 <div class="widget">
     <h5><?php echo $title ?></h5>
+    <div class="blog-divider-top"></div>
     <?php foreach ($products as $product): ?>
         <div class="wrap latest-product">
         <a class="wrap" href="<?php echo $product->getPermalink(); ?>">
@@ -10,7 +11,7 @@
         <form method="post" action="/shop/cart/add/">
             <input type="hidden" name="product" value="<?php echo $product->product_id ?>">
             <input type="hidden" name="quantity" value="1">
-            <input type="submit" value="Add to cart" class="btn btn-primary">
+            <input type="submit" value="Add to cart" class="btn btn-cart">
         </form>
         </div>
     <?php endforeach; ?>

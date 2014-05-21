@@ -1,0 +1,140 @@
+
+@import '../_variables.less';
+@import '../_mixins.less';
+@import '../ipad/_portrait.less';
+@import '../ipad/_landscape.less';
+
+#interview_articles {
+
+    padding-bottom:20px;
+    border-bottom:1px solid @blogColour;
+
+    .square-large {
+        width:100%;
+        .featured-interview-wrap {
+            float:left;
+            width:50%;
+        }
+
+        img {
+            width:100%;
+        }
+
+        .interview-text {
+            float:left;
+            height:356px;
+            width:50%;
+        }
+        margin-bottom:10px;
+    }
+
+
+    .small-square {
+        width:27%;
+        margin:0 3%;
+        clear:none;
+        h4 {
+            a {
+                float:left;
+                width:100%;
+                font-size:16px;
+                text-align: center;
+            }
+        }
+        .blog-divider-grey {
+            display:none;
+        }
+        //            .img-wrap {
+        //                width:195px;
+        //                margin:0 10px 10px 0;
+        //            }
+        //            h4 {
+        //                margin-top:0;
+        //            }
+        //            h4, .post-meta {
+        //                float:left;
+        //                width:265px;
+        //            }
+    }
+}
+
+.my-first-time {
+    text-align:center;
+    article {
+        width:30%;
+        float:none;
+        margin:0 1.5%;
+        display:inline-block;
+        .img-wrap {
+            text-align:center;
+            width:100%;
+        }
+        img {
+            display:block;
+            margin:auto;
+        }
+    }
+
+}
+
+.fb_iframe_widget {
+    max-width:100px !important;
+}
+
+@media only screen and (min-device-width : 400px) and (orientation : portrait) {
+
+    .menu-btns .basket-btn {
+        float:left;
+    }
+
+    .aside-40 {
+        form.newsletter {
+            .or {
+                margin:0 15px 0 10px;
+            }
+        }
+    }
+    .sidebar-product {
+        .meta-holder {
+            width:170px;
+            a {
+                font-size:16px;
+            }
+        }
+    }
+}
+
+@media only screen and (min-device-width : 500px) and (orientation : landscape) {
+
+    #header_search_form {
+        top:30px;
+        right:80px;
+    }
+
+    .sidebar-product {
+        .meta-holder {
+            width:280px;
+            a {
+                font-size:16px;
+            }
+        }
+    }
+
+    form.newsletter {
+        border-top:0;
+        input[type="text"] {
+            margin-right:2%;
+        }
+        input[type="text"], input[type="email"] {
+            width:36%;
+            float:left;
+        }
+        br {
+            display:none;
+        }
+        .btn-go {
+            margin-left:2%;
+        }
+    }
+
+}

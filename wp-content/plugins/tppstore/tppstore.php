@@ -27,4 +27,3 @@ if (is_admin()) {
 } elseif (is_main_site()) {
     require TPP_STORE_PLUGIN_DIR . 'site/loader.php';
 }
-

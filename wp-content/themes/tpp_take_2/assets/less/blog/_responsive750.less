@@ -1,0 +1,119 @@
+@media(max-width:750px) {
+    .interview-text {
+        position:relative;
+
+        .entry-excerpt {
+            font-size:12px;
+            max-height:194px;
+            overflow:hidden;
+            a.read-more {
+                position:absolute;
+                left:20px;
+                bottom:0;
+            }
+        }
+    }
+
+    #interview_articles {
+        .small-square {
+            h4 {
+                a {
+                    font-size:12px;
+                }
+            }
+            time {
+                width:100%;
+                text-align:center;
+            }
+            span.align-right {
+                width:100%;
+                text-align:center;
+            }
+        }
+    }
+
+
+    .social-counter {
+        margin:15px 2%;
+    }
+
+    .blog-social-counts {
+        form.newsletter {
+            border-top:0;
+            input[type="text"], input[type="email"] {
+                width:37%;
+                float:left;
+            }
+            input[type="email"] {
+                clear:left;
+                margin-top:10px;
+            }
+            br {
+                display:none;
+            }
+            .buttons {
+                float: left;
+                width: 200px;
+                margin-top: 10px;
+            }
+        }
+    }
+
+    .artillery {
+        .half-wrap {
+            width:100%;
+            &:nth-child(even) {
+                border-top:1px solid @blogColour;
+                padding-top:10px;
+            }
+            position:relative;
+        }
+        .small-row-text {
+            position:absolute;
+            left:80px;
+            right:0;
+            width:auto;
+            bottom:0;
+            top:0;
+        }
+        .entry-title {
+            width:100%;
+        }
+        .abs {
+            left:0;
+        }
+    }
+
+
+    .my-first-time {
+        .small-square-3 {
+            width:100%;
+            margin-bottom:20px;
+            &:hover {
+                background: @secondaryColour;
+            }
+        }
+        article {
+            position:relative;
+            .img-wrap {
+                width:auto;
+            }
+
+            h4 {
+                font-size:20px;
+                text-align:left;
+                margin-top:0;
+                top:0;
+            }
+            h4, .post-meta {
+                position:absolute;
+                left:0;
+                padding-left:230px;
+                right:0;
+                bottom:0;
+            }
+        }
+    }
+
+
+}

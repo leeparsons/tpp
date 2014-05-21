@@ -52,6 +52,11 @@ class TppStoreModelProductImages extends TppStoreAbstractModelResource {
             'width'     =>  110,
             'height'    =>  110,
             'crop'      =>  true
+        ),
+        'blog_sidebar'  =>  array(
+            'width'     =>  150,
+            'height'    =>  150,
+            'crop'      =>  true
         )
     );
 

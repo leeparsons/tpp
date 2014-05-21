@@ -170,11 +170,11 @@ class TppStoreAbstractModelBaseProduct extends TppStoreModelCurrency {
         }
     }
 
-    public function getShortTitle()
+    public function getShortTitle($len = 35)
     {
 
 
-        if (strlen($this->product_title) > 35) {
+        if (strlen($this->product_title) > $len) {
 
             $str = '';
 
@@ -182,7 +182,7 @@ class TppStoreAbstractModelBaseProduct extends TppStoreModelCurrency {
 
             foreach ($tmp as $bit) {
                 $str .= $bit . ' ';
-                if (strlen($str . ' ' . $bit) > 40) {
+                if (strlen($str . ' ' . $bit) > $len + 5) {
                     $str .= ' ...';
                     break;
                 }

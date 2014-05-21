@@ -1,4 +1,4 @@
-<?php get_template_part('common/head'); ?>
+<?php get_template_part('blog/head'); ?>
 <?php if (!wp_is_mobile() || tpp_is_tablet()): ?>
     <?php if (has_nav_menu('blog')): ?>
         <nav class="main-menu main-menu-blog">
@@ -12,9 +12,6 @@
         <?php get_template_part('menus/main_menu') ?>
     <?php endif; ?>
 <?php endif; ?>
-    <div class="wrap">
-        <section id="header_category" class="header-slideshow"></section>
-    </div>
     <div class="wrap">
         <section class="innerwrap"><?php
 
