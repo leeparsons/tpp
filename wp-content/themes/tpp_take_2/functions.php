@@ -23,13 +23,22 @@ add_theme_support( 'menus' );
 add_theme_support( 'post-thumbnails' );
 add_image_size('slideshow_thumb', 50, 50, true);
 add_image_size('home_widget', 250, 250, true);
-add_image_size('blog_post_thumb', 250, 150, true);
 //add_image_size('four_square_small', 100, 100, true);
 add_image_size('slideshow', 960, 300);
 add_image_size('slide_navi', 175, 175, true);
 add_image_size('featured_blog_post', 400, 300, true);
 add_image_size('size-full', 825, 620, true);
 add_image_size('store_related', 110, 110, true);
+
+add_image_size('blog_post_thumb', 250, 150, true);
+add_image_size('blog_post_slide', 695, 340, true);
+add_image_size('blog_sidebar', 380, 165, true);
+add_image_size('blog_small_square', 200, 130, true);
+add_image_size('blog_large_square', 475, 356, true);
+add_image_size('blog_square_half', 340, 200, true);
+add_image_size('blog_square_x_small', 70, 70, true);
+add_image_size('blog_small_my_first_time', 215, 150, true);
+add_image_size('blog_square_two', 330, 190, true);
 
 register_nav_menu( 'footer_contact', 'Contact Us Footer Menu' );
 
@@ -200,7 +209,7 @@ function tppReadMore($more = '') {
 
 add_filter('excerpt_more', 'tppReadMore');
 
-function tpp_limit_content($content = '', $len = 120, $more = '..')
+function tpp_limit_content($content = '', $len = 120, $more = '...')
 {
     if (trim($content) == '') {
         return $content;
@@ -213,7 +222,11 @@ function tpp_limit_content($content = '', $len = 120, $more = '..')
     if ($content_len > $len) {
         $more_len = strlen($more);
         if ($content_len + $more_len > $len) {
-            return substr(strip_tags($content), 0, $len - $more_len) . $more;
+            $content = substr(strip_tags($content), 0, $len - $more_len);
+
+            return substr($content, 0, strrpos($content, ' '))
+
+            . $more;
         } else {
             return substr(strip_tags($content), 0, $len) . $more;
         }
@@ -237,6 +250,7 @@ function remove_jquery_migrate( &$scripts)
 add_filter( 'comments_array', 'array_reverse' );
 
 
+<<<<<<< HEAD
 
 
 
@@ -245,6 +259,8 @@ add_filter( 'comments_array', 'array_reverse' );
 
 
 
+=======
+>>>>>>> new_blog
 function modify_contact_methods($profile_fields) {
 
     // Add new fields

@@ -1,4 +1,4 @@
-<div class="comments-form">
+<div class="comments-form wrap">
     <?php comment_form(array(
         'title_reply'           =>  'Add your comment',
         'comment_notes_before'  =>  '',
@@ -16,11 +16,13 @@
     )) ?>
     <script>document.getElementById('submit').setAttribute('class', 'btn btn-primary align-right');</script>
 </div>
-<div id="comments">
+<div id="comments" class="wrap">
 <?php if (have_comments()): ?>
 
     <header class="wrap">
+        <div class="blog-divider-top"></div>
         <h3>Comments</h3>
+        <div class="blog-divider-bottom"></div>
     </header>
 
     <ul class="comments-list wrap">
