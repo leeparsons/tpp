@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link href="/assets/css/blog.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="/assets/css/blog.css?v=1.3" rel="stylesheet" type="text/css">
     <?php if (tpp_is_ipad()): ?>
         <link href="/assets/css/blog_ipad.css?v=1" rel="stylesheet" type="text/css">
     <?php endif; ?>

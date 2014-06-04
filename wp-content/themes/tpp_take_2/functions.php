@@ -250,17 +250,6 @@ function remove_jquery_migrate( &$scripts)
 add_filter( 'comments_array', 'array_reverse' );
 
 
-<<<<<<< HEAD
-
-
-
-
-
-
-
-
-=======
->>>>>>> new_blog
 function modify_contact_methods($profile_fields) {
 
     // Add new fields
