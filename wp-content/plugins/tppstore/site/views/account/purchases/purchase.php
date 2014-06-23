@@ -63,16 +63,25 @@ include TPP_STORE_PLUGIN_DIR . 'site/views/dashboard/header.php'; ?>
                     */ ?>
                     <td><span><?php
 
-                            echo $product->getFormattedPrice(true, false);
+                            echo $product->getFormattedCurrency(true, $order->currency, false) . $product->getFormattedPrice(false, false);
 
                         ?></span></td>
                     <?php if ($order->discount > 0): ?>
                     <td><span><?php echo $product->getFormattedCurrency(true, $order->currency, false) . $product->formatAmount($product->discount) ?></span></td>
                     <?php endif; ?>
                     <td><span><?php echo $product->order_quantity ?></span></td>
-                    <td style="width:10%"><span><?php if ($product->product_type != 1):
+                    <td style="width:10%"><span><?php
 
-                                echo $product->product_type_text;
+                            if ($product->product_type != 1):
+
+                                if ($order->order_type == 'default') {
+                                    echo $product->product_type_text;
+                                } else {
+                                    echo 'Reference: ' . $order->getOrderInfo()->getData()->reference . '<br><br>';
+                                    echo 'Notes: ' . $order->getOrderInfo()->getData()->notes;
+                                }
+
+
 
                             else: ?>N/A<?php endif; ?></span></td>
                 </tr>

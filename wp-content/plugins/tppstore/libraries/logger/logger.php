@@ -86,7 +86,7 @@ class TppStoreLibraryLogger extends TppStoreAbstractInstantiable {
             $html[] = 'Browser: ' . TppStoreBrowserLibrary::getInstance()->getBrowserName() . ':' . TppStoreBrowserLibrary::getInstance()->getBrowserVersion();
             $html[] = 'data: ' . print_r($data, true);
 
-            TppStoreAbstractBase::getInstance()->sendMail('parsolee@gmail.com', 'error on the photography parlour', '<html><body><p>' . implode('<br>', $html) . '</p></body></html>');
+            TppStoreControllerAccount::getInstance()->sendMail('parsolee@gmail.com', 'error on the photography parlour', '<html><body><p>' . implode('<br>', $html) . '</p></body></html>');
         }
 
     }

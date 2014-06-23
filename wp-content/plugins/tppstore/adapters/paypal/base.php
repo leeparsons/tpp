@@ -96,19 +96,10 @@ Abstract class TppStorePaypalBase {
 
         $this->total = number_format($cart['stores'][$store_id]['total'], 2, '.', '');
 
-        $store = TppStoreModelStore::getInstance()->setData(array(
-            'store_id'  =>  $store_id
-        ));
+        $this->setUpStoreDetails($store_id);
 
-        $store->getStoreById();
+        $this->discount = 0;
 
-        $this->store_email = $store->paypal_email;
-
-        $this->store_name = $store->store_name;
-
-        $this->commission_rate = $store->commission;
-
-$this->discount = 0;
         foreach ($cart['stores'][$store_id]['products'] as $product) {
             $this->discount +=  $product->formatAmount($product->order_quantity * $product->discount, false);
         }
@@ -117,7 +108,6 @@ $this->discount = 0;
 
         $this->tax = $cart['stores'][$store_id]['tax'];
 
-        $this->currency = geo::getInstance()->getCurrency();//$store->currency;
         //$this->purchaser_email = $user->email;
 
         $commission = number_format(($this->commission_rate / 100) * $this->total, 2, '.', '');
@@ -126,6 +116,51 @@ $this->discount = 0;
 
         $this->to_pay = $this->total - $this->commission;
 
+
+    }
+
+    /*
+     * set up a one off payment
+     */
+    public function setUpOneOffPaymentOrder(TppStoreModelStore $store, $order_details)
+    {
+
+        $this->total = $order_details['total'];
+
+        $this->setUpStoreDetails($store);
+        $this->discount = 0;
+        $this->tax = 0;
+
+        $this->commission = number_format(($this->commission_rate / 100) * $this->total, 2, '.', '');
+
+        $this->currency = $order_details['currency'];
+
+        $this->to_pay = $this->total - $this->commission;
+
+    }
+
+    /*
+     * sets up the relevant store details
+     * @param integer | object $store can be a store id or a store object
+     */
+    protected function setUpStoreDetails($store)
+    {
+
+        if (! $store instanceof TppStoreModelStore ) {
+            $store = TppStoreModelStore::getInstance()->setData(array(
+                'store_id'  =>  $store
+            ));
+            $store->getStoreById();
+
+        }
+
+        $this->store_email = $store->paypal_email;
+
+        $this->store_name = $store->store_name;
+
+        $this->commission_rate = $store->commission;
+
+        $this->currency = geo::getInstance()->getCurrency();//$store->currency;
 
     }
 

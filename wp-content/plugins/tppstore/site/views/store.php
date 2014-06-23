@@ -35,11 +35,11 @@ get_header(); ?>
         <a href="#store_products" class="strong btn btn-primary">Browse Store (<?php echo $total_products . ' item' . ($total_products == 1?'':'s'); ?>)</a>
         <?php endif; ?>
         <div class="wrap">
-            <?php if (!wp_is_mobile() || tpp_is_tablet()): ?>
+            <?php /* if (!wp_is_mobile() || tpp_is_tablet()): ?>
 <!--                <header>-->
 <!--                    <h1>--><?php //echo $store->store_name ?><!--</h1>-->
 <!--                </header>-->
-            <?php endif; ?>
+            <?php endif; */ ?>
             <div class="description">
                 <?php
 
@@ -83,6 +83,70 @@ get_header(); ?>
                 <div class="form-group">
                     <a href="/shop/ask/<?php echo $store->store_slug ?>" class="btn btn-primary form-control">Ask store owner a question</a>
                 </div>
+
+                <?php if (trim($store->paypal_email) != ''): ?>
+                    <div class="form-group">
+                        <a id="payment_button" href="/shop/oneoffpayment/?store=<?php echo $store->store_slug ?>" class="btn btn-cart form-control">Make a payment</a>
+                    </div>
+                    <div id="payment_form" style="display: none">
+                    <?php if (false !== TppStoreControllerUser::getInstance()->loadUserFromSession()): ?>
+                        <form method="post" action="/shop/oneoffpayment/pay/">
+                            <fieldset>
+
+
+
+
+                                <input type="hidden" name="store" value="<?php echo $store->store_id ?>">
+
+
+
+                                <div class="form-group">
+                                    <label for="currency">Currency:</label>
+                                    <select name="currency" id="currency" class="form-control">
+                                        <?php foreach (TppStoreModelCurrency::$currencies as $currency_code =>  $html): ?>
+                                            <option value="<?php echo $currency_code; ?>"><?php echo $html; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="amount">Amount: (<?php echo geo::getInstance()->getCurrencyHtml() ?>)</label>
+                                    <input type="text" name="amount" id="amount" value="" class="form-control">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="reference">Reference: (optional)</label>
+                                    <input type="text" name="reference" id="reference" value="" class="form-control">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="notes">Notes: (optional)</label>
+                                    <textarea name="notes" id="notes" class="form-control"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="submit" value="Make Payment" class="btn btn-primary">
+                                </div>
+
+                            </fieldset>
+
+                        </form>
+
+                    <?php else: ?>
+                        <a href="/shop/store_login/?redirect=<?php echo $_SERVER['REQUEST_URI'] ?>" class="btn btn-primary">Login First</a>
+                        <br>
+                        <br>
+                    <?php endif; ?>
+                    </div>
+
+                    <script>
+                        document.getElementById('payment_button').onclick = function() {
+                            document.getElementById('payment_form').style.display = 'block';
+                            return false;
+                        }
+                    </script>
+
+                <?php endif; ?>
 
                 <?php if (false !== $store->getPages()->getTerms()): ?>
                     <div class="form-group">

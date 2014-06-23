@@ -163,6 +163,12 @@ Abstract class TppStoreAbstractBase extends TppStoreAbstractInstantiable {
         return new TppStoreModelStorePages();
     }
 
+    public function getOrderInfoModel()
+    {
+        return new TppStoreModelOrderInfo();
+    }
+
+
     public function getEventModel()
     {
         return new TppStoreModelEvent();

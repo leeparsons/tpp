@@ -376,7 +376,7 @@ class TppStoreModelStore extends TppStoreModelCurrency {
 
     }
 
-    public function getStores($enabled = 1)
+    public function getStores($enabled = 1, $order = '')
     {
 
         global $wpdb;
@@ -395,9 +395,13 @@ class TppStoreModelStore extends TppStoreModelCurrency {
                 break;
         }
 
+        if ($order != '') {
+            $order = " ORDER BY $order";
+        }
+
         $rows = $wpdb->get_results(
             "SELECT * FROM " . $this->getTable() . " AS s
-            LEFT JOIN " . $this->_user->getTable() . " AS u ON u.user_id = s.user_id $where",
+            LEFT JOIN " . $this->_user->getTable() . " AS u ON u.user_id = s.user_id $where $order",
             OBJECT_K
         );
 

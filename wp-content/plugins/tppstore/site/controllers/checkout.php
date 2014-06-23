@@ -1,5 +1,6 @@
 <?php
 
+
 class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
     private $store = null;
@@ -9,6 +10,8 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
     protected $gateway = null;
 
     protected $gateways = array();
+
+    protected $conversion_rates = array();
 
     protected function __construct()
     {
@@ -40,6 +43,7 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
     {
         add_rewrite_rule('shop/checkout/([^/]+)?', 'index.php?tpp_pagename=tpp_checkout&tpp_checkout_method=$matches[1]', 'top');
         add_rewrite_rule('shop/checkout/?', 'index.php?tpp_pagename=tpp_checkout', 'top');
+
     }
 
 
@@ -66,6 +70,11 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
                     $this->processPayment();
 
+                    break;
+
+
+                case 'oneoffpayment':
+                    $this->_makeOneOffPayment();
                     break;
 
                 case 'success':
@@ -178,6 +187,15 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
         //add the order to the database!
 
 
+        $this->generateConversionRates();
+
+        $this->saveOrderAndPayment($data, $user);
+
+
+    }
+
+    private function generateConversionRates()
+    {
         if ($this->gateway->currency != 'GBP') {
 
             if (!$this->gateway instanceof TppStoreAdapterPaypal) {
@@ -206,110 +224,10 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
             $conversion_rates = 1;
         }
 
-        $order = TppStoreModelOrder::getInstance()->setData(array(
-            'store_id'          =>  $this->store->store_id,
-            'currency'          =>  $this->gateway->currency,
-            'gateway'           =>  $this->gateway->code,
-            'status'            =>  $data['status'],
-            'message'           =>  $data['message'] == ''?null:$data['message'],
-            'exchange_rates'    =>  $conversion_rates,
-            'total'             =>  $this->gateway->getTotal(),
-            'commission'        =>  $this->gateway->getCommission(),
-            'discount'          =>  $this->gateway->discount,
-            'tax'               =>  $this->gateway->tax
-        ));
-
-        $order_saved = $order->save();
-
-        //get the products from the order and save it into the order items
-        $order_items = $this->getOrderItemsModel()->setData(array(
-            'order_id'      =>  $order->order_id
-        ))->setData($this->getOrderData($order->store_id))->save();
-
-        $payment_saved = false;
-
-        if (true === $order_saved) {
-            $payment = $order->getPaymentModel()->setData(array(
-                'order_id'      =>  $order->order_id,
-                'amount'        =>  $order->total,
-                'status'        =>  $order->status,
-                'user_data'     =>  array(
-                    'user_id'       =>  $user->user_id,
-                    'first_name'    =>  $user->first_name,
-                    'last_name'     =>  $user->last_name,
-                    'email'         =>  $user->email
-                ),
-                'gateway_data'  =>  serialize($data),
-                'gateway'       =>  $this->gateway->code
-            ));
-            $payment_saved = $payment->save();
-        }
-
-        if (false === $order_saved || false === $payment_saved) {
-
-            $title = 'Unable to process your payment';
-
-            include TPP_STORE_PLUGIN_DIR . 'site/views/404.php';
-            exit;
-        }
-
-        if ($data['redirect'] == 'free_checkout') {
-
-            $this->sendMail('parsolee@gmail.com', 'payment', 'order: ' . $order->order_id . ' , geo currency: ' . geo::getInstance()->getCurrency() . ', order currency: ' . $order->currency . ', Amount: ' . $order->total . ', commission: ' . $order->commission);
-            $this->setCheckoutSessionData($order, $payment);
-
-
-            $this->confirmPayment();
-
-        } elseif (false === $data['redirect']) {
-
-//            $order->setData(array(
-//                'status'    =>  'failed'
-//            ))->save();
-
-//            $payment->setData(array(
-//                'status'    =>  'failed'
-//            ))->save();
-
-
-            TppStoreMessages::getInstance()->addMessage('error', array('payment_error' => 'There was an error completing your purchase. Please contact us quoting your reference: ' . $order->ref . ' and we will assist you in completing your purchase.'));
-            TppStoreMessages::getInstance()->saveToSession();
-
-            $this->redirect('/shop/cart/');
-
-           // include TPP_STORE_PLUGIN_DIR . 'site/views/404.php';
-            //exit;
-
-
-
-
-
-        } else {
-//            $order->setData(array(
-//                'status'    =>  'pending'
-//            ))->save();
-//
-//            $payment->setData(array(
-//                'status'    =>  'pending'
-//            ))->save();
-
-            //update the order to say it's processing at gateway
-
-            $order->setData(array(
-                'message'   =>  'sending to payment gateway'
-            ))->save();
-
-
-            $this->sendMail('parsolee@gmail.com', 'payment', 'order: ' . $order->order_id . ' , geo currency: ' . geo::getInstance()->getCurrency() . ', order currency: ' . $order->currency . ', Amount: ' . $order->total . ', commission: ' . $order->commission);
-            $this->setCheckoutSessionData($order, $payment);
-
-
-            $this->redirect($data['redirect'], false);
-
-        }
-
-
+        $this->conversion_rates = $conversion_rates;
     }
+
+
 
     private function confirmPayment()
     {
@@ -321,10 +239,7 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
         $order_id = $this->getOrderIdFromSession();
         $payment_id = $this->getPaymentIdFromSession();
 
-
         if (intval($order_id) < 1 || intval($payment_id) < 1) {
-
-
 
             $this->deleteCheckoutDataSession();
             $this->redirect('/shop/myaccount/purchases/');
@@ -345,6 +260,7 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
         $payment->getPaymentById();
 
+
         if (intval($payment->payment_id) < 1 || intval($order->order_id) < 1) {
 
             $this->deleteCheckoutDataSession();
@@ -353,9 +269,17 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
         }
 
+        mail('parsolee@gmail.com', 'order details', print_r($order, true));
 
+        if ($order->order_type == 'default') {
+            $this->gateway->setOrder($order->store_id);
+        } else {
+            $this->gateway->setUpOneOffPaymentOrder($this->getStoreModel()->getStoreByID($order->store_id), array(
+                'total'     =>  $order->total,
+                'currency'  =>  $order->currency
+            ));
+        }
 
-        $this->gateway->setOrder($order->store_id);
 
         if ($this->gateway->getTotal() > 0) {
             $payment_data = $this->gateway->confirmPayment();
@@ -371,7 +295,7 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
         if (strtolower($payment_data->status) != 'success') {
             $order->setData(array(
                     'status'        =>  $payment_data->status,
-                    'message'       =>  'received back from gateway: failed payment - see payment message'
+                    'message'       =>  'received back from gateway: failed payment - see payment message. Payment status: ' . $payment_data->status
                 )
             )->save();
 
@@ -392,7 +316,9 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
         }
 
-        if ($this->gateway->getTotal() > 0) {
+
+
+            if ($this->gateway->getTotal() > 0) {
 
             //update the order to say it is complete!
              //update the order data!
@@ -510,6 +436,15 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
                     //mentor session
                     include TPP_STORE_PLUGIN_DIR . 'emails/order/confirm_customer_mentor_session.php';
                     $subject = 'Mentor Session';
+
+                    break;
+
+                default:
+
+                    if ($order->order_type == 'oneoff') {
+                        include TPP_STORE_PLUGIN_DIR . 'emails/order/confirm_customer_oneoff.php';
+                        $subject = 'one off payment';
+                    }
 
                     break;
             }
@@ -707,5 +642,202 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
         }
     }
 
+
+    /*
+     * Saves the current order and payment into the database
+     * @param array $data the data returned from the payment gateway
+     * @param string $order_type one from the enum list on the database table
+     * @param object $user the current logged in user object
+     * @param $generic_data any information to be stored for usefulness later
+     */
+    private function saveOrderAndPayment($data = array(), $user, $order_type = 'default', $generic_data = array())
+    {
+        $order = TppStoreModelOrder::getInstance()->setData(array(
+            'store_id'          =>  $this->store->store_id,
+            'currency'          =>  $this->gateway->currency,
+            'gateway'           =>  $this->gateway->code,
+            'status'            =>  $data['status'],
+            'message'           =>  $data['message'] == ''?null:$data['message'],
+            'exchange_rates'    =>  $this->conversion_rates,
+            'total'             =>  $this->gateway->getTotal(),
+            'commission'        =>  $this->gateway->getCommission(),
+            'discount'          =>  $this->gateway->discount,
+            'tax'               =>  $this->gateway->tax,
+            'order_type'        =>  $order_type
+        ));
+
+        $order_saved = $order->save();
+
+        if ($order_saved && $order_type == 'oneoff') {
+            $this->getOrderInfoModel()->setData(array(
+                'order_id'  =>  $order->order_id,
+                'data'      =>  $generic_data
+            ))->save();
+        }
+
+        if ($order_type == 'default') {
+            $order_data = $this->getOrderData($order->store_id);
+        } else {
+            $order_data = new stdClass();
+
+            $product = new stdClass();
+
+            $product->store_id = $this->store->store_id;
+            $product->discount = 0;
+            $product->price = $this->gateway->getTotal();
+            $product->order_quantity = 1;
+            $product->price_includes_tax = 1;
+            $product->line_total = $product->price;
+            $product->product_title = 'One off payment';
+
+            $order_data->products = array(
+                $product
+            );
+
+
+
+            $order_data->store_id = $this->store->store_id;
+
+
+
+        }
+
+        //get the products from the order and save it into the order items
+        $order_items = $this->getOrderItemsModel()->setData(array(
+            'order_id'      =>  $order->order_id
+        ))->setData($order_data)->save();
+
+        $payment_saved = false;
+
+        if (true === $order_saved) {
+            $payment = $order->getPaymentModel()->setData(array(
+                'order_id'      =>  $order->order_id,
+                'amount'        =>  $order->total,
+                'status'        =>  $order->status,
+                'user_data'     =>  array(
+                    'user_id'       =>  $user->user_id,
+                    'first_name'    =>  $user->first_name,
+                    'last_name'     =>  $user->last_name,
+                    'email'         =>  $user->email
+                ),
+                'gateway_data'  =>  serialize($data),
+                'gateway'       =>  $this->gateway->code
+            ));
+            $payment_saved = $payment->save();
+        }
+
+        if (false === $order_saved || false === $payment_saved) {
+
+            $title = 'Unable to process your payment';
+
+            include TPP_STORE_PLUGIN_DIR . 'site/views/404.php';
+            exit;
+        }
+
+        if ($data['redirect'] == 'free_checkout') {
+
+            $this->sendMail('parsolee@gmail.com', 'payment', 'order: ' . $order->order_id . ' , geo currency: ' . geo::getInstance()->getCurrency() . ', order currency: ' . $order->currency . ', Amount: ' . $order->total . ', commission: ' . $order->commission);
+            $this->setCheckoutSessionData($order, $payment);
+
+
+            $this->confirmPayment();
+
+        } elseif (false === $data['redirect']) {
+
+//            $order->setData(array(
+//                'status'    =>  'failed'
+//            ))->save();
+
+//            $payment->setData(array(
+//                'status'    =>  'failed'
+//            ))->save();
+
+
+            TppStoreMessages::getInstance()->addMessage('error', array('payment_error' => 'There was an error completing your purchase. Please contact us quoting your reference: ' . $order->ref . ' and we will assist you in completing your purchase.'));
+            TppStoreMessages::getInstance()->saveToSession();
+
+            $this->redirect('/shop/cart/');
+
+            // include TPP_STORE_PLUGIN_DIR . 'site/views/404.php';
+            //exit;
+
+
+
+
+
+        } else {
+//            $order->setData(array(
+//                'status'    =>  'pending'
+//            ))->save();
+//
+//            $payment->setData(array(
+//                'status'    =>  'pending'
+//            ))->save();
+
+            //update the order to say it's processing at gateway
+
+            $order->setData(array(
+                'message'   =>  'sending to payment gateway'
+            ))->save();
+
+
+            $this->sendMail('parsolee@gmail.com', 'payment', 'order: ' . $order->order_id . ' , geo currency: ' . geo::getInstance()->getCurrency() . ', order currency: ' . $order->currency . ', Amount: ' . $order->total . ', commission: ' . $order->commission);
+            $this->setCheckoutSessionData($order, $payment);
+
+
+            $this->redirect($data['redirect'], false);
+
+        }
+    }
+
+    /*
+     * Makes a one off payment to the selected store!
+     */
+    public function _makeOneOffPayment()
+    {
+
+        if (false === $user = TppStoreControllerUser::getInstance()->loadUserFromSession()) {
+            $this->redirectToLogin('redirect=' . urlencode('/shop/cart'));
+        }
+
+
+        if (intval($this->store->store_id) > 1) {
+
+            //determine if the payment information is set?
+            $amount = filter_input(INPUT_POST, 'amount', FILTER_SANITIZE_STRING);
+
+            $amount = floatval($amount);
+
+            if ($amount == 0) {
+                $this->redirect('/shop/oneoffpayment/');
+            }
+
+            $notes = filter_input(INPUT_POST, 'notes', FILTER_UNSAFE_RAW);
+
+            $reference = filter_input(INPUT_POST, 'reference', FILTER_UNSAFE_RAW);
+
+            $this->gateway->setUpOneOffPaymentOrder($this->store, array(
+                'total'     =>  $amount,
+                'currency'  =>  filter_input(INPUT_POST, 'currency', FILTER_SANITIZE_STRING)
+            ));
+
+
+
+            $data = $this->gateway->process();
+
+            $this->generateConversionRates();
+
+            $this->saveOrderAndPayment($data, $user, 'oneoff', array(
+                'notes'     =>  $notes,
+                'reference' =>  $reference
+            ));
+
+
+        } else {
+            $this->redirect('/shop/oneoffpayment/');
+        }
+
+        exit;
+    }
 
 }

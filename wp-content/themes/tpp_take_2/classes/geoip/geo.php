@@ -7,8 +7,10 @@ class _geo extends TppStoreAbstractInstantiable {
 
     public $country = '';
     public $code = false;
-    private  $currency = false;
+    private $currency = false;
     private $conversion_rates = array();
+
+
 
     public function setCurrency()
     {

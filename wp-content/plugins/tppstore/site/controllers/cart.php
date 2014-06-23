@@ -18,6 +18,10 @@ class TppStoreControllerCart extends TppStoreAbstractBase {
 
         add_rewrite_rule('shop/cart/?', 'index.php?tpp_pagename=tpp_cart', 'top');
 
+        add_rewrite_rule('shop/oneoffpayment/pay/?', 'index.php?tpp_pagename=tpp_checkout&tpp_checkout_method=oneoffpayment', 'top');
+
+        add_rewrite_rule('shop/oneoffpayment/?', 'index.php?tpp_pagename=tpp_cart&tpp_cart_method=oneoffpayment', 'top');
+
 
         add_filter('query_vars', function($vars) {
             $vars[] = 'tpp_cart_method';
@@ -47,6 +51,22 @@ class TppStoreControllerCart extends TppStoreAbstractBase {
 
                     $this->add();
 
+
+                    break;
+
+                case 'oneoffpayment':
+
+                    if (false === ($user = TppStoreControllerUser::getInstance()->loadUserFromSession())) {
+                        if (($store = trim(filter_input(INPUT_GET, 'store', FILTER_SANITIZE_STRING))) != '') {
+                            $this->redirectToLogin('redirect=/shop/oneoffpayment/?store=' . $store);
+                        } else {
+                            $this->redirectToLogin('redirect=/shop/oneoffpayment/');
+                        }
+
+                    }
+
+                    $this->_setWpQueryOk();
+                    $this->renderOneOffPayment();
 
                     break;
 
@@ -144,6 +164,9 @@ class TppStoreControllerCart extends TppStoreAbstractBase {
         TppStoreMessages::getInstance()->saveToSession();
 
 
+
+
+
         $this->redirect('/shop/cart');
     }
 
@@ -178,6 +201,7 @@ class TppStoreControllerCart extends TppStoreAbstractBase {
         $this->redirect('/shop/cart');
     }
 
+
     private function removeItem()
     {
         //remove it from the cart regardless
@@ -192,6 +216,19 @@ class TppStoreControllerCart extends TppStoreAbstractBase {
         TppStoreMessages::getInstance()->saveToSession();
 
         $this->redirect('/shop/cart');
+    }
+
+    private function renderOneOffPayment()
+    {
+        $this->pageTitle('One Off Payment');
+        $this->setPageDescription('Make a one off payment');
+
+        $stores = $this->getStoreModel()->getStores(1, 's.store_name ASC');
+
+        $selected_store = filter_input(INPUT_GET, 'store', FILTER_SANITIZE_STRING);
+
+        include TPP_STORE_PLUGIN_DIR . 'site/views/cart/oneoffpayment.php';
+
     }
 
 }

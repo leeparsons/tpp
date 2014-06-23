@@ -8,6 +8,12 @@
 class TppStoreModelCurrency extends TppStoreAbstractModelResource {
 
     public $currency = 'GBP';
+
+    public static $currencies = array(
+        'GBP'   =>  '&pound;',
+        'USD'   =>  '&dollar;'
+    );
+
     protected $option_min_price = null;
 
     public function getFormattedCurrency($with_currency = true, $currency = false, $html = true)

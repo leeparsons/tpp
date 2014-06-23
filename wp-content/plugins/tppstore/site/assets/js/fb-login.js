@@ -1,3 +1,10 @@
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
 var fbLogin = {
 
     path: '',
@@ -206,7 +213,10 @@ var fbLogin = {
                 fbLogin.ajaxRequest.abort();
             }
 
-            if (true === fbLogin.on_login_page) {
+                var search = getParameterByName('redirect');
+
+
+                if (true === fbLogin.on_login_page) {
 
                 var div = document.createElement('div');
                 jQuery(div).css({padding:'5%', width:'100%'});
@@ -214,6 +224,8 @@ var fbLogin = {
                 overlay.setBody('<p>Good to see you, ' + response.first_name + '!<br><br>Please wait while we log you into our store...<br><br></p>');
                 overlay.setCloseLink(false);
                 overlay.populateInner();
+
+
                 fbLogin.ajaxRequest = jQuery.ajax(
                     {
                         url:        '/shop/store_register/fb/ajax/',
@@ -227,7 +239,8 @@ var fbLogin = {
                             fid:            response.id,
                             gender:         response.gender,
                             profile_link:   response.link,
-                            application_form:   fbLogin.on_application_form
+                            application_form:   fbLogin.on_application_form,
+                            redirect:       search == ''?false:search
                         },
                         success:   function(data) {
 
@@ -315,7 +328,8 @@ var fbLogin = {
                             fid:            response.id,
                             gender:         response.gender,
                             profile_link:   response.link,
-                            application_form:   fbLogin.on_application_form
+                            application_form:   fbLogin.on_application_form,
+                            redirect:       search == ''?false:search
                         },
                         success:   function(data) {
 
@@ -588,7 +602,9 @@ jQuery(document).ready(function($) {
     // Create the ready app to handle initialization
     function facebookReady() {
         // call facebook init
+
         FB.init({appId:'270470249767149',status:true,xfbml:true});
+        //test FB.init({appId:'345674412246732',status:true,xfbml:true});
 
         // Initialization called, trigger the
         // facebook ready event

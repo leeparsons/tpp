@@ -424,6 +424,9 @@ class TppStoreControllerRegister extends TppStoreAbstractBase {
 
         $user->getUserByEmail();
 
+        $redirect = filter_input(INPUT_POST, 'redirect', FILTER_SANITIZE_STRING);
+
+
         if (intval($user->user_id) > 0) {
             //link these accounts!
 
@@ -449,9 +452,9 @@ class TppStoreControllerRegister extends TppStoreAbstractBase {
 
                         if (intval($discover) === 0 && $on_application_form !== 'true') {
                             if ($user->user_type == 'store_owner') {
-                                $json = array('redirect'    =>  '/shop/dashboard');
+                                $json = array('redirect'    =>  $redirect?:'/shop/dashboard');
                             } else {
-                                $json = array('redirect'    =>  '/shop/myaccount');
+                                $json = array('redirect'    =>  $redirect?:'/shop/myaccount');
                             }
                         } else {
                             $json = array(
@@ -460,7 +463,7 @@ class TppStoreControllerRegister extends TppStoreAbstractBase {
                                     'last_visit'    =>  $user->getLastVisit()
                                 ),
                                 'link_text' =>  $user->user_type == 'store_owner'?'My Dashboard':'My Account',
-                                'redirect'  =>  $user->user_type == 'store_owner'?'/shop/dashboard':'/shop/myaccount'
+                                'redirect'  =>  $redirect?:($user->user_type == 'store_owner'?'/shop/dashboard':'/shop/myaccount')
                             );
                         }
 
@@ -485,16 +488,18 @@ class TppStoreControllerRegister extends TppStoreAbstractBase {
 
 
                 } else {
+
+
                     //user has been found and it's the facebook user!
                     if (intval($discover) === 0 && $on_application_form !== 'true') {
                         if ($user->user_type == 'store_owner') {
                             $json = array(
-                                'redirect'      =>  '/shop/dashboard',
+                                'redirect'      =>  $redirect?:'/shop/dashboard',
                                 'link_text'     =>  'My Dashboard'
                             );
                         } else {
                             $json = array(
-                                'redirect'    =>  '/shop/myaccount',
+                                'redirect'    =>  $redirect?:'/shop/myaccount',
                                 'link_text'     =>  'My Account'
                             );
                         }
@@ -505,7 +510,7 @@ class TppStoreControllerRegister extends TppStoreAbstractBase {
                                 'last_visit'    =>  $user->getLastVisit()
                             ),
                             'link_text' =>  $user->user_type == 'store_owner'?'My Dashboard':'My Account',
-                            'redirect'  =>  $user->user_type == 'store_owner'?'/shop/dashboard':'/shop/myaccount'
+                            'redirect'  =>  $redirect?:($user->user_type == 'store_owner'?'/shop/dashboard':'/shop/myaccount')
                         );
                     }
 
@@ -618,9 +623,9 @@ class TppStoreControllerRegister extends TppStoreAbstractBase {
 
         if (intval($discover) === 0 && $on_application_form !== 'true') {
             if ($user->user_type == 'store_owner') {
-                $json = array('redirect'    =>  '/shop/dashboard');
+                $json = array('redirect'    =>  $redirect?:'/shop/dashboard');
             } else {
-                $json = array('redirect'    =>  '/shop/myaccount');
+                $json = array('redirect'    =>  $redirect?:'/shop/myaccount');
             }
         } else {
             $json = array(
@@ -629,7 +634,7 @@ class TppStoreControllerRegister extends TppStoreAbstractBase {
                     'last_visit'    =>  $user->getLastVisit()
                 ),
                 'link_text' =>  $user->user_type == 'store_owner'?'My Dashboard':'My Account',
-                'redirect'  =>  $user->user_type == 'store_owner'?'/shop/dashboard':'/shop/myaccount'
+                'redirect'  =>  $redirect?:($user->user_type == 'store_owner'?'/shop/dashboard':'/shop/myaccount')
             );
         }
 

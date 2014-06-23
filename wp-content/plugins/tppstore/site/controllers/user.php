@@ -246,7 +246,13 @@ class TppStoreControllerUser extends TppStoreAbstractBase {
 
         $user->updateLastVisit();
 
-        $json['redirect'] = '/shop/' . $user->user_type == 'store_owner'?'dashboard':'myaccount';
+        if (null != ($redirect = filter_input(INPUT_POST, 'redirect', FILTER_SANITIZE_STRING))) {
+            $json['redirect'] = $redirect;
+        } else {
+            $json['redirect'] = '/shop/' . $user->user_type == 'store_owner'?'dashboard':'myaccount';
+        }
+
+
 
         $json['link_text'] = $user->user_type == 'store_owner'?'My Dashboard':'My Account';
 

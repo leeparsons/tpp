@@ -25,7 +25,7 @@ class TppStoreModelUserDiscount extends TppStoreAbstractModelResource {
     public function incrementUses()
     {
 
-        if (intval($this->user_id) < 1 || empty($this->product_ids)) {
+        if (intval($this->user_id) < 1 || empty($this->product_ids) || implode('', $this->product_ids) == '') {
             return false;
         }
 

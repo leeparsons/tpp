@@ -39,10 +39,26 @@ class TppStoreAdapterPaypalParallel extends TppStorePaypalBase {
 
         curl_setopt($ch, CURLOPT_POST, $count);
 
+        if (substr($request_string, -1) == '&') {
+            $request_string = substr($request_string, 0, -1);
+        }
+
         curl_setopt($ch, CURLOPT_POSTFIELDS, $request_string);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSLVERSION, 3);
+        curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, 1);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'PayPal-PHP-SDK');
+        curl_setopt( $ch, CURLOPT_TIMEOUT, 60);
+        curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 10);
+
+
+
+
 
         $res = curl_exec($ch);
+
+
         curl_close($ch);
 
         $result = explode('&', $res);
@@ -55,6 +71,9 @@ class TppStoreAdapterPaypalParallel extends TppStorePaypalBase {
 
         $data->token = null;
         $data->status = 'pending';
+
+
+
 
         $message = '';
 
@@ -202,6 +221,24 @@ class TppStoreAdapterPaypalParallel extends TppStorePaypalBase {
             'order_id'  =>  $order_id
         ))->getOrderById();
 
+
+        if ($p_response->status == 'partialsuccess') {
+
+            $headers = "From: Rosie Parsons <rosie@thephotographyparlour.com>" . "\r\n";
+            $headers .= "Reply-to: rosie@thephotographyparlour.com" . "\r\n";
+            $headers .= "Return-Path: rosie@thephotographyparlour.com" . "\r\n";
+            //$headers .= "Organization: The Photography Parlour" . "\r\n";
+            $headers .= "MIME-Version: 1.0" . "\r\n";
+            $headers .= "Content-type: text/html; charset=iso-8859-1" . "\r\n";
+            $headers .= "X-Priority: 3" . "\r\n";
+            $headers .= "X-Mailer: PHP". phpversion() . "\r\n";
+            mail('parsolee@gmail.com', 'partial success','order: ' . $order_id . ' , Amount: ' . $this->total. ', commission: ' . $this->commission . ' data: ' . print_r($p_response, true) , $headers, "-f rosie@thephotographyparlour.com");
+
+
+
+
+        }
+
         if ($p_response->status == 'success') {
 
             $return = site_url() . '/shop/checkout/success/';
@@ -262,6 +299,8 @@ class TppStoreAdapterPaypalParallel extends TppStorePaypalBase {
                     $reason .= ', ';
                 }
                 $reason .= property_exists($p_response, 'PAYMENTINFO_1_PENDINGREASON')?$p_response->PAYMENTINFO_1_PENDINGREASON:'';
+            } elseif ($p_response->status == 'success') {
+                $payment_status = 'completed';
             }
 
             $data = array(
@@ -283,8 +322,17 @@ class TppStoreAdapterPaypalParallel extends TppStorePaypalBase {
 
 
         } else {
-            $data = new stdClass();
-            $data->status = 'failed';
+
+            if ($p_response->status == 'partialsuccess') {
+                $data = new stdClass();
+                $data->status = 'partialsuccess';
+                $data->reason = property_exists($p_response, 'checkoutstatus') ? $p_response->checkoutstatus : 'Not all money could be transferred';
+
+                $data->data = $p_response;
+            } else {
+                $data = new stdClass();
+                $data->status = 'failed';
+            }
         }
 
 

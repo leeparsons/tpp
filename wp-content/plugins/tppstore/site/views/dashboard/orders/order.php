@@ -73,7 +73,21 @@ include TPP_STORE_PLUGIN_DIR . 'site/views/dashboard/header.php'; ?>
                         echo $product->getFormattedPrice(true);
 
                         ?></span></td>
-                    <td><span><?php if ($product->product_type == 2): ?><a href="<?php echo $product->getDownloadUrl() ?>">Download</a><?php else: ?>N/A<?php endif; ?></span></td>
+                    <td><span><?php
+
+                            if ($order->order_type == 'default') {
+                                if ($product->product_type == 2): ?>
+                                    <a href="<?php echo $product->getDownloadUrl() ?>">Download</a>
+                                <?php else: ?>
+                                    N/A
+                                <?php endif;
+                            } else {
+                                echo 'Reference: ' . $order->getOrderInfo()->getData()->reference . '<br><br>';
+                                echo 'Notes: ' . $order->getOrderInfo()->getData()->notes;
+                            }
+
+
+                           ?></span></td>
                 </tr>
 
 

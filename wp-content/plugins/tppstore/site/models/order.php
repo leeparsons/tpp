@@ -24,17 +24,33 @@ class TppStoreModelOrder extends TppStoreModelCurrency {
     public $ref = '';
     public $message = null;
 
+    public $order_type = 'default';
+
     public $currency = 'GBP';
 
     protected $_payment_model = null;
 
     protected $_table = 'shop_orders';
 
+    protected $order_info_model = null;
+
     public function __construct()
     {
 
         $this->_payment_model = TppStoreModelPayment::getInstance();
     }
+
+
+    public function getOrderInfo()
+    {
+        if (is_null($this->order_info_model)) {
+            $this->order_info_model = new TppStoreModelOrderInfo();
+            $this->order_info_model->getOrderInfoByOrder($this->order_id);
+        }
+
+        return $this->order_info_model;
+    }
+
 
 
 //    public function getData()
@@ -314,7 +330,8 @@ class TppStoreModelOrder extends TppStoreModelCurrency {
                     'ref'           =>  trim($this->ref) == ''?$this->generateRef():$this->ref,
                     'currency'      =>  $this->currency,
                     'exchange_rates'=>  $this->exchange_rates,
-                    'message'       =>  $this->message
+                    'message'       =>  $this->message,
+                    'order_type'    =>  $this->order_type
                 ),
                 array(
                     'order_id'  =>  $this->order_id
@@ -329,6 +346,7 @@ class TppStoreModelOrder extends TppStoreModelCurrency {
                     "%d",
                     //"%s",
                     "%d",
+                    "%s",
                     "%s",
                     "%s",
                     "%s",
@@ -355,7 +373,8 @@ class TppStoreModelOrder extends TppStoreModelCurrency {
                     'ref'           =>  trim($this->ref) == ''?$this->generateRef():$this->ref,
                     'currency'      =>  $this->currency,
                     'exchange_rates'=>  $this->exchange_rates,
-                    'message'       =>  $this->message
+                    'message'       =>  $this->message,
+                    'order_type'    =>  $this->order_type
                 ),
                 array(
                     "%f",
@@ -367,6 +386,7 @@ class TppStoreModelOrder extends TppStoreModelCurrency {
                     "%d",
                     //"%s",
                     "%d",
+                    "%s",
                     "%s",
                     "%s",
                     "%s",
