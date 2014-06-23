@@ -9,7 +9,7 @@ $interview->load();
 
 ?><article class="square-large">
     <div class="featured-interview-wrap" id="interview_<?php echo get_the_ID() ?>">
-        <h2 id="interview_title-<?php echo get_the_ID() ?>"><a href="" class="interview-title"><?php
+        <h2 id="interview_title-<?php echo get_the_ID() ?>"><a href="<?php the_permalink() ?>" class="interview-title"><?php
 
 
                 if ($interview->isLive()) {
