@@ -1,6 +1,6 @@
 <?php
 
-query_posts('posts_per_page=3');
+query_posts('posts_per_page=3&cat=407');
 
 if (have_posts()) :
 
