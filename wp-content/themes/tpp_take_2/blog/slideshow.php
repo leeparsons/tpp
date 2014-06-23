@@ -13,7 +13,7 @@ if (have_posts()):
             <article class="post-slide" <?php echo $i > 1?'style="display:none"':'' ?>>
                 <a href="<?php the_permalink() ?>"><?php the_post_thumbnail('blog_post_slide'); ?></a>
                 <div class="post-info">
-                    <header><h3><a href="<?php the_permalink() ?>"><?php echo tpp_limit_content(get_the_title(), 40, ''); ?></a></h3></header>
+                    <header><h3><a href="<?php the_permalink() ?>"><?php echo tpp_limit_content(get_the_title(), 60, ''); ?></a></h3></header>
                     <div class="hentry excerpt">
                         <p><a href="<?php the_permalink() ?>"><?php echo tpp_limit_content(get_the_excerpt(), 120) ?></a></p>
                         <a class="readmore" href="<?php the_permalink() ?>">Read More</a>
