@@ -101,34 +101,92 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
 
                 if (strpos($decrypted_string, 'admin_logged_in=true') === false) {
 
-                    if (false === ($user = TppStoreControllerUser::getInstance()->loadUserFromSession())) {
-                        $this->redirectToLogin();
+                    $guest = strpos($decrypted_string, 'guest=true') !== false;
+
+                    if (false === $guest) {
+                        if (false === ($user = TppStoreControllerUser::getInstance()->loadUserFromSession())) {
+                            $this->redirectToLogin();
+                        }
+
+                        if ($user->user_id != $this->getProductModel()->setData(array(
+                                'product_id'    =>  $product_id
+                            ))->getProductById()->getStore(true)->user_id
+
+                            &&
+
+                            false === ($order = $this->getOrderModel()->setData(array(
+                                'product_id'    =>  $product_id,
+                            ))->validatePurchaseByUser($user->user_id))) {
+                            $this->_setWpQuery403();
+
+                            $title = 'Oops!';
+
+                            $message = 'Looks like you are not authorised to access this resource.';
+
+                            include TPP_STORE_PLUGIN_DIR . 'site/views/404.php';
+
+                            exit;
+
+                        }
+
+                        $download_file = $decrypted_string;
+
+                    } else {
+
+
+
+
+                        $decrypted_parts = explode('&', $decrypted_string);
+
+                        $decrypted_arr = array();
+
+                        foreach ($decrypted_parts as $part) {
+                            $tmp = explode('=', $part);
+                            $decrypted_arr[$tmp[0]] = $tmp[1];
+                        }
+
+
+                        extract($decrypted_arr);
+
+                        //gives: 
+                        //$guest_order_id
+                        //$file
+                        //$product_id
+                        if (isset($guest_order_id)) {
+                            $order_id = $guest_order_id;
+
+                            if ($this->getOrderModel()->setData(array('order_id'   =>  $order_id))->getOrderById()->hasExpired()) {
+                                 $this->_setWpQuery403();
+
+                                $title = 'Link Expired';
+
+                                $message = 'Looks like you are not authorised to access this resource.';
+
+                                include TPP_STORE_PLUGIN_DIR . 'site/views/404.php';
+                            }
+                        }
+
+                        if (intval($order_id) > 0) {
+
+
+
+                            $download_file = $file;
+                           
+                        } else {
+
+                            $this->_setWpQuery403();
+
+                            $title = 'Oops!';
+
+                            $message = 'Looks like you are not authorised to access this resource.';
+
+                            include TPP_STORE_PLUGIN_DIR . 'site/views/404.php';
+                        }
+
                     }
+                    
 
-
-
-                    if ($user->user_id != $this->getProductModel()->setData(array(
-                            'product_id'    =>  $product_id
-                        ))->getProductById()->getStore(true)->user_id
-
-                        &&
-
-                        false === ($order = $this->getOrderModel()->setData(array(
-                            'product_id'    =>  $product_id,
-                        ))->validatePurchaseByUser($user->user_id))) {
-                        $this->_setWpQuery403();
-
-                        $title = 'Oops!';
-
-                        $message = 'Looks like you are not authorised to access this resource.';
-
-                        include TPP_STORE_PLUGIN_DIR . 'site/views/404.php';
-
-                        exit;
-
-                    }
-
-                    $download_file = $decrypted_string;
+                    
 
                 } else {
 
@@ -547,6 +605,7 @@ class TppStoreControllerProduct extends TppStoreAbstractBase {
 
     public function uploadFile()
     {
+
 
         if (isset($_FILES['upload_file'])) {
             if ($_FILES['upload_file']['error'] > 0) {

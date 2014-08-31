@@ -43,14 +43,13 @@ class TppStoreControllerCart extends TppStoreAbstractBase {
             $this->_setWpQueryOk();
 
 
-
             switch ($cart_method) {
                 case 'add':
+                case 'guest_add':
 
                     //add ths item to the cart:
 
                     $this->add();
-
 
                     break;
 
@@ -82,7 +81,11 @@ class TppStoreControllerCart extends TppStoreAbstractBase {
                     break;
 
 
+                case 'guestcomplete':
 
+                    $this->_setWpQueryOk();
+                    $this->renderGuestCompletePage();
+                    break;
                 default:
 
                     $cart = $this->getCartModel();
@@ -119,8 +122,6 @@ class TppStoreControllerCart extends TppStoreAbstractBase {
 
             }
 
-
-
         }
 
 
@@ -153,7 +154,13 @@ class TppStoreControllerCart extends TppStoreAbstractBase {
             if (!is_null($option_id) && !empty($option_id)) {
                 $product->getProductOptionsModel()->setData(array('option_id'   =>  $option_id))->getOptionById();
             }
-            $this->getCartModel()->add($product, $quantity);
+
+            if (false !== filter_input(INPUT_POST, 'guest_checkout_complete', FILTER_SANITIZE_NUMBER_INT)) {
+                $this->getCartModel()->update($product, $quantity);
+            } else {
+                $this->getCartModel()->add($product, $quantity);    
+            }
+            
 
 
 
@@ -165,9 +172,16 @@ class TppStoreControllerCart extends TppStoreAbstractBase {
 
 
 
+        if (false !== filter_input(INPUT_POST, 'guest_checkout_complete', FILTER_SANITIZE_NUMBER_INT)) {
+            //force checkout!
+            
+            $e = TppStoreControllerCheckout::getInstance();
+            $e->__initialise();
+            $e->guestCheckout();
 
-
-        $this->redirect('/shop/cart');
+        } else {
+            $this->redirect('/shop/cart');
+        }
     }
 
     private function update()
@@ -230,5 +244,23 @@ class TppStoreControllerCart extends TppStoreAbstractBase {
         include TPP_STORE_PLUGIN_DIR . 'site/views/cart/oneoffpayment.php';
 
     }
+
+    private function renderGuestCompletePage()
+    {
+        $order_id = isset($_SESSION['guest_order_id']) ? $_SESSION['guest_order_id'] : 0;
+
+        if (intval($order_id) > 0) {
+
+            $order = $this->getOrderModel();
+            $order->setData(array('order_id' => $order_id));
+            $order_items =    $this->getOrderItemsModel()->setData(array(
+            'order_id'      =>  $order->order_id
+            ))->getLineItems(true);
+        }
+
+        include TPP_STORE_PLUGIN_DIR . 'site/views/cart/guest-complete.php';
+        exit;
+    }
+
 
 }

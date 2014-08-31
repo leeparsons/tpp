@@ -74,9 +74,9 @@ class TppStoreModelProductDownload extends TppStoreAbstractModelResource {
         }
     }
 
-    public function getDownloadUrl($encrypted = true, $product_edit = false)
+    public function getDownloadUrl($encrypted = true, $product_edit = false, $guest = false, $extra_url_params = array())
     {
-
+        
         if ( false !== ($url = filter_var($this->file, FILTER_VALIDATE_URL))) {
 
             return $url;
@@ -100,7 +100,19 @@ class TppStoreModelProductDownload extends TppStoreAbstractModelResource {
                 include TPP_STORE_PLUGIN_DIR . 'libraries/encryption.php';
             }
 
-            return '/shop/download/' . $this->product_id . '/' . TppStoreLibraryEncryption::encrypt($this->file);
+            $params = array();
+
+            if (is_array($extra_url_params) && !empty($extra_url_params)) {
+                foreach ($extra_url_params as $key => $value) {
+                    $params[] = "$key=$value";
+                }
+            }
+
+            if (false === $guest) {
+                return '/shop/download/' . $this->product_id . '/' . TppStoreLibraryEncryption::encrypt($this->file);
+            } else {
+                return '/shop/download/' . $this->product_id . '/' . TppStoreLibraryEncryption::encrypt('guest=true&file=' . $this->file . '&' . implode('&', $params));
+            }
         }
 
     }

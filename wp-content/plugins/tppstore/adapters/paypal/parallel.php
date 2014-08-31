@@ -14,7 +14,7 @@ class TppStoreAdapterPaypalParallel extends TppStorePaypalBase {
     public $code = 'paypal_parallel';
     public $id = 'paypal_parallel';
 
-    public $sandbox_url = "https://api.sandbox.paypal.com/";
+    public $sandbox_url = "https://api-3t.sandbox.paypal.com/";
 
     public $live_url = "https://api-3t.paypal.com/";
     public $live_api_user = "rosie_api1.rosieparsons.com";
@@ -71,8 +71,6 @@ class TppStoreAdapterPaypalParallel extends TppStorePaypalBase {
 
         $data->token = null;
         $data->status = 'pending';
-
-
 
 
         $message = '';

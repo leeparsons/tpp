@@ -14,7 +14,7 @@ class TppStoreAdapterPaypalDirect extends TppStorePaypalBase {
     public $code = 'paypal_direct';
     public $id = 'paypal_direct';
 
-    public $sandbox_url = "https://api.sandbox.paypal.com/";
+    public $sandbox_url = "https://api-3t.sandbox.paypal.com/";
 
     public $live_url = "https://api-3t.paypal.com/";
     public $live_api_user = "rosie_api1.rosieparsons.com";
@@ -36,7 +36,6 @@ class TppStoreAdapterPaypalDirect extends TppStorePaypalBase {
 
         curl_setopt($ch, CURLOPT_URL, $this->{$this->environment . '_url'} . $end_point);
 
-
         curl_setopt($ch, CURLOPT_POST, $count);
 
         curl_setopt($ch, CURLOPT_POSTFIELDS, $request_string);
@@ -48,7 +47,6 @@ class TppStoreAdapterPaypalDirect extends TppStorePaypalBase {
         curl_close($ch);
 
         $result = explode('&', $res);
-
 
         $token = '';
         $success = false;

@@ -158,12 +158,18 @@
 
         var fd = new FormData();
         fd.append("upload_file", file);
+
+        fd.processData = false;
+        fd.contentType = false;
+
         var xhr = new XMLHttpRequest();
         xhr.upload.addEventListener("progress", tppUploadProgress, false);
         //    xhr.addEventListener("load", tppUploadComplete, false);
         //      xhr.addEventListener("error", tppUploadFailed, false);
 //        xhr.addEventListener("abort", tppUploadCanceled, false);
-        xhr.open("POST", "/shop/dashboard/product/upload_file/");
+        xhr.open("POST", "/shop/dashboard/product/upload_file/", false);
+
+
 
         xhr.send(fd);
         xhr.onload = function() {

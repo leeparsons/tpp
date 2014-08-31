@@ -143,6 +143,51 @@ get_header(); ?>
                         </div>
                         <input type="submit" value="Checkout &amp; Purchase" class="btn btn-primary">
                     </form>
+                    <?php /*
+                    <form method="post" action="/shop/checkout/guest" class="wrap">
+                        <input type="hidden" name="store" value="<?php echo $store_id ?>">
+                        <input type="submit" value="Guest Checkout" id="guest_checkout<?php echo $store_id ?>" class="btn btn-primary">
+                    </form>
+                    <script>
+
+                        function showHideGuestAgree<?php echo $store_id ?>(e) {
+                            if (document.getElementById('guest_agree<?php echo $store_id ?>').checked) {
+                                document.getElementById('guest_fields<?php echo $store_id ?>').style.display = 'block';
+                            } else {
+                                document.getElementById('guest_fields<?php echo $store_id ?>').style.display = 'none';
+                            }
+                        }
+
+                        document.getElementById('guest_checkout<?php echo $store_id ?>').onclick = function(e) {
+                            e = e || window.event;
+
+                            if (e.preventDefault != undefined) {
+                                e.preventDefault();
+                            } else {
+                                e.returnFalse = true;
+                            }
+                            
+                            overlay.setHeader('Guest Checkout');
+                            overlay.setBody('<form method="post" action="/shop/checkout/guest" class="wrap">' +
+                                
+                                '<div id="guest_fields<?php echo $store_id ?>"><label class="wrap">Enter your first name:</label><input class="form-control" type="text" name="g_email">' +
+                                '<label class="wrap">Enter your last name:</label><input class="form-control" type="text" name="g_email">' +
+
+                                '<label class="wrap">Enter your email:</label><input class="form-control" type="text" name="g_email"></div>' +
+
+                                '<div class="form-group" style="margin-top:10px;"><label for="guest_agree<?php echo $store_id ?>"><input onclick="showHideGuestAgree<?php echo $store_id ?>();" style="margin-right:10px;" type="checkbox" checked="checked" value="1" name="agree_newsletter<?php echo $store_id ?>" id="guest_agree<?php echo $store_id ?>">Receive newsletters and regular updates/ promotions and offers from us </label></div>' +
+
+                        '<input type="hidden" name="store" value="<?php echo $store_id ?>">' +
+                        '<input type="submit" value="Guest Checkout" class="btn btn-primary">' +
+                    '</form>');
+
+                            
+
+                            overlay.populateInner();
+
+                        }
+                    </script>
+                    <?php */ ?>
                 </div>
 
             </aside>

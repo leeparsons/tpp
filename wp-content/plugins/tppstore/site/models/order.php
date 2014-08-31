@@ -480,6 +480,15 @@ class TppStoreModelOrder extends TppStoreModelCurrency {
     }
 
 
+    public function hasExpired() {
+
+        if ($this->order_type == 'guest_checkout' && $this->order_date < strtotime('-7days')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private function generateRef()
     {
         return uniqid('odr_');

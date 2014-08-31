@@ -39,7 +39,7 @@ add_action('init', function() {
     TppStoreControllerDiscount::getInstance()->applyRewriteRules();
     TppStoreControllerReview::getInstance()->applyRewriteRules();
     TppStoreControllerWishlist::getInstance()->applyRewriteRules();
-
+    TppStoreControllerLanding::getInstance()->applyRewriteRules();
     add_rewrite_rule('shop/exchange-rates/?', 'index.php?tpp_pagename=tpp-generate-exchange-rates', 'top');
 
     //uncomment this every time something new is added in
@@ -65,6 +65,7 @@ add_action( 'template_redirect', function() {
     TppStoreControllerDiscount::getInstance()->templateRedirect();
     TppStoreControllerReview::getInstance()->templateRedirect();
     TppStoreControllerWishlist::getInstance()->templateRedirect();
+    TppStoreControllerLanding::getInstance()->templateRedirect();
 } );
 
 function tpp_meta_description()
@@ -114,7 +115,7 @@ function tpp_geo_locate() {
 
 
             $test_ip = '31.185.167.16';//uk
-            $test_ip = '196.255.255.255';//us
+            //$test_ip = '196.255.255.255';//us
 
 
 //            include get_template_directory() . '/classes/geoip/geoip.inc';

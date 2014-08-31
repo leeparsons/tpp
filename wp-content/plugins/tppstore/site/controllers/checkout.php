@@ -15,12 +15,11 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
     protected function __construct()
     {
-
         $this->store = new TppStoreModelStore();
 
     }
 
-    protected function __initialise()
+    public function __initialise()
     {
 
 
@@ -42,9 +41,9 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
     public function applyRewriteRules()
     {
         add_rewrite_rule('shop/checkout/([^/]+)?', 'index.php?tpp_pagename=tpp_checkout&tpp_checkout_method=$matches[1]', 'top');
-        add_rewrite_rule('shop/checkout/?', 'index.php?tpp_pagename=tpp_checkout', 'top');
-
+        add_rewrite_rule('shop/checkout/?', 'index.php?tpp_pagename=tpp_checkout', 'top');    
     }
+
 
 
     public function templateRedirect()
@@ -53,7 +52,6 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
         $pagename = get_query_var('tpp_pagename');
 
         $method = get_query_var('tpp_checkout_method');
-
 
         if ($pagename == 'tpp_checkout') {
 
@@ -91,6 +89,16 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
                     break;
 
+                case 'guest':
+
+                    $this->_setWpQueryOk();
+
+                    $this->guestCheckout();
+
+
+                    break;
+   
+
                 default:
 
                     //process
@@ -105,7 +113,9 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
 //                    $this->renderCheckout($store_id);
                     break;
-            }
+            } 
+
+        
 
 
             exit;
@@ -133,6 +143,74 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
         }
 
         $this->saveCartStoreToSession($this->store->store_id);
+
+    }
+
+    public function guestCheckout()
+    {
+
+        $first_name = '';
+        $last_name = '';
+
+        $email = '';
+
+        if (filter_input(INPUT_POST, 'agree_newsletter' . $this->store->store_id, FILTER_SANITIZE_NUMBER_INT) == 1) {
+
+            $email = filter_input(INPUT_POST, 'g_email', FILTER_SANITIZE_STRING);
+
+            $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+
+            if (!$email) {
+                //show the guest checkout view
+                exit('Please enter a valid email address');
+            }
+
+            $signup = $this->getEmailSignupModel();
+
+            $signup->setData(array(
+                'email'         =>  filter_input(INPUT_POST, 'g_email'),
+                'source'        =>  'guest_checkout',
+                'user_id'       =>  0,
+                'first_name'    =>  $user->first_name,
+                'last_name'     =>  $user->last_name
+            ))->save();
+        }
+
+
+        $this->gateway->setOrder($this->store->store_id);
+
+        if ($this->gateway->getTotal() > 0) {
+            $data = $this->gateway->process();
+        } else {
+            $data = array(
+                'status'    =>  'complete',
+                'message'   =>  'free checkout',
+                'redirect'  =>  'free_checkout'
+            );
+        }
+
+
+        //determine if order status and complete eth actions as neccessary
+
+        //add the order to the database!
+
+
+        $this->generateConversionRates();
+
+        $user = new TppStoreModelUser();
+
+        $user->setData(array(
+            'user_id'       =>  0, 
+            'first_name'    =>  $first_name, 
+            'last_name'     =>  $last_name,
+            'email'         =>  $email
+        ));
+
+        if ('' != ($success_page = trim(filter_input(INPUT_POST, 'success_page', FILTER_SANITIZE_STRING)))) {
+            $_SESSION['checkout_success_page'] = $success_page;
+        }
+
+        $this->saveOrderAndPayment($data, $user, 'guest_checkout');
 
     }
 
@@ -232,8 +310,22 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
     private function confirmPayment()
     {
 
-        if (false === $user = TppStoreControllerUser::getInstance()->loadUserFromSession()) {
-            $this->redirectToLogin('redirect=' . urlencode('/shop/cart'));
+        $order_id = $this->getOrderIdFromSession();
+        $payment_id = $this->getPaymentIdFromSession();
+
+        
+        $order = $this->getOrderModel()->setData(array(
+            'order_id'  =>  $order_id
+        ));
+
+        $order->getOrderById();
+
+        $user = null;
+
+        if ($order->order_type != 'guest_checkout') {
+            if (false === $user = TppStoreControllerUser::getInstance()->loadUserFromSession()) {
+                $this->redirectToLogin('redirect=' . urlencode('/shop/cart'));
+            }
         }
 
         $order_id = $this->getOrderIdFromSession();
@@ -252,12 +344,9 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
             'payment_id'  =>  $payment_id
         ));
 
-        $order = $this->getOrderModel()->setData(array(
-            'order_id'  =>  $order_id
-        ));
 
-        $order->getOrderById();
 
+        
         $payment->getPaymentById();
 
 
@@ -271,7 +360,7 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
         mail('parsolee@gmail.com', 'order details', print_r($order, true));
 
-        if ($order->order_type == 'default') {
+        if ($order->order_type == 'default' || $order->order_type == 'guest_checkout') {
             $this->gateway->setOrder($order->store_id);
         } else {
             $this->gateway->setUpOneOffPaymentOrder($this->getStoreModel()->getStoreByID($order->store_id), array(
@@ -318,10 +407,10 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
 
 
-            if ($this->gateway->getTotal() > 0) {
+        if ($this->gateway->getTotal() > 0) {
 
             //update the order to say it is complete!
-             //update the order data!
+            //update the order data!
             $order->setData(array(
                     'status'        =>  'complete',
                     'message'       =>  'received back from gateway, payment complete - see payment message for more information'
@@ -343,10 +432,11 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
         TppStoreModelCart::getInstance()->removeStore($order->store_id);
         $this->deleteCheckoutDataSession();
 
-
-        $user = $this->getUserModel()->setData(array(
-            'user_id'   =>  $order->user_id
-        ))->getUserByID();
+        if ($order->order_type != 'guest_checkout') {
+            $user = $this->getUserModel()->setData(array(
+                'user_id'   =>  $order->user_id
+            ))->getUserByID();
+        }
 
         $order_items = $this->getOrderItemsModel()->setData(array(
             'order_id'  =>  $order->order_id
@@ -394,72 +484,73 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
         }
 
-
-        $this->getUserDiscountModel()->setData(array(
-            'user_id'       =>  $user->user_id,
-            'product_ids'   =>  $product_ids
-        ))->incrementUses();
-
-
-
-        foreach ($email_product_groups as $type => $products) {
-            //send confirmation emails
-            ob_start();
-
-            switch ($type) {
-                case '1':
-                    //download
-                    include TPP_STORE_PLUGIN_DIR . 'emails/order/confirm_customer_download.php';
-
-                    $subject = 'Instant Download';
-
-                    break;
-                case '2':
-                    //service
-                case '3':
-                    //product
-                    include TPP_STORE_PLUGIN_DIR . 'emails/order/confirm_customer_product.php';
-
-                $subject = 'Purchase';
-
-                    break;
-
-                case '5':
-                    //event
-                    include TPP_STORE_PLUGIN_DIR . 'emails/order/confirm_customer_event.php';
-
-                    $subject = 'Event / Workshop';
-
-                    break;
-
-                case '4':
-                    //mentor session
-                    include TPP_STORE_PLUGIN_DIR . 'emails/order/confirm_customer_mentor_session.php';
-                    $subject = 'Mentor Session';
-
-                    break;
-
-                default:
-
-                    if ($order->order_type == 'oneoff') {
-                        include TPP_STORE_PLUGIN_DIR . 'emails/order/confirm_customer_oneoff.php';
-                        $subject = 'one off payment';
-                    }
-
-                    break;
-            }
-
-            $body = ob_get_contents();
-
-            $this->sendMail($user->email, 'Your order was successful: ' . $subject, $body);
-
-            ob_end_clean();
-
+        if ($order->order_type != 'guest_checkout') {
+            $this->getUserDiscountModel()->setData(array(
+                'user_id'       =>  $user->user_id,
+                'product_ids'   =>  $product_ids
+            ))->incrementUses();
         }
 
-        unset($email_product_groups);
-        unset($products);
+        if (!is_null($user)) {
 
+            foreach ($email_product_groups as $type => $products) {
+                //send confirmation emails
+                ob_start();
+
+                switch ($type) {
+                    case '1':
+                        //download
+                        include TPP_STORE_PLUGIN_DIR . 'emails/order/confirm_customer_download.php';
+
+                        $subject = 'Instant Download';
+
+                        break;
+                    case '2':
+                        //service
+                    case '3':
+                        //product
+                        include TPP_STORE_PLUGIN_DIR . 'emails/order/confirm_customer_product.php';
+
+                    $subject = 'Purchase';
+
+                        break;
+
+                    case '5':
+                        //event
+                        include TPP_STORE_PLUGIN_DIR . 'emails/order/confirm_customer_event.php';
+
+                        $subject = 'Event / Workshop';
+
+                        break;
+
+                    case '4':
+                        //mentor session
+                        include TPP_STORE_PLUGIN_DIR . 'emails/order/confirm_customer_mentor_session.php';
+                        $subject = 'Mentor Session';
+
+                        break;
+
+                    default:
+
+                        if ($order->order_type == 'oneoff') {
+                            include TPP_STORE_PLUGIN_DIR . 'emails/order/confirm_customer_oneoff.php';
+                            $subject = 'one off payment';
+                        }
+
+                        break;
+                }
+
+                $body = ob_get_contents();
+
+                $this->sendMail($user->email, 'Your order was successful: ' . $subject, $body);
+
+                ob_end_clean();
+
+            }
+
+            unset($email_product_groups);
+            unset($products);
+        }
 
         //send confirmation to store owner
         ob_start();
@@ -472,7 +563,9 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
         ob_end_clean();
 
-        $this->sendMail($store->getUser()->email,  $user->first_name . ' has placed an order on your store', $body);
+        $subject = is_null($user) ? 'You have received an order on your store' : $user->first_name . ' has placed an order on your store';
+
+        $this->sendMail($store->getUser()->email,  $subject, $body);
 
 
         //send email for quantity notifications
@@ -500,10 +593,34 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
         ob_end_clean();
 
+
+        if (isset($_SESSION['checkout_success_page'])) {
+            $redirect = $_SESSION['checkout_success_page'];
+            $_SESSION['checkout_success_page'] = null;
+            unset($_SESSION['checkout_success_page']);
+        } else {
+            $redirect = null;
+        }
+
+
+        if (is_null($user)) {
+            //show the guest confirmation!
+            $_SESSION['guest_order_id'] = $order->order_id;
+            if (is_null($redirect)) {
+                $redirect = '/shop/cart/guestcomplete';
+            }
+            $this->redirect($redirect);
+            exit;
+        }
+
         $url = $user->user_type == 'store_owner'?'dashboard':'myaccount';
 
-        $this->redirect('/shop/' . $url . '/purchase/' . $order->order_id);
+        if (is_null($redirect)) {
+            $redirect = '/shop/' . $url . '/purchase/' . $order->order_id;
+        }
 
+
+        $this->redirect($redirect);
 
        // include TPP_STORE_PLUGIN_DIR . 'site/views/checkout/success.php';
 
@@ -675,7 +792,7 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
             ))->save();
         }
 
-        if ($order_type == 'default') {
+        if ($order_type == 'default' || $order_type == 'guest_checkout') {
             $order_data = $this->getOrderData($order->store_id);
         } else {
             $order_data = new stdClass();
@@ -697,8 +814,6 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
 
 
             $order_data->store_id = $this->store->store_id;
-
-
 
         }
 
@@ -784,7 +899,6 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
             $this->sendMail('parsolee@gmail.com', 'payment', 'order: ' . $order->order_id . ' , geo currency: ' . geo::getInstance()->getCurrency() . ', order currency: ' . $order->currency . ', Amount: ' . $order->total . ', commission: ' . $order->commission);
             $this->setCheckoutSessionData($order, $payment);
 
-
             $this->redirect($data['redirect'], false);
 
         }
@@ -840,4 +954,6 @@ class TppStoreControllerCheckout extends TppStoreAbstractBase {
         exit;
     }
 
+  
+           
 }

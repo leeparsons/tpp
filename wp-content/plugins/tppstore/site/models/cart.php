@@ -51,10 +51,6 @@ class TppStoreModelCart extends TppStoreAbstractModelBase {
 
         $option_id = filter_input(INPUT_POST, 'product_option', FILTER_SANITIZE_NUMBER_INT);
 
-
-        mail('parsolee@gmail.com', 'test', print_r($_SESSION, true));
-
-
         if (!isset($this->_cart['stores'][$product->store_id]['products'][$product->product_id])) {
 
             $this->_cart['stores'][$product->store_id]['products'][$product->product_id] = new TppStoreModelCartItem();
